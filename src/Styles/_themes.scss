@@ -1,0 +1,20 @@
+@use "./abstracts/colors" as *;
+
+$themes: (
+    light: (
+        'primary-color': $primary-color-light,
+        'header-color': $header-color-light,
+        'bg-color': $bg-color-light,
+        'card-bg-color': $card-bg-color-light,
+        'text': $text-color-light,
+       ' btn-text-color': $btn-text-color,
+    ),
+    dark: (
+        'primary-color': $primary-color-dark,
+        'header-color': $header-color-dark,
+        'bg-color': $bg-color-dark,
+        'card-bg-color': $card-bg-color-dark,
+        'text': $text-color-light,
+        'btn-text-color': $btn-text-color,
+    )
+);
