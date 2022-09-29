@@ -1,23 +1,28 @@
 import React, { useState } from "react";
 
-import Nav from "./Components/Nav";
+import Topbar from "./Components/Topbar";
 
-import "./Styles/main.scss";
+import "./Assets/Styles/main.scss";
+import Overview from "./Pages/Overview";
+import QuickActionBar from "./Components/QuickActionBar";
+// import Navbar from "./Components/Navbar";
 
 function App() {
-
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState("light");
 
   const changeTheme = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setTheme(theme==='light'? 'dark': 'light')
-    document.documentElement.className = ""
-    document.documentElement.classList.add(`theme-${theme}`)
-  }
+    setTheme(theme === "light" ? "dark" : "light");
+    document.documentElement.className = "";
+    document.documentElement.classList.add(`theme-${theme}`);
+  };
 
   return (
     <div>
       <button onClick={changeTheme}>Change Theme</button>
-      <Nav />
+      {/* <Navbar /> */}
+      <Topbar />
+      <QuickActionBar />
+      <Overview />
     </div>
   );
 }

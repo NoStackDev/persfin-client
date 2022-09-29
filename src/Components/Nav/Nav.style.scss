@@ -1,6 +1,0 @@
-@import "../../Styles/mixins";
-@import "../../Styles/themes";
-
-nav {
-  @include theme-aware("background", "card-bg-color");
-}

@@ -1,3 +1,5 @@
+@use './variables' as *;
+
 *,
 *::before,
 *::after {
@@ -7,5 +9,9 @@
 }
 
 html {
-    font-size: 18px;
+    font-size: $default-fontsize;
+}
+
+li {
+    list-style: none;
 }

@@ -1,0 +1,55 @@
+@import "../../Assets/Styles/functions";
+@import "../../Assets/Styles/mixins";
+@import "../../Assets/Styles/themes";
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: to-rem(10px) to-rem(20px);
+    @include theme-aware('background', 'card-bg-color');
+
+    .leftTopbar {
+        display: flex;
+        align-items: center;
+        height: calc(to-rem(5px) * 5);
+
+        .hamburgerMenu::before,
+        .hamburgerMenu::after,
+        .hamburgerMenu {
+          width: to-rem(30px);
+          height: to-rem(5px);
+          @include theme-aware('background', 'header-color');
+        }
+    
+        .hamburgerMenu::before,
+        .hamburgerMenu::after {
+          position: absolute;
+          content: "";
+        }
+    
+        .hamburgerMenu::before {
+          transform: translateY(to-rem(-10px));
+        }
+    
+        .hamburgerMenu::after {
+          transform: translateY(to-rem(10px));
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .rightTopbar {
+        .profilePic {
+            height: to-rem(40px);
+            width: to-rem(40px);
+            border-radius: 50%;
+        }
+
+        .profilePic:hover {
+            cursor: pointer;
+        }
+    }
+}

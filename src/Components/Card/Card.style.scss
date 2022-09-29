@@ -1,8 +1,0 @@
-@import "../../Styles/mixins";
-@import "../../Styles/themes";
-
-.card {
-    width: 10rem;
-    height: 10rem;
-    @include theme-aware('background', 'header-color');
-}

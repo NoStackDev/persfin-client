@@ -1,0 +1,22 @@
+@use "./variables" as *;
+
+@function strip-unit($num) {
+    @return calc($num / ($num * 0 + 1px));
+}
+  
+@function to-rem($value, $base-value: $default-fontsize)  {
+    $value: calc(strip-unit($value) / strip-unit($default-fontsize) * 1rem);
+    @if ($value == 0rem) { $value: 0; } // Turn 0rem into 0
+    @return $value;
+}
+  
+// @function rem-calc($values, $default-fontsize: $rem-base) {
+//     $max: length($values);
+//     @if $max == 1 { @return convert-to-rem(nth($values, 1), $default-fontsize); }
+//     $remValues: ();
+//     @for $i from 1 through $max {
+//         $remValues: append($remValues, convert-to-rem(nth($values, $i), $default-fontsize));
+//     }
+//     @return $remValues;
+// }
+  

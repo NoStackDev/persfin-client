@@ -1,0 +1,65 @@
+@use "./variables" as *;
+@use "./functions" as *;
+
+/**
+ * theme-aware - Change color of a css property based on the currently active theme
+ *
+ * @param  {key}     CSS property
+ * @param  {color}   Color name defined in the themes under _color-palette.scss
+ *
+ * @example - @include theme-aware('background', 'color-background');
+ * @returns - background: #FFF;
+ */
+
+@mixin theme-aware($key, $color) {
+  @each $theme-name, $theme-color in $themes {
+    .theme-#{$theme-name} & {
+      #{$key}: map-get(map-get($themes, $theme-name), $color);
+    }
+  }
+}
+
+@mixin h1-bold {
+  font-size: to-rem(32px);
+  font-weight: $bold;
+}
+
+@mixin h1-semiBold {
+  font-size: to-rem(32px);
+  font-weight: $semiBold;
+}
+
+@mixin h1-regular {
+  font-size: to-rem(32px);
+  font-weight: $regular;
+}
+
+@mixin h2-bold {
+  font-size: to-rem(28px);
+  font-weight: $bold;
+}
+
+@mixin h2-semiBold {
+  font-size: to-rem(28px);
+  font-weight: $semiBold;
+}
+
+@mixin h2-regular {
+  font-size: to-rem(28px);
+  font-weight: $regular;
+}
+
+@mixin h3-bold {
+  font-size: to-rem(24px);
+  font-weight: $bold;
+}
+
+@mixin h3-semiBold {
+  font-size: to-rem(24px);
+  font-weight: $semiBold;
+}
+
+@mixin h3-regular {
+  font-size: to-rem(24px);
+  font-weight: $regular;
+}

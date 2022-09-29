@@ -1,0 +1,8 @@
+@import "../../Assets/Styles/mixins";
+@import "../../Assets/Styles/themes";
+@import "../../Assets/Styles/functions";
+
+.overview {
+    padding: to-rem(20px);
+    @include theme-aware('background', 'bg-color');
+}

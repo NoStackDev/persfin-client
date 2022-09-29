@@ -1,0 +1,52 @@
+@import "../../Assets/Styles/mixins";
+@import "../../Assets/Styles/themes";
+@import url("https://fonts.googleapis.com/css2?family=Rufina:wght@700&display=swap");
+@import "../../Assets/Styles/functions";
+
+$Rufina: "Rufina", serif;
+
+nav {
+
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  @include theme-aware('background', 'card-bg-color');
+  @include theme-aware('color', 'header-color');
+  @include h3-regular;
+
+  .topNav {
+    font-family: $Rufina;
+    padding: to-rem(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @include theme-aware("background", "card-bg-color");
+
+    .appName {
+      @include h1-bold;
+    }
+
+   
+  }
+
+  .middleNav {
+    flex-grow: 8;
+
+    ul {
+      display: flex;
+      flex-direction: column;
+
+      li {
+        display: flex;
+        gap: to-rem(10px);
+      }
+
+      .icon {
+        color: blue;
+      }
+    }
+  }
+
+  .bottomNav {
+  }
+}
