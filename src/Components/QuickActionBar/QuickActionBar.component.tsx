@@ -22,7 +22,7 @@ const QuickActionBar = (props: Props) => {
                   <h2>{quickAction.title}</h2>
                   <div className="amount">
                     <span className="material-icons">attach_money</span>
-                    <h3>{quickAction.amount}</h3>
+                    <h3>{new Intl.NumberFormat().format(quickAction.amount)}</h3>
                   </div>
                 </div>
                 {quickAction.hasBtn ? (

@@ -51,7 +51,7 @@ const ActivityCard = ({ cardTitle, activities }: Props) => {
               <span className="time">{activity._time}</span>
               <div className="amount">
               <span className="material-icons">attach_money</span>
-              <span>{activity.amount}</span>
+              <span>{new Intl.NumberFormat().format(activity.amount)}</span>
               </div>
             </div>
           );
