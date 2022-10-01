@@ -12,9 +12,11 @@ const QuickActionBar = (props: Props) => {
         <div className="carousel">
           {quickActions.map((quickAction, index) => {
             return (
-              <div className="card" key={index}>
-                <div className="icon-wrapper">
-                  <span className="material-icons">{quickAction.icon}</span>
+              <div className={"card " + quickAction.title.toLowerCase()} key={index}>
+                <div
+                  className={"icon-wrapper " + quickAction.title.toLowerCase()}
+                >
+                  <span className="material-icons ">{quickAction.icon}</span>
                 </div>
                 <div className="action-info">
                   <h2>{quickAction.title}</h2>
@@ -24,7 +26,9 @@ const QuickActionBar = (props: Props) => {
                   </div>
                 </div>
                 {quickAction.hasBtn ? (
-                  <button>Add {quickAction.title}</button>
+                  <button className={quickAction.title.toLowerCase()}>
+                    Add {quickAction.title}
+                  </button>
                 ) : (
                   <></>
                 )}

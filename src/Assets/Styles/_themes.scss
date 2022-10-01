@@ -8,7 +8,11 @@ $themes: (
     "card-bg-color": $card-bg-color-light,
     "text-color": $text-color-light,
     "text-2-color": $text-2-color-light,
-    " btn-text-color": $btn-text-color,
+    "btn-text-color": $btn-text-color,
+    "budget-color": $primary-color-light,
+    "savings-color": $savings,
+    "inflow-color": $savings,
+    "outflow-color": $outflow,
   ),
   dark: (
     "primary-color": $primary-color-dark,
@@ -18,5 +22,9 @@ $themes: (
     "text-color": $text-color-light,
     "text-2-color": $text-2-color-dark,
     "btn-text-color": $btn-text-color,
+    "budget-color": $primary-color-light,
+    "savings-color": $savings,
+    "inflow-color": $savings,
+    "outflow-color": $outflow,
   ),
 );

@@ -2,7 +2,6 @@
 @import "../../Assets/Styles/themes";
 @import "../../Assets/Styles/functions";
 
-.overview {
+.activity-container {
     padding: to-rem(20px);
-    @include theme-aware('background', 'bg-color');
 }

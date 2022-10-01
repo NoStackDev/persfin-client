@@ -6,7 +6,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: to-rem(10px) to-rem(20px);
+    padding: to-rem(10px) to-rem(10px);
     @include theme-aware('background', 'card-bg-color');
 
     .leftTopbar {

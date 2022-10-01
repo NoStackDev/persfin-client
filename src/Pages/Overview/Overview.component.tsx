@@ -1,5 +1,6 @@
 import React from "react";
 import ActivityCard from "../../Components/Cards/ActivityCard";
+import InflowOutflowChart from "../../Components/Charts/LineChart/InflowOutflowChart.component";
 
 import "./Overview.style.scss";
 import recentActivities from "./recentAtivities";
@@ -9,21 +10,11 @@ type Props = {};
 const Overview = (props: Props) => {
   return (
     <main>
-      <section className="recent-activities">
-        <div className="container">
-          {recentActivities.map((recentActivity, index) => {
-            return (
-              <ActivityCard
-                key={index}
-                title={recentActivity.title}
-                _type={recentActivity._type}
-                _date={recentActivity._date}
-                _time={recentActivity._time}
-                amount={recentActivity.amount}
-              />
-            );
-          })}
-        </div>
+      <section className="activity-container">
+        <ActivityCard cardTitle="Activity" activities={recentActivities} />
+      </section>
+      <section className="inflow-outflow-chart">
+        <InflowOutflowChart />
       </section>
     </main>
   );
