@@ -10,4 +10,5 @@ body {
   @include theme-aware("background", "bg-color");
   @include theme-aware("color", "text-color");
   height: 100vh;
+  min-width: 375px;
 }

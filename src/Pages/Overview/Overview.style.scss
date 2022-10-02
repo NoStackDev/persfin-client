@@ -3,5 +3,9 @@
 @import "../../Assets/Styles/functions";
 
 .activity-container {
-    padding: to-rem(20px);
+    padding: to-rem(10px) to-rem(20px);
+}
+
+.inflow-outflow-chart {
+    padding: to-rem(10px) to-rem(20px);
 }

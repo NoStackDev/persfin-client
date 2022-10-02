@@ -3,97 +3,101 @@
 @import "../../../Assets/Styles/functions";
 @import "../../../Assets/Styles/variables";
 
-.card {
-  @include theme-aware("background", "card-bg-color");
-  border-radius: to-rem(12px);
-  padding: to-rem(20px);
-  display: flex;
-  flex-direction: column;
-  gap: to-rem(20px);
 
-  .card-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        h2 {
-        font-size: to-rem(24px);
-        font-weight: 600;
-        }
-
-        .duration {
-        @include theme-aware("background", "bg-color");
-        padding-inline: to-rem(10px);
-        padding-block: to-rem(2px);
+.activity-container {
+    .card {
+        @include theme-aware("background", "card-bg-color");
         border-radius: to-rem(12px);
+        padding: to-rem(20px);
+        display: flex;
+        flex-direction: column;
+        gap: to-rem(20px);
+      
+        .card-top {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+      
+              h2 {
+              font-size: to-rem(24px);
+              font-weight: 600;
+              }
+      
+              .duration {
+              @include theme-aware("background", "bg-color");
+              padding-inline: to-rem(10px);
+              padding-block: to-rem(2px);
+              border-radius: to-rem(12px);
+              }
+      
+              &:hover {
+                  cursor: pointer;
+              }
         }
-
-        &:hover {
-            cursor: pointer;
+      
+        .activities {
+          display: flex;
+          flex-direction: column;
+          gap: to-rem(20px);
+          
+          .activity {
+              display: grid;
+              grid-template-columns: 3fr 1fr;
+              gap: to-rem(10px);
+              padding-bottom: to-rem(5px);
+              border-bottom: solid #262626 to-rem(1px);
+      
+              .icon-title-wrapper {
+                  display: flex;
+                  gap: to-rem(10px);
+                  margin-bottom: to-rem(10px);
+      
+      
+                  .material-icons {
+                      font-size: $default-fontsize;
+                  }
+              }
+      
+              .title {
+                  justify-self: start;
+              }
+              
+              .amount {
+                  justify-self: end;
+                  display: flex;
+                  
+                  .material-icons {
+                      font-size: $default-fontsize;
+                  }
+              }
+      
+              .type,
+              .date,
+              .time {
+                  display: none;
+              }
+      
+      
+      
+              &.budget {
+                  @include theme-aware('color', 'budget-color');
+              }
+      
+              &.savings {
+                  @include theme-aware('color', 'savings-color');
+              }
+      
+              &.inflow {
+                  @include theme-aware('color', 'inflow-color');
+              }
+      
+              &.outflow {
+                  @include theme-aware('color', 'outflow-color');
+              }
+          }
         }
-  }
-
-  .activities {
-    display: flex;
-    flex-direction: column;
-    gap: to-rem(20px);
-    
-    .activity {
-        display: grid;
-        grid-template-columns: 3fr 1fr;
-        gap: to-rem(10px);
-        padding-bottom: to-rem(5px);
-        border-bottom: solid #262626 to-rem(1px);
-
-        .icon-title-wrapper {
-            display: flex;
-            gap: to-rem(10px);
-            margin-bottom: to-rem(10px);
-
-
-            .material-icons {
-                font-size: $default-fontsize;
-            }
-        }
-
-        .title {
-            justify-self: start;
-        }
-        
-        .amount {
-            justify-self: end;
-            display: flex;
-            
-            .material-icons {
-                font-size: $default-fontsize;
-            }
-        }
-
-        .type,
-        .date,
-        .time {
-            display: none;
-        }
-
-
-
-        &.budget {
-            @include theme-aware('color', 'budget-color');
-        }
-
-        &.savings {
-            @include theme-aware('color', 'savings-color');
-        }
-
-        &.inflow {
-            @include theme-aware('color', 'inflow-color');
-        }
-
-        &.outflow {
-            @include theme-aware('color', 'outflow-color');
-        }
-    }
-  }
-
-
+      
+      
+      }
 }
+
