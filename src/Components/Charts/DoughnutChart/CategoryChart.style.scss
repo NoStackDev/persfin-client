@@ -1,0 +1,54 @@
+@import "../../../Assets/Styles/mixins";
+@import "../../../Assets/Styles/functions";
+@import "../../../Assets/Styles/themes";
+
+.inflow-outflow-category-chart {
+  .category-chart {
+    margin-top: to-rem(20px);
+
+    .card {
+      @include theme-aware("background", "card-bg-color");
+      border-radius: to-rem(12px);
+      padding: to-rem(20px);
+
+
+      .top {
+        display: flex;
+        flex-direction: column;
+        gap: to-rem(10px);
+        margin-bottom: to-rem(10px);
+
+        .duration {
+          align-self: flex-end;
+          @include theme-aware("background", "bg-color");
+          padding-inline: to-rem(10px);
+          padding-block: to-rem(2px);
+          border-radius: to-rem(12px);
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
+        .category {
+
+            @include theme-aware("background", "bg-color");
+            padding-inline: to-rem(10px);
+            padding-block: to-rem(2px);
+            border-radius: to-rem(12px);
+  
+            &:hover {
+              cursor: pointer;
+            }
+            
+            h2 {
+                @include theme-aware("color", "header-color");
+                font-size: to-rem(24px);
+                font-weight: 600;
+              }
+        }
+
+      }
+    }
+  }
+}

@@ -90,21 +90,23 @@ type Props = {};
 
 const InflowOutflowChart = (props: Props) => {
   return (
-    <div className="card">
-      <div className="top">
-        <div className="legend">
-          <div className="inflow-legend">
-            <div className="legend-color"></div>
-            <div className="legend-text">inflow</div>
+    <div className="inflow-outflow-chart">
+      <div className="card">
+        <div className="top">
+          <div className="legend">
+            <div className="inflow-legend">
+              <div className="legend-color"></div>
+              <div className="legend-text">inflow</div>
+            </div>
+            <div className="outflow-legend">
+              <div className="legend-color"></div>
+              <div className="legend-text">outflow</div>
+            </div>
           </div>
-          <div className="outflow-legend">
-            <div className="legend-color"></div>
-            <div className="legend-text">outflow</div>
-          </div>
+          <div className="duration">1 year</div>
         </div>
-        <div className="duration">1 year</div>
+        <Line options={options} data={data} />
       </div>
-      <Line options={options} data={data} />
     </div>
   );
 };
