@@ -1,0 +1,82 @@
+@import "../../../Assets/Styles/mixins";
+@import "../../../Assets/Styles/themes";
+@import "../../../Assets/Styles/functions";
+
+.distribution-chart-container {
+  padding: to-rem(10px) to-rem(20px);
+
+  .card {
+    @include theme-aware("background", "card-bg-color");
+    border-radius: to-rem(12px);
+    padding: to-rem(20px);
+    display: flex;
+    flex-direction: column;
+    gap: to-rem(20px);
+
+    .top {
+      display: flex;
+      flex-direction: column;
+      gap: to-rem(10px);
+      margin-bottom: to-rem(10px);
+
+      .duration {
+        align-self: flex-end;
+        @include theme-aware("background", "bg-color");
+        padding-inline: to-rem(10px);
+        padding-block: to-rem(2px);
+        border-radius: to-rem(12px);
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      h2 {
+        @include theme-aware("color", "header-color");
+        font-size: to-rem(24px);
+        font-weight: 600;
+      }
+    }
+
+    .legend {
+        display: flex;
+        flex-direction: column;
+        gap: to-rem(20px);
+
+        & > div {
+            display: flex;
+            flex-direction: column;
+            gap: to-rem(10px);
+
+            .legend-top {
+                display: flex;
+                gap: to-rem(10px);
+
+                .color {
+                    width: to-rem(18px);
+                    height: to-rem(18px);
+                    background: red;
+                }
+            }
+
+            .legend-bottom {
+                display: flex;
+                flex-direction: column;
+                padding-left: to-rem(20px);
+                gap: to-rem(10px);
+
+                .budgeted {
+                    display: flex;
+                    gap: to-rem(20px);
+                }
+
+                .spent {
+                    display: flex;
+                    gap: to-rem(20px);
+                }
+            }
+
+        }
+    }
+  }
+}

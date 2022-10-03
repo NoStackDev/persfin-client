@@ -1,15 +1,2 @@
-@import "../../Assets/Styles/mixins";
-@import "../../Assets/Styles/themes";
 @import "../../Assets/Styles/functions";
 
-.activity-container {
-    padding: to-rem(10px) to-rem(20px);
-}
-
-.inflow-outflow-category-chart {
-    padding: to-rem(10px) to-rem(20px);
-}
-
-.distribution-chart-container {
-    padding: to-rem(10px) to-rem(20px);
-}

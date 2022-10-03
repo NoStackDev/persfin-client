@@ -13,6 +13,7 @@ $themes: (
     "savings-color": $savings,
     "inflow-color": $savings,
     "outflow-color": $outflow,
+    "budget-item-color": $budget-item-text-color-light 
   ),
   dark: (
     "primary-color": $primary-color-dark,
@@ -26,5 +27,6 @@ $themes: (
     "savings-color": $savings,
     "inflow-color": $savings,
     "outflow-color": $outflow,
+    "budget-item-color": $budget-item-text-color-dark
   ),
 );

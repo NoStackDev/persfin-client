@@ -1,5 +1,5 @@
 import React from "react";
-import ActivityCard from "../../Components/Cards/ActivityCard";
+import ActivityCard from "../../Components/ActivityCard";
 import InflowOutflowChart from "../../Components/Charts/LineChart/InflowOutflowChart.component";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 import DistributionChart from "../../Components/Charts/PieChart/DistributionChart.component";
@@ -16,10 +16,10 @@ const Overview = (props: Props) => {
         <InflowOutflowChart />
         <CategoryChart />
       </section>
-      <section className="activity-container">
-        <ActivityCard cardTitle="Activity" activities={recentActivities} />
+      <section>
+        <ActivityCard cardTitle="Recent Activity" activities={recentActivities} />
       </section>
-      <section className="distribution-chart-container">
+      <section>
         <DistributionChart />
       </section>
     </main>

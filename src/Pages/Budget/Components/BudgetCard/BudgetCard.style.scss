@@ -1,0 +1,117 @@
+@import "../../../../Assets/Styles/themes";
+@import "../../../../Assets/Styles/mixins";
+@import "../../../../Assets/Styles/functions";
+
+.budget-card {
+  padding: to-rem(20px);
+  border-radius: to-rem(12px);
+  @include theme-aware("background", "bg-color");
+  display: flex;
+  flex-direction: column;
+  gap: to-rem(20px);
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+
+    .title {
+      @include theme-aware("color", "header-color");
+      font-size: to-rem(24px);
+    }
+
+    .card-top-right {
+      display: flex;
+      gap: to-rem(10px);
+
+      .copy {
+        @include theme-aware("color", "inflow-color");
+      }
+
+      .edit {
+        @include theme-aware("color", "primary-color");
+      }
+
+      .delete {
+        @include theme-aware("color", "outflow-color");
+      }
+    }
+  }
+
+  .budget-items {
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: to-rem(10px);
+
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        @include theme-aware("color", "budget-item-color");
+
+        & > span {
+          display: flex;
+          align-items: center;
+        }
+
+        & > span::before {
+          display: inline-block;
+          content: "";
+          @include theme-aware("background", "card-bg-color");
+          width: to-rem(18px);
+          height: to-rem(18px);
+          border-radius: 50%;
+          margin-right: to-rem(20px);
+        }
+
+        .amount {
+          display: flex;
+          align-items: center;
+
+          .material-icons {
+            font-size: to-rem(18px);
+          }
+        }
+      }
+    }
+  }
+
+  .budget-left,
+  .budget-total {
+    @include theme-aware("color", "budget-item-color");
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: to-rem(22px);
+
+    .amount {
+      display: flex;
+      align-items: center;
+
+      .material-icons {
+        font-size: to-rem(22px);
+      }
+    }
+  }
+
+  .progress {
+    position: relative; 
+
+    .progress-total {
+        @include theme-aware('background', 'outflow-color');
+        width: 100%;
+        height: to-rem(5px);
+        border-radius: to-rem(12px);
+    }
+
+    .progress-current {
+        position: absolute;
+        @include theme-aware('background', 'inflow-color');
+        width: 70%;
+        height: to-rem(5px);
+        border-radius: to-rem(12px);
+        top: to-rem(0px);
+    }
+  }
+}

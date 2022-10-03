@@ -23,7 +23,7 @@ const options = {
   responsive: true,
   plugins: {
     legend: {
-      // display: false,
+    //   display: false,
       position: "top" as const,
       align: "start" as const,
     },

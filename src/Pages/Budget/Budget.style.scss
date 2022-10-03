@@ -1,0 +1,16 @@
+@import "../../Assets/Styles/themes";
+@import "../../Assets/Styles/mixins";
+@import "../../Assets/Styles/functions";
+
+.budget-container {
+    // margin: to-rem(20px);
+    
+    .budget-cards {
+        @include theme-aware('background', 'card-bg-color');
+        padding: to-rem(20px);
+        border-radius: to-rem(12px);
+        display: flex;
+        flex-direction: column;
+        gap: to-rem(20px);
+    }
+}
