@@ -20,7 +20,7 @@ const FilterBar = ({showTags=false}: Props) => {
 
           <div className="duration-selector">
             <input type="date" name="" id="" />
-            <span>To</span>
+            <span> - </span>
             <input type="date" name="" id="" />
           </div>
 

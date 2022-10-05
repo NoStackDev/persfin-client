@@ -3,23 +3,21 @@
 @import "../../Assets/Styles/themes";
 
 .quick-action-bar {
-  // padding: to-rem(20px);
+  padding-block-start: to-rem(20px);
 
   .carousel-container {
     .carousel {
       display: flex;
       overflow-x: scroll;
+      overflow-y: hidden;
       scrollbar-width: none;
       -ms-overflow-style: none;
-      // gap: to-rem(20px);
-      // overflow-y: hidden;
 
       &::-webbkit-scrollbar {
         display: none;
       }
 
       .card {
-        margin-block: to-rem(20px) to-rem(10px);
         margin-inline-start: to-rem(20px);
         display: flex;
         flex-direction: column;
@@ -28,6 +26,7 @@
         @include theme-aware("background", "card-bg-color");
         border-radius: to-rem(12px);
         min-width: to-rem(200px);
+        flex-grow: 1;
 
         &:nth-last-of-type(1) {
           margin-inline-end: to-rem(20px);

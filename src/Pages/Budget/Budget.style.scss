@@ -3,14 +3,15 @@
 @import "../../Assets/Styles/functions";
 
 .budget-container {
-    // margin: to-rem(20px);
     
     .budget-cards {
         @include theme-aware('background', 'card-bg-color');
         padding: to-rem(20px);
         border-radius: to-rem(12px);
         display: flex;
-        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: space-around;
         gap: to-rem(20px);
+        margin-bottom: to-rem(20px);
     }
 }

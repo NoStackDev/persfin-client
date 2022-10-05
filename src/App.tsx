@@ -6,13 +6,13 @@ import QuickActionBar from "./Components/QuickActionBar";
 // import Overview from "./Pages/Overview";
 // import Inflow from "./Pages/Inflow";
 // import Outflow from "./Pages/Outflow";
-// import Savings from "./Pages/Savings";
+// import Budget from "./Pages/Budget";
+import Savings from "./Pages/Savings";
 
 
 
 
 import "./Assets/Styles/main.scss";
-import Budget from "./Pages/Budget";
 
 function App() {
   const [theme, setTheme] = useState("light");
@@ -32,8 +32,8 @@ function App() {
       {/* <Overview /> */}
       {/* <Inflow /> */}
       {/* <Outflow /> */}
-      <Budget />
-      {/* <Savings /> */}
+      {/* <Budget /> */}
+      <Savings />
     </div>
   );
 }

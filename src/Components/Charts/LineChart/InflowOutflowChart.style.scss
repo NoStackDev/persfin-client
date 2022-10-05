@@ -3,8 +3,7 @@
 @import "../../../Assets/Styles/themes";
 
 .inflow-outflow-chart {
-  padding: to-rem(10px) to-rem(20px);
-
+  margin-bottom: to-rem(20px);
   .card {
     @include theme-aware("background", "card-bg-color");
     border-radius: to-rem(12px);

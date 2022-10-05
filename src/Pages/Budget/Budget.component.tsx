@@ -14,6 +14,9 @@ const Budget = (props: Props) => {
         <section className="budget-cards">
             <BudgetCard />
             <BudgetCard />
+            <BudgetCard />
+            <BudgetCard />
+
         </section>
         <section>
             <DistributionChart />

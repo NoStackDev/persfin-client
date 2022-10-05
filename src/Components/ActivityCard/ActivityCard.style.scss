@@ -4,8 +4,8 @@
 @import "../../Assets/Styles/variables";
 
 .activity-container {
-    padding: to-rem(10px) to-rem(20px);
-    
+  margin-bottom: to-rem(20px);
+
   .card {
     @include theme-aware("background", "card-bg-color");
     border-radius: to-rem(12px);
@@ -38,6 +38,10 @@
         padding-bottom: to-rem(5px);
         border-bottom: solid #262626 to-rem(1px);
 
+        @include breakpoint("sm") {
+          grid-template-columns: repeat(5, 1fr);
+        }
+
         .icon-title-wrapper {
           display: flex;
           gap: to-rem(10px);
@@ -65,6 +69,10 @@
         .date,
         .time {
           display: none;
+
+          @include breakpoint("sm") {
+            display: inline-grid;
+          }
         }
 
         &.budget {

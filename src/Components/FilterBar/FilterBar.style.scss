@@ -3,83 +3,93 @@
 @import "../../Assets/Styles/functions";
 
 .filter-bar-container {
-    padding: to-rem(10px) to-rem(20px);
+  padding-block: to-rem(20px) to-rem(0px);
+  padding-inline: to-rem(20px);
 
-    .filter-bar {
-        .card {
-            @include theme-aware("background", "card-bg-color");
-            border-radius: to-rem(12px);
-            padding: to-rem(20px);
-            display: flex;
-            flex-direction: column;
-            gap: to-rem(20px);
-    
-            .input-card {
-                display: flex;
-                align-items: center;
-                gap: to-rem(10px);
-                @include theme-aware('background', 'bg-color');
-                border-radius: to-rem(12px);
-                padding-block: to-rem(5px);
-                padding-inline: to-rem(10px);
-    
-                .material-icons {
-                    font-size: to-rem(18px);
-                    @include theme-aware('color', 'text-color');
-                }
-    
-                input {
-                    font-size: to-rem(18px);
-                    @include theme-aware('background', 'bg-color');
-                    border: none;
-                    @include theme-aware('color', 'text-color');
-                    width: 100%;
-    
-                    &:focus {
-                        border: none
-                    }
-                }
-    
-            }
-    
-    
-            .duration-selector {
-                display: flex;
-                justify-content: space-between;
-    
-                input {
-                    font-size: to-rem(18px);
-                    @include theme-aware('background', 'bg-color');
-                    border: none;
-                    @include theme-aware('color', 'text-color');
-                    padding: to-rem(2px);
-                    border-radius: to-rem(12px);
+  .filter-bar {
+    .card {
+      @include theme-aware("background", "card-bg-color");
+      border-radius: to-rem(12px);
+      padding: to-rem(20px);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(auto, 1fr);
+      gap: to-rem(20px);
 
-                    &:hover {
-                        cursor: pointer;
-                    }
-                    
-                }
-                span {
-                    font-size: to-rem(18px);
-                }
-            }
-
-            .filter-tags {
-                display: flex;
-                gap: to-rem(20px);
-
-                .completed, 
-                .pending {
-                    @include theme-aware('background', 'bg-color');
-                    padding: to-rem(2px) to-rem(10px);
-                    border-radius: to-rem(12px);
-
-                    &:hover {
-                        cursor: pointer;
-                    }
-                }
-            }
+      .input-card {
+        grid-column: 1 / -1;
+        display: flex;
+        align-items: center;
+        gap: to-rem(10px);
+        @include theme-aware("background", "bg-color");
+        border-radius: to-rem(12px);
+        padding-block: to-rem(5px);
+        padding-inline: to-rem(10px);
+        
+        @include breakpoint('m') {
+            grid-column: 1 / 4;
         }
+
+        .material-icons {
+          font-size: to-rem(18px);
+          @include theme-aware("color", "text-color");
+        }
+
+        input {
+          font-size: to-rem(18px);
+          @include theme-aware("background", "bg-color");
+          border: none;
+          @include theme-aware("color", "text-color");
+          width: 100%;
+
+          &:focus {
+            border: none;
+          }
+        }
+      }
+
+      .duration-selector {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: start;
+
+        @include breakpoint('m') {
+            grid-column: 4/ -1;
+        }
+
+        input {
+          font-size: to-rem(18px);
+          @include theme-aware("background", "bg-color");
+          border: none;
+          @include theme-aware("color", "text-color");
+          padding: to-rem(2px);
+          border-radius: to-rem(12px);
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+        span {
+          font-size: to-rem(18px);
+        }
+      }
+
+      .filter-tags {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: to-rem(20px);
+
+        .completed,
+        .pending {
+          @include theme-aware("background", "bg-color");
+          padding: to-rem(2px) to-rem(10px);
+          border-radius: to-rem(12px);
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
     }
+  }
 }

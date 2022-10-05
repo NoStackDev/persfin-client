@@ -1,23 +1,25 @@
-import savingsActivity from "./savingsflow"
+import savingsActivity from "./savingsflow";
 
-import "./Savings.style.scss"
-import FilterBar from "../../Components/FilterBar"
-import ActivityCard from "../../Components/ActivityCard"
-import DistributionChart from "../../Components/Charts/PieChart"
-type Props = {}
+import "./Savings.style.scss";
+import FilterBar from "../../Components/FilterBar";
+import ActivityCard from "../../Components/ActivityCard";
+import DistributionChart from "../../Components/Charts/PieChart";
+type Props = {};
 
 const Savings = (props: Props) => {
   return (
     <div className="savings-container">
-        <FilterBar />
+      <FilterBar />
+      <main>
         <section>
-            <ActivityCard cardTitle="Savings" activities={savingsActivity} />
+          <ActivityCard cardTitle="Savings" activities={savingsActivity} />
         </section>
         <section>
-            <DistributionChart />
+          <DistributionChart />
         </section>
+      </main>
     </div>
-  )
-}
+  );
+};
 
-export default Savings
+export default Savings;

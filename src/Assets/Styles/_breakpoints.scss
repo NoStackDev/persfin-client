@@ -1,0 +1,8 @@
+@import "./functions";
+
+$breakpoints-up: (
+    'sm': to-rem(576px),
+    'm': to-rem(768px),
+    'l': to-rem(992px),
+    'xl': to-rem(1200px)
+);

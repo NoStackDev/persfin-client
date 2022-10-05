@@ -39,62 +39,62 @@ const DistributionChart = (props: Props) => {
   return (
     <div className="distribution-chart-container">
       <div className="card">
-      <div className="top">
-        <div className="duration">This month</div>
-        <h2 className="title">Budget Distribution</h2>
+        <div className="top">
+          <div className="duration">This month</div>
+          <h2 className="title">Budget Distribution</h2>
+        </div>
+        <Pie data={data} options={options} />
+        <div className="legend">
+          <div>
+            <div className="legend-top">
+              <div className="color"></div>
+              <div className="text">Party</div>
+            </div>
+            <div className="legend-bottom">
+              <div className="budgeted">
+                <div className="budgeted-text">Budgeted</div>
+                <div className="budgeted-amount">30000</div>
+              </div>
+              <div className="spent">
+                <div className="spent-text">Spent</div>
+                <div className="spent-amount">20000</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="legend-top">
+              <div className="color"></div>
+              <div className="text">Party</div>
+            </div>
+            <div className="legend-bottom">
+              <div className="budgeted">
+                <div className="budgeted-text">Budgeted</div>
+                <div className="budgeted-amount">30000</div>
+              </div>
+              <div className="spent">
+                <div className="spent-text">Spent</div>
+                <div className="spent-amount">20000</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="legend-top">
+              <div className="color"></div>
+              <div className="text">Party</div>
+            </div>
+            <div className="legend-bottom">
+              <div className="budgeted">
+                <div className="budgeted-text">Budgeted</div>
+                <div className="budgeted-amount">30000</div>
+              </div>
+              <div className="spent">
+                <div className="spent-text">Spent</div>
+                <div className="spent-amount">20000</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <Pie data={data} options={options} />
-      <div className="legend">
-      <div>
-          <div className="legend-top">
-            <div className="color"></div>
-            <div className="text">Party</div>
-          </div>
-          <div className="legend-bottom">
-            <div className="budgeted">
-              <div className="budgeted-text">Budgeted</div>
-              <div className="budgeted-amount">30000</div>
-            </div>
-            <div className="spent">
-                <div className="spent-text">Spent</div>
-                <div className="spent-amount">20000</div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div className="legend-top">
-            <div className="color"></div>
-            <div className="text">Party</div>
-          </div>
-          <div className="legend-bottom">
-            <div className="budgeted">
-              <div className="budgeted-text">Budgeted</div>
-              <div className="budgeted-amount">30000</div>
-            </div>
-            <div className="spent">
-                <div className="spent-text">Spent</div>
-                <div className="spent-amount">20000</div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div className="legend-top">
-            <div className="color"></div>
-            <div className="text">Party</div>
-          </div>
-          <div className="legend-bottom">
-            <div className="budgeted">
-              <div className="budgeted-text">Budgeted</div>
-              <div className="budgeted-amount">30000</div>
-            </div>
-            <div className="spent">
-                <div className="spent-text">Spent</div>
-                <div className="spent-amount">20000</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     </div>
   );
 };

@@ -12,4 +12,8 @@ body {
   @include theme-aware("color", "text-color");
   height: 100vh;
   min-width: to-rem(375px);
+
+  main {
+    padding: to-rem(20px);
+  }
 }

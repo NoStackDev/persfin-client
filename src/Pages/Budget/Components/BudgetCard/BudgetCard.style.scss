@@ -9,6 +9,8 @@
   display: flex;
   flex-direction: column;
   gap: to-rem(20px);
+  min-width: to-rem(320px);
+  float: left;
 
   .card-top {
     display: flex;
@@ -23,6 +25,12 @@
     .card-top-right {
       display: flex;
       gap: to-rem(10px);
+
+      .copy:hover,
+      .edit:hover,
+      .delete:hover {
+        cursor: pointer;
+      }
 
       .copy {
         @include theme-aware("color", "inflow-color");

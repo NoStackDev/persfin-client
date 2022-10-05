@@ -23,7 +23,7 @@ const options = {
   responsive: true,
   plugins: {
     legend: {
-    //   display: false,
+      display: false,
       position: "top" as const,
       align: "start" as const,
     },
@@ -46,7 +46,24 @@ const CategoryChart = (props: Props) => {
             <h2 className="title">Outflow Category</h2>
           </div>
         </div>
-        <Doughnut data={data} options={options} />
+        <div className="legend-doughnut">
+          <div className="legend-bar">
+            <div className="legend">
+              <div></div>
+              <div>Transportation</div>
+            </div>
+            <div className="legend">
+              <div></div>
+              <div>Food</div>
+            </div>
+            <div className="legend">
+              <div></div>
+              <div>Utilities</div>
+            </div>
+          </div>
+
+          <Doughnut data={data} options={options} />
+        </div>
       </div>
     </div>
   );
