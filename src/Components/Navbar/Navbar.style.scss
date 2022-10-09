@@ -7,8 +7,7 @@ $Rufina: "Rufina", serif;
 
 nav {
   position: fixed;
-  left: to-rem(-200px);
-  width: to-rem(200px);
+  width: 0;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -17,24 +16,21 @@ nav {
   @include theme-aware("color", "header-color");
   @include h3-regular;
   padding-block: to-rem(10px) to-rem(20px);
-  padding-inline: to-rem(20px);
   transition: 0.3s ease-in;
   z-index: 10;
 
-  &.open {
-    left: 0;
-  }
-
   .topNav {
+    overflow-x: hidden;
     font-family: $Rufina;
     padding: to-rem(10px);
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     @include theme-aware("background", "card-bg-color");
 
     .appName {
       @include h1-bold;
+      visibility: hidden;
     }
 
     .hamburger-menu-wrapper {
@@ -46,6 +42,7 @@ nav {
       top: to-rem(15px);
       right: to-rem(-50px);
       height: to-rem(30px);
+      transition: .2s;
 
       &:hover {
         cursor: pointer;
@@ -77,17 +74,18 @@ nav {
         }
 
         &.open {
-          transform: rotate(180deg);
           background: transparent;
           transition: 0.1s;
         }
 
         &.open::before {
           transform: rotate(45deg);
+          transition: .5s;
         }
 
         &.open::after {
           transform: rotate(-45deg);
+          transition: .5s;
         }
       }
     }
@@ -95,6 +93,7 @@ nav {
 
   .middleNav {
     flex-grow: 8;
+    overflow-x: hidden;
 
     ul {
       display: flex;
@@ -113,33 +112,58 @@ nav {
   }
 
   .bottomNav {
+    overflow-x: hidden;
     display: flex;
     gap: to-rem(10px);
     align-items: center;
   }
 
-  @include breakpoint("m") {
+  &.open {
     left: 0;
-    width: to-rem(65px);
+    width: to-rem(200px);
+    padding-inline: to-rem(20px);
 
     .topNav {
       .appName {
-        visibility: hidden;
-        overflow-x: hidden;
+        visibility: visible;
       }
 
       .hamburger-menu-wrapper {
+        right: to-rem(-15px);
+      }
+    }
+  }
+
+  // for medium screens
+  @include breakpoint("m") {
+    width: to-rem(60px);
+
+    .topNav {
+      .hamburger-menu-wrapper {
         right: to-rem(15px);
-        transition: .1s;
+        transition: 0.1s;
       }
     }
 
     .middleNav {
-      overflow-x: hidden;
+      ul {
+        li {
+          margin-left: to-rem(15px);
+          transition: 0.1s;
+          .navItemText {
+            visibility: hidden;
+          }
+        }
+      }
     }
 
     .bottomNav {
-      overflow-x: hidden;
+      .material-icons {
+        margin-left: to-rem(15px);
+      }
+      .logout {
+        visibility: hidden;
+      }
     }
 
     &.open {
@@ -152,6 +176,26 @@ nav {
 
         .hamburger-menu-wrapper {
           right: to-rem(-50px);
+        }
+      }
+
+      .middleNav {
+        ul {
+          li {
+            margin-left: 0;
+            .navItemText {
+              visibility: visible;
+            }
+          }
+        }
+      }
+
+      .bottomNav {
+        .material-icons {
+          margin-left: 0;
+        }
+        .logout {
+          visibility: visible;
         }
       }
     }
