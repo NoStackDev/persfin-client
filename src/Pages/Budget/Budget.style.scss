@@ -8,10 +8,11 @@
         @include theme-aware('background', 'card-bg-color');
         padding: to-rem(20px);
         border-radius: to-rem(12px);
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(to-rem(305px), 1fr));
+        grid-auto-flow: dense;
         gap: to-rem(20px);
         margin-bottom: to-rem(20px);
+
     }
 }

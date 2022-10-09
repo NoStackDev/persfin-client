@@ -3,53 +3,63 @@
 @import "../../Assets/Styles/themes";
 
 .topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: to-rem(10px) to-rem(20px);
+  @include theme-aware("background", "card-bg-color");
+  position: fixed;
+  left: 0;
+  width: 100%;
+  z-index: 5;
+
+  .leftTopbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: to-rem(10px) to-rem(10px);
-    @include theme-aware('background', 'card-bg-color');
+    height: calc(to-rem(5px) * 5);
 
-    .leftTopbar {
-        display: flex;
-        align-items: center;
-        height: calc(to-rem(5px) * 5);
+    // .hamburger-menu {
+    //   position: absolute;
+    //   left: 50vw;
+    //   @include theme-aware('background', 'card-bg-color');
 
-        .hamburgerMenu::before,
-        .hamburgerMenu::after,
-        .hamburgerMenu {
-          width: to-rem(30px);
-          height: to-rem(5px);
-          @include theme-aware('background', 'header-color');
-        }
-    
-        .hamburgerMenu::before,
-        .hamburgerMenu::after {
-          position: absolute;
-          content: "";
-        }
-    
-        .hamburgerMenu::before {
-          transform: translateY(to-rem(-10px));
-        }
-    
-        .hamburgerMenu::after {
-          transform: translateY(to-rem(10px));
-        }
+    //   &::before,
+    //   &::after,
+    //   & {
+    //     width: to-rem(30px);
+    //     height: to-rem(5px);
+    //     @include theme-aware("background", "header-color");
+    //   }
 
-        &:hover {
-            cursor: pointer;
-        }
+    //   &::before,
+    //   &::after {
+    //     position: absolute;
+    //     content: "";
+    //   }
+
+    //   &::before {
+    //     transform: translateY(to-rem(-10px));
+    //   }
+
+    //   &::after {
+    //     transform: translateY(to-rem(10px));
+    //   }
+
+    //   &:hover {
+    //     cursor: pointer;
+    //   }
+    // }
+  }
+
+  .rightTopbar {
+    .profilePic {
+      height: to-rem(40px);
+      width: to-rem(40px);
+      border-radius: 50%;
     }
 
-    .rightTopbar {
-        .profilePic {
-            height: to-rem(40px);
-            width: to-rem(40px);
-            border-radius: 50%;
-        }
-
-        .profilePic:hover {
-            cursor: pointer;
-        }
+    .profilePic:hover {
+      cursor: pointer;
     }
+  }
 }

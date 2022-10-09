@@ -51,7 +51,7 @@
       .duration-selector {
         grid-column: 1 / -1;
         display: flex;
-        justify-content: start;
+        justify-content: flex-start;
 
         @include breakpoint('m') {
             grid-column: 4/ -1;

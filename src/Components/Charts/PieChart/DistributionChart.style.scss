@@ -3,7 +3,6 @@
 @import "../../../Assets/Styles/functions";
 
 .distribution-chart-container {
-
   .card {
     @include theme-aware("background", "card-bg-color");
     border-radius: to-rem(12px);
@@ -37,60 +36,69 @@
       }
     }
 
-    .legend {
+    .bottom {
+      display: flex;
+      flex-direction: column;
+      gap: to-rem(20px);
+
+      @include breakpoint('m') {
+        flex-direction: row;
+      }
+
+      .legend {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: to-rem(20px);
 
-        @include breakpoint('sm') {
+        @include breakpoint("sm") {
           gap: to-rem(30px);
           flex-direction: row;
           flex-wrap: wrap;
-          justify-content: start;
         }
 
         & > div {
+          display: flex;
+          gap: to-rem(10px);
+          flex-grow: 1;
+          justify-content: center;
+
+          .legend-top {
             display: flex;
             gap: to-rem(10px);
-            flex-grow: 1;
+            align-items: center;
 
-            .legend-top {
-                display: flex;
-                gap: to-rem(10px);
-                align-items: center;
+            .color {
+              width: to-rem(18px);
+              height: to-rem(18px);
+              background: red;
+            }
+          }
 
-                .color {
-                    width: to-rem(18px);
-                    height: to-rem(18px);
-                    background: red;
-                }
+          .legend-bottom {
+            display: flex;
+            flex-direction: column;
+            padding-left: to-rem(20px);
+            gap: to-rem(10px);
+
+            .budgeted {
+              display: flex;
+              gap: to-rem(10px);
             }
 
-            .legend-bottom {
-                display: flex;
-                flex-direction: column;
-                padding-left: to-rem(20px);
-                gap: to-rem(10px);
-
-                .budgeted {
-                    display: flex;
-                    gap: to-rem(10px);
-                }
-
-                .spent {
-                    display: flex;
-                    gap: to-rem(10px);
-                }
+            .spent {
+              display: flex;
+              gap: to-rem(10px);
             }
-
+          }
         }
-    }
+      }
 
-    canvas {
-      max-height: 60vw;
-      max-width: 60vw;
-      align-self: center;
+      canvas {
+        max-height: 50vw;
+        max-width: 50vw;
+        align-self: center;
+      }
     }
   }
 }

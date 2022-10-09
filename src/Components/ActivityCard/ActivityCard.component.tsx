@@ -40,7 +40,7 @@ const ActivityCard = ({ cardTitle, activities }: Props) => {
         <div className="activities">
           {activities.map((activity, index) => {
             return (
-              <div className={"activity " + activity._type.toLowerCase()}>
+              <div className={"activity " + activity._type.toLowerCase()} key={index}>
                 <div className="icon-title-wrapper">
                   {icons(activity._type)}
                   <span className="title">{activity.title}</span>

@@ -6,13 +6,24 @@
 $Rufina: "Rufina", serif;
 
 nav {
-
+  position: fixed;
+  left: to-rem(-200px);
+  width: to-rem(200px);
   height: 100vh;
   display: flex;
   flex-direction: column;
-  @include theme-aware('background', 'card-bg-color');
-  @include theme-aware('color', 'header-color');
+  gap: to-rem(40px);
+  @include theme-aware("background", "card-bg-color");
+  @include theme-aware("color", "header-color");
   @include h3-regular;
+  padding-block: to-rem(10px) to-rem(20px);
+  padding-inline: to-rem(20px);
+  transition: 0.3s ease-in;
+  z-index: 10;
+
+  &.open {
+    left: 0;
+  }
 
   .topNav {
     font-family: $Rufina;
@@ -26,7 +37,60 @@ nav {
       @include h1-bold;
     }
 
-   
+    .hamburger-menu-wrapper {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      top: to-rem(15px);
+      right: to-rem(-50px);
+      height: to-rem(30px);
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      .hamburger-menu {
+        transition: 0.3s ease-in;
+
+        &::before,
+        &::after,
+        & {
+          width: to-rem(30px);
+          height: to-rem(5px);
+          @include theme-aware("background", "header-color");
+        }
+
+        &::before,
+        &::after {
+          position: absolute;
+          content: "";
+        }
+
+        &::before {
+          transform: translateY(to-rem(-10px));
+        }
+
+        &::after {
+          transform: translateY(to-rem(10px));
+        }
+
+        &.open {
+          transform: rotate(180deg);
+          background: transparent;
+          transition: 0.1s;
+        }
+
+        &.open::before {
+          transform: rotate(45deg);
+        }
+
+        &.open::after {
+          transform: rotate(-45deg);
+        }
+      }
+    }
   }
 
   .middleNav {
@@ -35,6 +99,7 @@ nav {
     ul {
       display: flex;
       flex-direction: column;
+      gap: to-rem(50px);
 
       li {
         display: flex;
@@ -48,5 +113,47 @@ nav {
   }
 
   .bottomNav {
+    display: flex;
+    gap: to-rem(10px);
+    align-items: center;
+  }
+
+  @include breakpoint("m") {
+    left: 0;
+    width: to-rem(65px);
+
+    .topNav {
+      .appName {
+        visibility: hidden;
+        overflow-x: hidden;
+      }
+
+      .hamburger-menu-wrapper {
+        right: to-rem(15px);
+        transition: .1s;
+      }
+    }
+
+    .middleNav {
+      overflow-x: hidden;
+    }
+
+    .bottomNav {
+      overflow-x: hidden;
+    }
+
+    &.open {
+      width: to-rem(200px);
+
+      .topNav {
+        .appName {
+          visibility: visible;
+        }
+
+        .hamburger-menu-wrapper {
+          right: to-rem(-50px);
+        }
+      }
+    }
   }
 }

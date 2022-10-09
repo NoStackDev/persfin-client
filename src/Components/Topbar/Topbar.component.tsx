@@ -6,6 +6,7 @@ type Props = {};
 
 const Topbar = (props: Props) => {
   const [profilePic, setProfilePic] = useState<string>("");
+  // const [showNavbar, setShowNavbar] = useState<boolean>(false)
 
   useEffect(() => {
     (async () => {
@@ -20,10 +21,11 @@ const Topbar = (props: Props) => {
     })();
   }, []);
 
+
   return (
     <div className="topbar">
       <div className="leftTopbar">
-        <div className="hamburgerMenu"></div>
+        <div className="hamburger-menu"></div>
       </div>
       <div className="middleTopbar"></div>
       <div className="rightTopbar">
