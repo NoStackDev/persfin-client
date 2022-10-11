@@ -8,17 +8,17 @@ type Props = {};
 
 const Savings = (props: Props) => {
   return (
-    <div className="savings-container">
-      <FilterBar />
-      <main>
-        <section>
-          <ActivityCard cardTitle="Savings" activities={savingsActivity} />
-        </section>
-        <section>
-          <DistributionChart />
-        </section>
-      </main>
-    </div>
+    <main>
+      <section>
+        <FilterBar />
+      </section>
+      <section>
+        <ActivityCard cardTitle="Savings" activities={savingsActivity} />
+      </section>
+      <section>
+        <DistributionChart />
+      </section>
+    </main>
   );
 };
 

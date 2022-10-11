@@ -25,7 +25,6 @@ const Topbar = (props: Props) => {
   return (
     <div className="topbar">
       <div className="leftTopbar">
-        <div className="hamburger-menu"></div>
       </div>
       <div className="middleTopbar"></div>
       <div className="rightTopbar">

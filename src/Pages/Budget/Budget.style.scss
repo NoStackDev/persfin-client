@@ -2,7 +2,6 @@
 @import "../../Assets/Styles/mixins";
 @import "../../Assets/Styles/functions";
 
-.budget-container {
     
     .budget-cards {
         @include theme-aware('background', 'card-bg-color');
@@ -12,7 +11,4 @@
         grid-template-columns: repeat(auto-fill, minmax(to-rem(305px), 1fr));
         grid-auto-flow: dense;
         gap: to-rem(20px);
-        margin-bottom: to-rem(20px);
-
     }
-}

@@ -4,8 +4,6 @@
 @import "../../Assets/Styles/variables";
 
 .activity-container {
-  margin-bottom: to-rem(20px);
-
   .card {
     @include theme-aware("background", "card-bg-color");
     border-radius: to-rem(12px);

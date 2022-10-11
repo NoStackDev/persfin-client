@@ -1,28 +1,27 @@
-import ActivityCard from "../../Components/ActivityCard"
-import FilterBar from "../../Components/FilterBar"
-import DistributionChart from "../../Components/Charts/PieChart/DistributionChart.component"
+import ActivityCard from "../../Components/ActivityCard";
+import FilterBar from "../../Components/FilterBar";
+import DistributionChart from "../../Components/Charts/PieChart/DistributionChart.component";
 
-import outflows from "./outflows"
+import outflows from "./outflows";
 
-import "./Outflow.style.scss"
+import "./Outflow.style.scss";
 
-type Props = {}
+type Props = {};
 
 const Outflow = (props: Props) => {
   return (
-    <div className="outflow-container">
+    <main>
+      <section>
         <FilterBar />
+      </section>
+      <section>
+        <ActivityCard cardTitle="Outflow" activities={outflows} />
+      </section>
+      <section>
+        <DistributionChart />
+      </section>
+    </main>
+  );
+};
 
-        <main>
-            <section>
-                <ActivityCard cardTitle="Outflow" activities={outflows} />
-            </section>
-            <section>
-                <DistributionChart />
-            </section>
-        </main>
-    </div>
-  )
-}
-
-export default Outflow
+export default Outflow;

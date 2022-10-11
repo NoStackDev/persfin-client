@@ -13,7 +13,22 @@ body {
   height: 100vh;
   min-width: to-rem(375px);
 
-  main {
-    padding: to-rem(20px);
+  .app {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    grid-template-rows: to-rem(70px) minmax(0, 1fr);
   }
+
+  main {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    max-height: calc(100vh - 70px);
+    row-gap: to-rem(20px);
+    padding-bottom: to-rem(20px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
 }

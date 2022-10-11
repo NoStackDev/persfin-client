@@ -6,50 +6,46 @@
 $Rufina: "Rufina", serif;
 
 nav {
-  position: fixed;
   width: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  gap: to-rem(40px);
   @include theme-aware("background", "card-bg-color");
   @include theme-aware("color", "header-color");
   @include h3-regular;
-  padding-block: to-rem(10px) to-rem(20px);
-  transition: 0.3s ease-in;
   z-index: 10;
+  height: 100vh;
+  position: relative;
+  grid-column: 1 / 2;
+  grid-row: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: to-rem(50px);
+  transition: 0.5s;
 
   .topNav {
     overflow-x: hidden;
+    overflow-y: hidden;
+    height: to-rem(60px);
     font-family: $Rufina;
-    padding: to-rem(10px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
     @include theme-aware("background", "card-bg-color");
 
     .appName {
       @include h1-bold;
-      visibility: hidden;
     }
 
     .hamburger-menu-wrapper {
       position: absolute;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      top: to-rem(15px);
       right: to-rem(-50px);
-      height: to-rem(30px);
-      transition: .2s;
+      top: to-rem(20px);
+      height: to-rem(25px);
+      display: flex;
+      align-items: center;
+      transition: 0.5s;
 
       &:hover {
         cursor: pointer;
       }
 
       .hamburger-menu {
-        transition: 0.3s ease-in;
+        transition: 0.5s ease-in;
 
         &::before,
         &::after,
@@ -67,10 +63,12 @@ nav {
 
         &::before {
           transform: translateY(to-rem(-10px));
+          transition: 0.5s;
         }
 
         &::after {
           transform: translateY(to-rem(10px));
+          transition: 0.5s;
         }
 
         &.open {
@@ -80,20 +78,20 @@ nav {
 
         &.open::before {
           transform: rotate(45deg);
-          transition: .5s;
+          transition: 0.5s;
         }
 
         &.open::after {
           transform: rotate(-45deg);
-          transition: .5s;
+          transition: 0.5s;
         }
       }
     }
   }
 
   .middleNav {
-    flex-grow: 8;
     overflow-x: hidden;
+    flex-grow: 1;
 
     ul {
       display: flex;
@@ -101,12 +99,15 @@ nav {
       gap: to-rem(50px);
 
       li {
-        display: flex;
-        gap: to-rem(10px);
-      }
+        display: grid;
+        grid-template-columns: max-content max-content;
+        align-items: center;
+        gap: to-rem(20px);
 
-      .icon {
-        color: blue;
+        &:hover {
+          color: blue;
+          cursor: pointer;
+        }
       }
     }
   }
@@ -114,90 +115,72 @@ nav {
   .bottomNav {
     overflow-x: hidden;
     display: flex;
-    gap: to-rem(10px);
     align-items: center;
+    gap: to-rem(20px);
+
+    &:hover {
+      color: blue;
+      cursor: pointer;
+    }
   }
 
+  // behaviour on open
   &.open {
-    left: 0;
-    width: to-rem(200px);
+    padding-block: to-rem(13px) to-rem(20px);
     padding-inline: to-rem(20px);
+    width: to-rem(200px);
+
+    .topNav {
+      .hamburger-menu-wrapper {
+        right: to-rem(-30px);
+      }
+    }
+  }
+
+  // medium devices
+  @include breakpoint('m') {
+    width: to-rem(70px);
+    padding-inline: to-rem(20px);
+
+    .topNav {
+      .appName {
+        visibility: hidden;
+        transition-delay: .2s;
+      }
+
+      .hamburger-menu-wrapper {
+        position: absolute;
+        right: to-rem(20px);
+        top: to-rem(20px);
+      }
+    }
+  }
+
+  // on open 
+  &.open {
 
     .topNav {
       .appName {
         visibility: visible;
       }
-
-      .hamburger-menu-wrapper {
-        right: to-rem(-15px);
-      }
     }
+
   }
 
-  // for medium screens
-  @include breakpoint("m") {
-    width: to-rem(60px);
+  // large devices 
+  // @include breakpoint('l') {
+  //   padding-block: to-rem(13px) to-rem(20px);
+  //   padding-inline: to-rem(20px);
+  //   width: to-rem(200px);
 
-    .topNav {
-      .hamburger-menu-wrapper {
-        right: to-rem(15px);
-        transition: 0.1s;
-      }
-    }
-
-    .middleNav {
-      ul {
-        li {
-          margin-left: to-rem(15px);
-          transition: 0.1s;
-          .navItemText {
-            visibility: hidden;
-          }
-        }
-      }
-    }
-
-    .bottomNav {
-      .material-icons {
-        margin-left: to-rem(15px);
-      }
-      .logout {
-        visibility: hidden;
-      }
-    }
-
-    &.open {
-      width: to-rem(200px);
-
-      .topNav {
-        .appName {
-          visibility: visible;
-        }
-
-        .hamburger-menu-wrapper {
-          right: to-rem(-50px);
-        }
-      }
-
-      .middleNav {
-        ul {
-          li {
-            margin-left: 0;
-            .navItemText {
-              visibility: visible;
-            }
-          }
-        }
-      }
-
-      .bottomNav {
-        .material-icons {
-          margin-left: 0;
-        }
-        .logout {
-          visibility: visible;
-        }
-      }
-    }
-  }
+  //   .topNav {
+  //     .appName {
+  //       visibility: visible;
+  //     }
+      
+  //     .hamburger-menu-wrapper {
+  //       display: none;
+  //     }
+  //   }
+  // }
 }

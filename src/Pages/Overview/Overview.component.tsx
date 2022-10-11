@@ -3,21 +3,28 @@ import ActivityCard from "../../Components/ActivityCard";
 import InflowOutflowChart from "../../Components/Charts/LineChart/InflowOutflowChart.component";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 import DistributionChart from "../../Components/Charts/PieChart/DistributionChart.component";
+import recentActivities from "./recentAtivities";
 
 import "./Overview.style.scss";
-import recentActivities from "./recentAtivities";
+import QuickActionBar from "../../Components/QuickActionBar";
 
 type Props = {};
 
 const Overview = (props: Props) => {
   return (
     <main>
-      <section className="inflow-outflow-category-chart">
+      <QuickActionBar />
+      <section>
         <InflowOutflowChart />
+      </section>
+      <section>
         <CategoryChart />
       </section>
       <section>
-        <ActivityCard cardTitle="Recent Activity" activities={recentActivities} />
+        <ActivityCard
+          cardTitle="Recent Activity"
+          activities={recentActivities}
+        />
       </section>
       <section>
         <DistributionChart />

@@ -3,8 +3,7 @@
 @import "../../Assets/Styles/functions";
 
 .filter-bar-container {
-  padding-block: to-rem(20px) to-rem(0px);
-  padding-inline: to-rem(20px);
+  margin-top: to-rem(20px);
 
   .filter-bar {
     .card {

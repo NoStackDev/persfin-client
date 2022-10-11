@@ -26,11 +26,7 @@ const Nav = (props: Props) => {
           {navbarItems.map((navItem, index) => {
             return (
               <li key={index}>
-                <div className="navItemIcon">
-                  <span className="material-icons icon">
-                    {navItem.itemIcon}
-                  </span>
-                </div>
+                <span className="material-icons icon">{navItem.itemIcon}</span>
                 <div className="navItemText">{navItem.itemName}</div>
               </li>
             );

@@ -6,49 +6,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: to-rem(10px) to-rem(20px);
   @include theme-aware("background", "card-bg-color");
-  position: fixed;
-  left: 0;
-  width: 100%;
   z-index: 5;
+  grid-column: 1 / 3;
+  grid-row: 1 / 2;
+  padding: to-rem(10px) to-rem(20px);
 
   .leftTopbar {
     display: flex;
     align-items: center;
     height: calc(to-rem(5px) * 5);
-
-    // .hamburger-menu {
-    //   position: absolute;
-    //   left: 50vw;
-    //   @include theme-aware('background', 'card-bg-color');
-
-    //   &::before,
-    //   &::after,
-    //   & {
-    //     width: to-rem(30px);
-    //     height: to-rem(5px);
-    //     @include theme-aware("background", "header-color");
-    //   }
-
-    //   &::before,
-    //   &::after {
-    //     position: absolute;
-    //     content: "";
-    //   }
-
-    //   &::before {
-    //     transform: translateY(to-rem(-10px));
-    //   }
-
-    //   &::after {
-    //     transform: translateY(to-rem(10px));
-    //   }
-
-    //   &:hover {
-    //     cursor: pointer;
-    //   }
-    // }
   }
 
   .rightTopbar {
