@@ -20,25 +20,69 @@ nav {
   gap: to-rem(50px);
   transition: 0.5s;
 
+
+  // behaviour on open
+  &.open {
+    padding-block: to-rem(13px) to-rem(20px);
+    padding-inline: to-rem(20px);
+    width: to-rem(200px);
+
+    .topNav {
+      .appName {
+        visibility: visible;
+      }
+    }
+  }
+
+  @include breakpoint("m") {
+    width: to-rem(70px);
+    padding-inline: to-rem(20px);
+  }
+
   .topNav {
     overflow-x: hidden;
     overflow-y: hidden;
-    height: to-rem(60px);
+    height: to-rem(40px);
+    display: flex;
+    align-items: center;
     font-family: $Rufina;
     @include theme-aware("background", "card-bg-color");
 
+    @include breakpoint('m'){
+      height: to-rem(60px);
+    }
+
     .appName {
       @include h1-bold;
+
+      @include breakpoint("m") {
+        visibility: hidden;
+        transition-delay: 0.2s;
+      }
     }
 
     .hamburger-menu-wrapper {
       position: absolute;
       right: to-rem(-50px);
       top: to-rem(20px);
-      height: to-rem(25px);
+      height: to-rem(30px);
       display: flex;
       align-items: center;
       transition: 0.5s;
+
+      &.open {
+        right: to-rem(-30px);
+      }
+      
+      @include breakpoint("m") {
+        position: absolute;
+        right: to-rem(20px);
+        top: to-rem(30px);
+
+        &.open {
+          right: to-rem(20px);
+        }
+      }
 
       &:hover {
         cursor: pointer;
@@ -124,51 +168,8 @@ nav {
     }
   }
 
-  // behaviour on open
-  &.open {
-    padding-block: to-rem(13px) to-rem(20px);
-    padding-inline: to-rem(20px);
-    width: to-rem(200px);
-
-    .topNav {
-      .hamburger-menu-wrapper {
-        right: to-rem(-30px);
-      }
-    }
-  }
-
-  // medium devices
-  @include breakpoint('m') {
-    width: to-rem(70px);
-    padding-inline: to-rem(20px);
-
-    .topNav {
-      .appName {
-        visibility: hidden;
-        transition-delay: .2s;
-      }
-
-      .hamburger-menu-wrapper {
-        position: absolute;
-        right: to-rem(20px);
-        top: to-rem(20px);
-      }
-    }
-  }
-
-  // on open 
-  &.open {
-
-    .topNav {
-      .appName {
-        visibility: visible;
-      }
-    }
-
-  }
-
-  // large devices 
-  // @include breakpoint('l') {
+  // // behaviour on open
+  // &.open {
   //   padding-block: to-rem(13px) to-rem(20px);
   //   padding-inline: to-rem(20px);
   //   width: to-rem(200px);
@@ -177,9 +178,9 @@ nav {
   //     .appName {
   //       visibility: visible;
   //     }
-      
+
   //     .hamburger-menu-wrapper {
-  //       display: none;
+  //       right: to-rem(-30px);
   //     }
   //   }
   // }

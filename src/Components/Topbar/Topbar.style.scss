@@ -12,6 +12,11 @@
   grid-row: 1 / 2;
   padding: to-rem(10px) to-rem(20px);
 
+  @include breakpoint("m") {
+    grid-column: 2 / 3;
+  }
+
+
   .leftTopbar {
     display: flex;
     align-items: center;
@@ -23,6 +28,11 @@
       height: to-rem(40px);
       width: to-rem(40px);
       border-radius: 50%;
+
+      @include breakpoint("m") {
+        height: to-rem(60px);
+        width: to-rem(60px);
+      }
     }
 
     .profilePic:hover {

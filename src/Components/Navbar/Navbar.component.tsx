@@ -13,7 +13,7 @@ const Nav = (props: Props) => {
       <div className="topNav">
         <div className="appName">PERSIN</div>
         <div
-          className="hamburger-menu-wrapper"
+          className={navbarOpen ? "hamburger-menu-wrapper open" : "hamburger-menu-wrapper closed"}
           onClick={() => setNavbarOpen(!navbarOpen)}
         >
           <div
