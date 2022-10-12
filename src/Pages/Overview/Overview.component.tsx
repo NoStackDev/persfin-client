@@ -6,14 +6,12 @@ import DistributionChart from "../../Components/Charts/PieChart/DistributionChar
 import recentActivities from "./recentAtivities";
 
 import "./Overview.style.scss";
-import QuickActionBar from "../../Components/QuickActionBar";
 
 type Props = {};
 
 const Overview = (props: Props) => {
   return (
     <main>
-      <QuickActionBar />
       <section>
         <InflowOutflowChart />
       </section>

@@ -9,18 +9,17 @@ type Props = {};
 
 const Inflow = (props: Props) => {
   return (
-      <main>
-        <section>
+    <main>
+      <section>
         <FilterBar />
-
-        </section>
-        <section>
-          <ActivityCard cardTitle="Inflow" activities={inflows} />
-        </section>
-        <section>
-          <DistributionChart />
-        </section>
-      </main>
+      </section>
+      <section>
+        <ActivityCard cardTitle="Inflow" activities={inflows} />
+      </section>
+      <section>
+        <DistributionChart />
+      </section>
+    </main>
   );
 };
 

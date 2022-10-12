@@ -3,7 +3,10 @@
 @import "../../Assets/Styles/themes";
 
 .quick-action-bar {
-  margin-top: to-rem(20px);
+  // grid-template-columns: 2 / 3;
+  // grid-row: 2 / 3;
+  // margin-top: to-rem(20px);
+
 
   .carousel-container {
     .carousel {
@@ -18,7 +21,6 @@
       }
 
       .card {
-        // margin-inline-start: to-rem(20px);
         display: flex;
         flex-direction: column;
         gap: to-rem(20px);
@@ -27,6 +29,10 @@
         border-radius: to-rem(12px);
         min-width: to-rem(200px);
         flex-grow: 1;
+
+        &:nth-of-type(1) {
+          margin-left: to-rem(20px);
+        }
 
         &:nth-last-of-type(1) {
           margin-inline-end: to-rem(20px);

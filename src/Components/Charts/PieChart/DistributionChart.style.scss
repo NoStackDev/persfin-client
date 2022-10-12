@@ -14,7 +14,7 @@
     .top {
       display: flex;
       flex-direction: column;
-      gap: to-rem(10px);
+      gap: to-rem(20px);
       margin-bottom: to-rem(10px);
 
       .duration {
@@ -40,10 +40,6 @@
       display: flex;
       flex-direction: column;
       gap: to-rem(20px);
-
-      @include breakpoint('m') {
-        flex-direction: row;
-      }
 
       .legend {
         display: flex;

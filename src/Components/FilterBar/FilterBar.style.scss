@@ -3,8 +3,6 @@
 @import "../../Assets/Styles/functions";
 
 .filter-bar-container {
-  margin-top: to-rem(20px);
-
   .filter-bar {
     .card {
       @include theme-aware("background", "card-bg-color");
@@ -24,9 +22,9 @@
         border-radius: to-rem(12px);
         padding-block: to-rem(5px);
         padding-inline: to-rem(10px);
-        
-        @include breakpoint('m') {
-            grid-column: 1 / 4;
+
+        @include breakpoint("m") {
+          grid-column: 1 / 4;
         }
 
         .material-icons {
@@ -52,8 +50,8 @@
         display: flex;
         justify-content: flex-start;
 
-        @include breakpoint('m') {
-            grid-column: 4/ -1;
+        @include breakpoint("m") {
+          grid-column: 4/ -1;
         }
 
         input {

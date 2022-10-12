@@ -30,19 +30,16 @@
       gap: to-rem(20px);
 
       .activity {
-        display: grid;
-        grid-template-columns: 3fr 1fr;
+        display: flex;
         gap: to-rem(10px);
         padding-bottom: to-rem(5px);
         border-bottom: solid #262626 to-rem(1px);
-
-        @include breakpoint("sm") {
-          grid-template-columns: repeat(5, 1fr);
-        }
+        justify-content: space-between;
+        flex-wrap: wrap;
 
         .icon-title-wrapper {
           display: flex;
-          gap: to-rem(10px);
+          gap: to-rem(20px);
           margin-bottom: to-rem(10px);
 
           .material-icons {
