@@ -9,16 +9,16 @@ type Props = {};
 const Budget = (props: Props) => {
   return (
     <main>
-      <section>
+      <section className="filter-bar-section">
         <FilterBar showTags={true} />
       </section>
-      <section className="budget-cards">
+      <section id="budget-cards-section">
         <BudgetCard />
         <BudgetCard />
         <BudgetCard />
         <BudgetCard />
       </section>
-      <section>
+      <section id='distribution-chart-section'>
         <DistributionChart />
       </section>
     </main>

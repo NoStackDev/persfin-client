@@ -12,19 +12,19 @@ type Props = {};
 const Overview = (props: Props) => {
   return (
     <main>
-      <section>
+      <section id="inflow-outflow-chart">
         <InflowOutflowChart />
       </section>
-      <section>
+      <section id="category-chart">
         <CategoryChart />
       </section>
-      <section>
+      <section id="recent-activity">
         <ActivityCard
           cardTitle="Recent Activity"
           activities={recentActivities}
         />
       </section>
-      <section>
+      <section id="distribution-chart">
         <DistributionChart />
       </section>
     </main>

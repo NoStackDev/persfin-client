@@ -14,13 +14,22 @@
 
   @include breakpoint("m") {
     grid-column: 2 / 3;
+    margin-inline: to-rem(20px);
+    margin-top: to-rem(20px);
+    border-radius: to-rem(12px);
   }
 
 
   .leftTopbar {
     display: flex;
     align-items: center;
-    height: calc(to-rem(5px) * 5);
+    @include theme-aware('color', 'header-color');
+    @include h2-medium;
+    visibility: hidden;
+
+    @include breakpoint('m') {
+      visibility: visible;
+    }
   }
 
   .rightTopbar {

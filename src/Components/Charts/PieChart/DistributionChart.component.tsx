@@ -17,9 +17,10 @@ export const data = {
     },
   ],
 };
-
+;
 const options = {
   responsive: true,
+  // maintainAspectRatio: false,
   plugins: {
     legend: {
       display: false,
@@ -41,7 +42,7 @@ const DistributionChart = (props: Props) => {
       <div className="card">
         <div className="top">
           <div className="duration">This month</div>
-          <h2 className="title">Budget Distribution</h2>
+          <h2 className="title">Budget</h2>
         </div>
 
         <div className="bottom">

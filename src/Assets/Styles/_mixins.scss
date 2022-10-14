@@ -45,6 +45,11 @@
   font-weight: $semiBold;
 }
 
+@mixin h2-medium {
+  font-size: to-rem(28px);
+  font-weight: $medium;
+}
+
 @mixin h2-regular {
   font-size: to-rem(28px);
   font-weight: $regular;

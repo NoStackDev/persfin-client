@@ -21,6 +21,7 @@ export const data = {
 
 const options = {
   responsive: true,
+  // maintainAspectRatio: false,
   plugins: {
     legend: {
       display: false,
@@ -43,7 +44,7 @@ const CategoryChart = (props: Props) => {
         <div className="top">
           <div className="duration">This month</div>
           <div className="category">
-            <h2 className="title">Outflow Category</h2>
+            <h2 className="title">Outflow</h2>
           </div>
         </div>
         <div className="legend-doughnut">

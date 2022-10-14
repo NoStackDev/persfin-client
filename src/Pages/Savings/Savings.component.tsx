@@ -9,13 +9,13 @@ type Props = {};
 const Savings = (props: Props) => {
   return (
     <main>
-      <section>
+      <section className="filter-bar-section">
         <FilterBar />
       </section>
-      <section>
+      <section id='savings-activity-section'>
         <ActivityCard cardTitle="Savings" activities={savingsActivity} />
       </section>
-      <section>
+      <section id='distribution-chart-section'>
         <DistributionChart />
       </section>
     </main>

@@ -11,13 +11,13 @@ type Props = {};
 const Outflow = (props: Props) => {
   return (
     <main>
-      <section>
+      <section className="filter-bar-section">
         <FilterBar />
       </section>
-      <section>
+      <section id='outflow-activity-section'>
         <ActivityCard cardTitle="Outflow" activities={outflows} />
       </section>
-      <section>
+      <section id='distribution-chart-section'>
         <DistributionChart />
       </section>
     </main>

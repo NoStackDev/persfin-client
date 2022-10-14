@@ -58,6 +58,7 @@
           gap: to-rem(10px);
           flex-grow: 1;
           justify-content: center;
+          flex-wrap: wrap;
 
           .legend-top {
             display: flex;
@@ -91,8 +92,10 @@
       }
 
       canvas {
-        max-height: 50vw;
-        max-width: 50vw;
+        // max-height: 50vw;
+        // max-width: 50vw;
+        max-width: to-rem(200px);
+        max-height: to-rem(200px);
         align-self: center;
       }
     }
