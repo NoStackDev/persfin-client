@@ -3,6 +3,8 @@
 @import "../../../Assets/Styles/functions";
 
 .distribution-chart-container {
+  min-width: to-rem(205px);
+
   .card {
     @include theme-aware("background", "card-bg-color");
     border-radius: to-rem(12px);

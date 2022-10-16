@@ -11,7 +11,6 @@ const Topbar = (props: Props) => {
 
   useEffect(() => {
     (async () => {
-      console.log("First useEffect firing");
       try {
         const { default: profilePicPath } = await import(
           "../../Assets/Images/profilePic.jpg"
@@ -24,7 +23,6 @@ const Topbar = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    console.log("Second useEffect Firing");
     const interval = setInterval(() => {
       const currentTime = (new Date(Date.now())).toDateString();
       setDate(currentTime);

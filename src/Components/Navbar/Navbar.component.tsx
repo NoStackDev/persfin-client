@@ -3,17 +3,28 @@ import React, { useState } from "react";
 import navbarItems from "./NavbarConfig";
 
 import "./Navbar.style.scss";
+import getSomething from "../../Queries/getTest";
 
 type Props = {};
 
 const Nav = (props: Props) => {
   const [navbarOpen, setNavbarOpen] = useState<boolean>(false);
+
+
+  const handleClick = () => {
+    console.log('clicked')
+    getSomething()
+  }
   return (
     <nav className={navbarOpen ? "open" : "closed"}>
       <div className="topNav">
-        <div className="appName">PERSIN</div>
+        <div className="appLogo">PERSIN</div>
         <div
-          className={navbarOpen ? "hamburger-menu-wrapper open" : "hamburger-menu-wrapper closed"}
+          className={
+            navbarOpen
+              ? "hamburger-menu-wrapper open"
+              : "hamburger-menu-wrapper closed"
+          }
           onClick={() => setNavbarOpen(!navbarOpen)}
         >
           <div
@@ -35,7 +46,7 @@ const Nav = (props: Props) => {
       </div>
       <div className="bottomNav">
         <span className="material-icons">exit_to_app</span>
-        <div className="logout">Log out</div>
+        <div className="logout" onClick={handleClick} >Log out</div>
       </div>
     </nav>
   );

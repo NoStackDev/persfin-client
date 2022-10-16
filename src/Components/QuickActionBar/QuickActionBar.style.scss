@@ -3,11 +3,6 @@
 @import "../../Assets/Styles/themes";
 
 .quick-action-bar {
-  // grid-template-columns: 2 / 3;
-  // grid-row: 2 / 3;
-  // margin-top: to-rem(20px);
-
-
   .carousel-container {
     .carousel {
       display: flex;
@@ -29,6 +24,7 @@
         border-radius: to-rem(12px);
         min-width: to-rem(200px);
         flex-grow: 1;
+        max-width: to-rem(220px);
 
         &:nth-of-type(1) {
           margin-left: to-rem(20px);

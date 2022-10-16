@@ -3,6 +3,8 @@
 @import "../../../Assets/Styles/themes";
 
 .inflow-outflow-chart {
+  min-width: to-rem(340px);
+
   @include breakpoint("l") {
     height: 100%;
   }

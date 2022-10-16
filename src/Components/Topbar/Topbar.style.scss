@@ -19,20 +19,25 @@
     border-radius: to-rem(12px);
   }
 
-
   .leftTopbar {
     display: flex;
     align-items: center;
-    @include theme-aware('color', 'header-color');
+    @include theme-aware("color", "header-color");
     @include h2-medium;
     visibility: hidden;
 
-    @include breakpoint('m') {
+    @include breakpoint("m") {
       visibility: visible;
     }
   }
 
+  .middleTopbar {
+    align-self: flex-end;
+  }
+
   .rightTopbar {
+    display: flex;
+    align-items: center;
     .profilePic {
       height: to-rem(40px);
       width: to-rem(40px);

@@ -3,6 +3,8 @@
 @import "../../Assets/Styles/functions";
 
 .filter-bar-container {
+  min-width: to-rem(340px);
+
   .filter-bar {
     .card {
       @include theme-aware("background", "card-bg-color");

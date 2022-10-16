@@ -12,6 +12,8 @@ body {
   @include theme-aware("color", "text-color");
   height: 100vh;
   min-width: to-rem(375px);
+  display: flex;
+  justify-content: center;
 
   .app {
     display: grid;
@@ -19,9 +21,10 @@ body {
     grid-template-rows: auto 100%;
     height: 100vh;
     overflow: hidden;
+    max-width: to-rem(1980px);
 
     @include breakpoint("m") {
-      grid-template-rows: to-rem(90px) minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr);
     }
 
     .wrapper {
@@ -30,7 +33,6 @@ body {
       overflow-x: hidden;
       overflow-y: auto;
       row-gap: to-rem(20px);
-
 
       & > section:nth-of-type(1) {
         margin-top: to-rem(20px);
@@ -56,9 +58,7 @@ body {
 
         @include breakpoint("xl") {
           grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
-          // grid-template-rows: auto auto;
           grid-template-rows: minmax(0, max-content) minmax(0, 1fr);
-
 
           .filter-bar-section {
             grid-row: 1 / 2;
