@@ -1,28 +1,34 @@
 interface navItem {
   itemName: string;
   itemIcon: string;
+  link: string;
 }
 
 const navbarItems: Array<navItem> = [
   {
     itemName: "Overview",
-    itemIcon: 'dashboard'
+    itemIcon: 'dashboard',
+    link: '/'
   },
   {
     itemName: "Inflow",
-    itemIcon: "south"
+    itemIcon: "south",
+    link: 'inflow'
   },
   {
     itemName: "Outflow",
-    itemIcon: 'north'
+    itemIcon: 'north',
+    link: 'outflow'
   },
   {
     itemName: "Budget",
-    itemIcon: "pie_chart"
+    itemIcon: "pie_chart",
+    link: 'budget'
   },
   {
     itemName: "Savings",
-    itemIcon: "savings"
+    itemIcon: "savings",
+    link: 'savings'
   },
 ];
 

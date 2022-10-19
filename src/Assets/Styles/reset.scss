@@ -13,6 +13,10 @@ html {
     font-size: to-rem($default-fontsize);
 }
 
+a {
+    text-decoration: none;
+}
+
 li {
     list-style: none;
 }
