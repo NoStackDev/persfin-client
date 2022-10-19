@@ -1,4 +1,5 @@
 import React from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 import Navbar from "./Components/Navbar";
 import Topbar from "./Components/Topbar";
@@ -11,20 +12,24 @@ import Overview from "./Pages/Overview";
 
 import "./Assets/Styles/main.scss";
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <div className="app">
-      <Navbar />
-      <Topbar />
-      <div className="wrapper">
-        <QuickActionBar />
-        <Overview />
-        {/* <Inflow /> */}
-        {/* <Outflow /> */}
-        {/* <Budget /> */}
-        {/* <Savings /> */}
+    <QueryClientProvider client={queryClient}>
+      <div className="app">
+        <Navbar />
+        <Topbar />
+        <div className="wrapper">
+          <QuickActionBar />
+          <Overview />
+          {/* <Inflow /> */}
+          {/* <Outflow /> */}
+          {/* <Budget /> */}
+          {/* <Savings /> */}
+        </div>
       </div>
-    </div>
+    </QueryClientProvider>
   );
 }
 
