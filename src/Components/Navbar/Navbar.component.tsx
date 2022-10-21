@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import navbarItems from "./NavbarConfig";
 
 import "./Navbar.style.scss";
-import getSomething from "../../Queries/getTest";
 
 type Props = {};
 
@@ -13,7 +12,6 @@ const Nav = (props: Props) => {
 
   const handleClick = () => {
     console.log("clicked");
-    getSomething();
   };
   return (
     <nav className={navbarOpen ? "open" : "closed"}>

@@ -1,5 +1,4 @@
 import React from "react";
-// import { Outlet } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import Navbar from "./Components/Navbar";

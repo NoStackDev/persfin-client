@@ -1,38 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import quickActions from "./quickActionBarConfig";
+import quickActions, { quickActionInterface } from "./quickActionBarConfig";
+import QuickActionCard from "./Components/QuickActionCard.component";
+
 import "./QuickActionBar.style.scss";
+import { getActivities } from "../../Queries";
 
 type Props = {};
+type Transaction = {
+  title: string;
+  amount: number;
+  transactionType: string;
+  category: string;
+  budget: string;
+  description: string;
+  receiptImage: string[];
+}
 
 const QuickActionBar = (props: Props) => {
+  const [transactions, setTransactions] = useState<null|Array<Transaction>>(null)
+  const [balance, setBalance] = useState<number>(0);
+
+  useEffect(() => {
+    (async () => {
+      console.log("calling..");
+      try {
+        const data = await getActivities("634f17f5fbf2c4979f8839be");
+        setTransactions(data?.data.data.transactions);
+      } catch (err: any) {
+        console.log(err.message);
+      }
+    })();
+  }, []);
+
+  const getAmount = (title: string) => {
+    switch(title) {
+      case 'balance':
+        return balance
+      default:
+        return 0
+    }
+  }
+
   return (
     <section className="quick-action-bar">
       <div className="carousel-container">
         <div className="carousel">
           {quickActions.map((quickAction, index) => {
             return (
-              <div className={"card " + quickAction.title.toLowerCase()} key={index}>
-                <div
-                  className={"icon-wrapper " + quickAction.title.toLowerCase()}
-                >
-                  <span className="material-icons ">{quickAction.icon}</span>
-                </div>
-                <div className="action-info">
-                  <h2>{quickAction.title}</h2>
-                  <div className="amount">
-                    <span className="material-icons">attach_money</span>
-                    <h3>{new Intl.NumberFormat().format(quickAction.amount)}</h3>
-                  </div>
-                </div>
-                {quickAction.hasBtn ? (
-                  <button className={quickAction.title.toLowerCase()}>
-                    Add {quickAction.title}
-                  </button>
-                ) : (
-                  <></>
-                )}
-              </div>
+              <QuickActionCard
+                icon={quickAction.icon}
+                title={quickAction.title}
+                hasBtn={quickAction.hasBtn}
+                amount={getAmount(quickAction.title)}
+                key={index}
+              />
             );
           })}
         </div>

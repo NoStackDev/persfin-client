@@ -1,4 +1,4 @@
-interface quickActionInterface {
+export interface quickActionInterface {
     icon: string;
     title: string;
     amount: number;
