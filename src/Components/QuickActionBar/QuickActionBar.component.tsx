@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
-import quickActions, { quickActionInterface } from "./quickActionBarConfig";
+import quickActions from "./quickActionBarConfig";
 import QuickActionCard from "./Components/QuickActionCard.component";
+import { getActivities } from "../../Queries";
+import calculateAmount from "./helper/calculateAmount";
 
 import "./QuickActionBar.style.scss";
-import { getActivities } from "../../Queries";
 
 type Props = {};
+
 type Transaction = {
   title: string;
   amount: number;
@@ -15,15 +17,20 @@ type Transaction = {
   budget: string;
   description: string;
   receiptImage: string[];
-}
+};
 
 const QuickActionBar = (props: Props) => {
-  const [transactions, setTransactions] = useState<null|Array<Transaction>>(null)
-  const [balance, setBalance] = useState<number>(0);
+  const [transactions, setTransactions] = useState<null | Array<Transaction>>(
+    null
+  );
+
+  const { balance, savings, inflow, outflow } = useMemo(
+    () => calculateAmount(transactions),
+    [transactions]
+  );
 
   useEffect(() => {
     (async () => {
-      console.log("calling..");
       try {
         const data = await getActivities("634f17f5fbf2c4979f8839be");
         setTransactions(data?.data.data.transactions);
@@ -34,13 +41,19 @@ const QuickActionBar = (props: Props) => {
   }, []);
 
   const getAmount = (title: string) => {
-    switch(title) {
-      case 'balance':
-        return balance
+    switch (title.toLowerCase()) {
+      case "balance":
+        return balance;
+      case "savings":
+        return savings;
+      case "inflow":
+        return inflow;
+      case "outflow":
+        return outflow;
       default:
-        return 0
+        return 0;
     }
-  }
+  };
 
   return (
     <section className="quick-action-bar">
