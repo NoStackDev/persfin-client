@@ -1,5 +1,6 @@
 import React from "react";
 
+import DateFilterFixed from "../../DateFiter/DateFilterFixed";
 import "./QuickActionCard.style.scss";
 
 type Props = {
@@ -12,9 +13,14 @@ type Props = {
 const QuickActionCard = ({ title, icon, amount, hasBtn }: Props) => {
   return (
     <div className={"card " + title.toLowerCase()}>
-      <div className={"icon-wrapper " + title.toLowerCase()}>
-        <span className="material-icons ">{icon}</span>
+      <div className="card-top">
+        <div className={"icon-wrapper " + title.toLowerCase()}>
+          <span className="material-icons ">{icon}</span>
+        </div>
+
+        <DateFilterFixed />
       </div>
+
       <div className="action-info">
         <h2>{title}</h2>
         <h3 className="amount">

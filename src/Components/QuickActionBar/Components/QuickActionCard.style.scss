@@ -40,29 +40,34 @@
       }
     }
 
-    .icon-wrapper {
+    .card-top {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      @include theme-aware("background", "primary-color");
-      width: fit-content;
-      padding: to-rem(10px);
-      border-radius: 50%;
+      justify-content: space-between;
+      
+      .icon-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        @include theme-aware("background", "primary-color");
+        width: fit-content;
+        padding: to-rem(10px);
+        border-radius: 50%;
 
-      &.savings {
-        @include theme-aware("background", "savings-color");
-      }
+        &.savings {
+          @include theme-aware("background", "savings-color");
+        }
 
-      &.inflow {
-        @include theme-aware("background", "inflow-color");
-      }
+        &.inflow {
+          @include theme-aware("background", "inflow-color");
+        }
 
-      &.outflow {
-        @include theme-aware("background", "outflow-color");
-      }
+        &.outflow {
+          @include theme-aware("background", "outflow-color");
+        }
 
-      .material-icons {
-        color: #fff;
+        .material-icons {
+          color: #fff;
+        }
       }
     }
 
