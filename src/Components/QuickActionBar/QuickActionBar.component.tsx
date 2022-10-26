@@ -17,6 +17,7 @@ type Transaction = {
   budget: string;
   description: string;
   receiptImage: string[];
+  createdAt: Date;
 };
 
 const QuickActionBar = (props: Props) => {
@@ -66,6 +67,7 @@ const QuickActionBar = (props: Props) => {
                 title={quickAction.title}
                 hasBtn={quickAction.hasBtn}
                 amount={getAmount(quickAction.title)}
+                hasFixedDateFilter={quickAction.hasFixedDateFilter}
                 key={index}
               />
             );

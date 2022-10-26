@@ -6,8 +6,8 @@ import "./DateFilterFixed.style.scss";
 type Props = {};
 
 interface rangeInterface {
-  min: number;
-  max: number;
+  min: Date;
+  max: Date;
 }
 
 const DateFilterFixed = (props: Props) => {

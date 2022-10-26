@@ -6,6 +6,7 @@ type Transaction = {
   budget: string;
   description: string;
   receiptImage: string[];
+  createdAt: Date;
 };
 
 export const calculateAmount = (transactions: Transaction[] | null) => {

@@ -8,17 +8,23 @@ type Props = {
   title: string;
   amount: number;
   hasBtn: boolean;
+  hasFixedDateFilter: boolean;
 };
 
-const QuickActionCard = ({ title, icon, amount, hasBtn }: Props) => {
+const QuickActionCard = ({
+  title,
+  icon,
+  amount,
+  hasBtn,
+  hasFixedDateFilter,
+}: Props) => {
   return (
     <div className={"card " + title.toLowerCase()}>
       <div className="card-top">
         <div className={"icon-wrapper " + title.toLowerCase()}>
           <span className="material-icons ">{icon}</span>
         </div>
-
-        <DateFilterFixed />
+        {hasFixedDateFilter ? <DateFilterFixed /> : <></>}
       </div>
 
       <div className="action-info">
