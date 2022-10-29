@@ -1,21 +1,36 @@
-import React, { useRef, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import timeRange from "./dateFilterFixedConfig";
 
 import "./DateFilterFixed.style.scss";
 
-type Props = {};
+type SetFilterRange = {
+  setFilterRange: React.Dispatch<SetStateAction<TimeRangeInterface | undefined>>;
+};
 
 interface rangeInterface {
   min: Date;
   max: Date;
 }
 
-const DateFilterFixed = (props: Props) => {
-  const [showOptions, setShowOptions] = useState<boolean>(false);
+interface TimeRangeInterface {
+  id: string;
+  title: string;
+  range(): rangeInterface;
+}
 
-  const handleClick = ({ min, max }: rangeInterface) => {
-    console.log("min: ", new Date(min));
-    console.log("max: ", new Date(max));
+const DateFilterFixed = ({setFilterRange}: SetFilterRange) => {
+  const [showOptions, setShowOptions] = useState<boolean>(false);
+  const [selectedOption, setSelectedOption] = useState<TimeRangeInterface>(
+    timeRange[0]
+  );
+
+  useEffect(() => {
+    setFilterRange(timeRange[0]);
+  }, [setFilterRange]);
+
+  const handleClick = (timeRangeObj: TimeRangeInterface) => {
+    setSelectedOption(timeRangeObj);
+    setFilterRange(timeRangeObj);
   };
 
   return (
@@ -23,14 +38,14 @@ const DateFilterFixed = (props: Props) => {
       onClick={() => setShowOptions(!showOptions)}
       className="date-filter-fixed"
     >
-      <div className="selected-option">Last Month</div>
+      <div className="selected-option">{selectedOption.title}</div>
       {showOptions ? (
         <div className="filter-option-container">
-          {timeRange.map((timeObj, index) => {
-            return (
+          {timeRange.map((timeObj) => {
+            return selectedOption.id === timeObj.id ? null : (
               <div
-                onClick={() => handleClick(timeObj.range())}
-                key={index}
+                onClick={() => handleClick(timeObj)}
+                key={timeObj.id}
                 className="filter-option"
               >
                 {timeObj.title}
@@ -38,9 +53,7 @@ const DateFilterFixed = (props: Props) => {
             );
           })}
         </div>
-      ) : (
-        <></>
-      )}
+      ) : null}
     </div>
   );
 };

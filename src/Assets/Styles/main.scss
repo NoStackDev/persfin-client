@@ -13,7 +13,6 @@ body {
   min-width: to-rem(375px);
   display: flex;
   justify-content: center;
-  
 
   .app {
     display: grid;
@@ -38,17 +37,12 @@ body {
         margin-top: to-rem(20px);
       }
 
-
-
       main {
         display: flex;
         flex-direction: column;
         gap: to-rem(20px);
         padding-inline: to-rem(20px);
-
-        & > section:nth-last-of-type(1) {
-          margin-bottom: to-rem(20px);
-        }
+        padding-bottom: to-rem(20px);
 
         @include breakpoint("l") {
           display: grid;

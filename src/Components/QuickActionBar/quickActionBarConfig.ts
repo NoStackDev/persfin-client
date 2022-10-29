@@ -2,7 +2,7 @@ export interface quickActionInterface {
   icon: string;
   title: string;
   hasBtn: boolean;
-  hasFixedDateFilter: boolean;
+  hasFixedDateFilter?: boolean;
 }
 
 const quickActions: quickActionInterface[] = [
@@ -34,7 +34,6 @@ const quickActions: quickActionInterface[] = [
     icon: "north",
     title: "Categories",
     hasBtn: true,
-    hasFixedDateFilter: true,
   },
 ];
 
