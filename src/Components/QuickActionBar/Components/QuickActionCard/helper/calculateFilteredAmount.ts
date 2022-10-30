@@ -15,14 +15,14 @@ type Transaction = {
     createdAt: Date;
   };
 
-  const calculateFilteredAmount = (objArr: Transaction[]|undefined) => {
+  const calculateFilteredAmount = (objArr: Transaction[]|null) => {
     if (objArr && objArr.length > 0) {
             const total = objArr.reduce((prevValue, currentObj)=> {
               return prevValue + currentObj.amount
             }, 0)
             return total
           }
-    else return false
+    else return 0
   }
 
   export default calculateFilteredAmount

@@ -4,7 +4,7 @@ import timeRange from "./dateFilterFixedConfig";
 import "./DateFilterFixed.style.scss";
 
 type SetFilterRange = {
-  setFilterRange: React.Dispatch<SetStateAction<TimeRangeInterface | undefined>>;
+  setFilterRange: React.Dispatch<SetStateAction<TimeRangeInterface | null>>;
 };
 
 interface rangeInterface {
