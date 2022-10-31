@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-
+import DateFilterFixed from "../../DateFiter/DateFilterFixed";
+import getLabelsAndDataset from "./helper/getLabelsAndDataset";
 
 import { Line } from "react-chartjs-2";
 import {
@@ -13,11 +14,19 @@ import {
   Legend,
 } from "chart.js";
 
-import { getActivities } from "../../../Queries";
-
-import calculateAmount from "./helper/calculateAmount";
-
 import "./InflowOutflowChart.style.scss";
+import { getInflows, getOutflows } from "../../../Queries";
+
+interface rangeInterface {
+  min: Date;
+  max: Date;
+}
+
+interface TimeRangeInterface {
+  id: string;
+  title: string;
+  range(): rangeInterface;
+}
 
 ChartJS.register(
   CategoryScale,
@@ -37,6 +46,7 @@ type Transaction = {
   budget: string;
   description: string;
   receiptImage: string[];
+  time: string;
 };
 
 interface datasetType {
@@ -53,52 +63,36 @@ interface dataType {
   datasets: datasetType[];
 }
 
-
-
 type Props = {};
 
 const InflowOutflowChart = (props: Props) => {
-
-  const [transactions, setTransactions] = useState<null | Array<Transaction>>(
+  const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
-
-  const { inflowArray, outflowArray } = useMemo(
-    () => calculateAmount(transactions),
-    [transactions]
-  );
+  const [inflows, setInflows] = useState<Transaction[] | null>(null);
+  const [outflows, setOutflows] = useState<Transaction[] | null>(null);
 
   useEffect(() => {
     (async () => {
-      try {
-        const data = await getActivities("634f17f5fbf2c4979f8839be");
-        setTransactions(data?.data.data.transactions);
-      } catch (err: any) {
-        console.log(err.message);
-      }
+      const inflowsArr = await getInflows("635c5be0060a6ab16c47637f");
+      const outflowsArr = await getOutflows("635c5be0060a6ab16c47637f");
+
+      setInflows(inflowsArr);
+      setOutflows(outflowsArr);
     })();
   }, []);
 
+  const { labels: labelsArr, data: dataArr } = useMemo(() => {
+    return getLabelsAndDataset([inflows, outflows], filterRange);
+  }, [inflows, outflows, filterRange]);
+
   const data: dataType = {
-    labels: [
-      "Jun",
-      "Jul",
-      "Aug",
-      "sep",
-      "oct",
-      "nov",
-      "dec",
-      "jan",
-      "feb",
-      "mar",
-      "apr",
-      "may",
-    ],
+    labels: labelsArr,
     datasets: [
       {
         id: 1,
         label: "inflow",
-        data: inflowArray,
+        data: dataArr[0],
         tension: 0.5,
         backgroundColor: "#49AB3B",
         borderColor: "#49AB3B",
@@ -106,15 +100,20 @@ const InflowOutflowChart = (props: Props) => {
       {
         id: 2,
         label: "outflow",
-        data: outflowArray,
+        data: dataArr[1],
         tension: 0.5,
         backgroundColor: "#EE0000",
         borderColor: "#EE0000",
       },
     ],
   };
-  
+
   const options = {
+    scales: {
+      y: {
+        min: 0,
+      },
+    },
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -129,6 +128,7 @@ const InflowOutflowChart = (props: Props) => {
       },
     },
   };
+
   return (
     <div className="inflow-outflow-chart">
       <div className="card">
@@ -143,9 +143,13 @@ const InflowOutflowChart = (props: Props) => {
               <div className="legend-text">outflow</div>
             </div>
           </div>
-          <div className="duration">1 year</div>
+          <DateFilterFixed setFilterRange={setFilterRange} />
         </div>
-        <Line options={options} data={data} />
+        <div className="chart">
+          <div className="chart-container">
+            <Line options={options} data={data} />
+          </div>
+        </div>
       </div>
     </div>
   );

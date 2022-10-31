@@ -63,7 +63,7 @@ const QuickActionCard = ({
   );
 
   useEffect(() => {
-    if (typeof amount === "object" && hasFixedDateFilter && filterRange) {
+    if (typeof amount === "object" && filterRange) {
       const filteredArr = amount?.filter((ele) => {
         const range = filterRange?.range();
 
@@ -77,11 +77,6 @@ const QuickActionCard = ({
         );
       });
       setFilteredDataArr(filteredArr || null);
-    }
-
-    if (typeof amount === "object" &&  !hasFixedDateFilter) {
-      // console.log(filterRange)
-      console.log(title);
     }
   }, [filterRange, amount]);
 

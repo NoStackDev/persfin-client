@@ -1,1 +1,1 @@
-export { default } from "./calculateAmount";
+export { default } from "./getLabelsAndDataset";
