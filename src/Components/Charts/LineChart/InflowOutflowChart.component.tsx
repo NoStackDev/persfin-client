@@ -74,8 +74,8 @@ const InflowOutflowChart = (props: Props) => {
 
   useEffect(() => {
     (async () => {
-      const inflowsArr = await getInflows("635c5be0060a6ab16c47637f");
-      const outflowsArr = await getOutflows("635c5be0060a6ab16c47637f");
+      const inflowsArr = await getInflows("636160dec056c6ad1b601ec6");
+      const outflowsArr = await getOutflows("636160dec056c6ad1b601ec6");
 
       setInflows(inflowsArr);
       setOutflows(outflowsArr);

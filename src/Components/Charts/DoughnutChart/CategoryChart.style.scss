@@ -19,35 +19,13 @@
       flex-direction: column;
       gap: to-rem(20px);
       margin-bottom: to-rem(10px);
-
-      .duration {
+      
+      div:nth-of-type(1) {
         align-self: flex-end;
-        @include theme-aware("background", "bg-color");
-        padding-inline: to-rem(10px);
-        padding-block: to-rem(2px);
-        border-radius: to-rem(12px);
-
-        &:hover {
-          cursor: pointer;
-        }
       }
 
-      .category {
-        @include theme-aware("background", "bg-color");
-        width: fit-content;
-        padding-inline: to-rem(10px);
-        padding-block: to-rem(2px);
-        border-radius: to-rem(12px);
-
-        &:hover {
-          cursor: pointer;
-        }
-
-        h2 {
-          @include theme-aware("color", "header-color");
-          font-size: to-rem(24px);
-          font-weight: 600;
-        }
+      div:nth-of-type(2) {
+        align-self: flex-start;
       }
     }
 
@@ -57,53 +35,27 @@
       gap: to-rem(20px);
       align-items: center;
 
-      @include breakpoint("m") {
-        // flex-direction: row;
-        // align-items: center;
-        // justify-content: space-around;
-      }
-
       .legend-bar {
         display: flex;
         gap: to-rem(20px);
         flex-wrap: wrap;
+        // word-break: break-all;
 
         .legend {
           display: flex;
           align-items: center;
           gap: to-rem(10px);
+          font-size: to-rem(12px);
 
           & > div:nth-of-type(1) {
             height: to-rem(variables.$default-fontsize);
             width: to-rem(variables.$default-fontsize);
           }
 
-          &:nth-of-type(1) > div:nth-of-type(1) {
-            background: #f46e00;
-          }
-
-          &:nth-of-type(2) > div:nth-of-type(1) {
-            background: #dd0408;
-          }
-
-          &:nth-of-type(3) > div:nth-of-type(1) {
-            background: #f1f546;
-          }
         }
       }
 
-      // canvas {
-      //   max-height: 50vw;
-      //   // max-width: 50vw;
-      //   max-width: fit-content;
-
-      //   @include breakpoint('sm') {
-      //     max-width: 55%;
-      //   }
-      // }
       canvas {
-        // max-height: 50vw;
-        // max-width: 50vw;
         max-height: to-rem(200px);
         max-width: to-rem(200px);
         align-self: center;

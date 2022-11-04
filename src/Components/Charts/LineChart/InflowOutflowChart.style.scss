@@ -33,6 +33,7 @@
         .inflow-legend {
           display: flex;
           gap: to-rem(10px);
+          align-items: center;
 
           .legend-color {
             @include theme-aware("background", "inflow-color");
@@ -44,6 +45,7 @@
         .outflow-legend {
           display: flex;
           gap: to-rem(10px);
+          align-items: center;
 
           .legend-color {
             @include theme-aware("background", "outflow-color");

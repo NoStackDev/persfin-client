@@ -1,0 +1,45 @@
+@import "../../Assets/Styles/mixins";
+@import "../../Assets/Styles/themes";
+@import "../../Assets/Styles/functions";
+
+.category-selector {
+  @include theme-aware("color", "header-color");
+  font-size: to-rem(24px);
+  font-weight: 600;
+  position: relative;
+  z-index: 5;
+  width: 9ch;
+
+  .selected-option {
+    padding-block: to-rem(5px);
+    padding-inline: to-rem(12px);
+    @include theme-aware("background", "bg-color");
+    text-align: center;
+  }
+
+  .options-container {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: to-rem(5px);
+    @include theme-aware("background", "bg-color");
+
+    .options {
+        width: 100%;
+        text-align: center;
+
+        &:hover {
+            transform: scale(1.05);
+            @include theme-aware("background", "text-color");
+            @include theme-aware("color", "bg-color");
+        }
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+}
