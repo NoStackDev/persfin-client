@@ -1,23 +1,23 @@
 import axios from "axios";
 
-const getInflows = async (userId: string) => {
+const getBudgets = async (userId: string) => {
   try {
-    const res = await axios({
+    return await axios({
       url: "",
       method: "POST",
       data: {
-        query: `query GetInflows($user: ID) {
-                    inflows(user: $user) {
+        query: `query GetBudgets($user: ID){
+                    budgets(user: $user) {
                         _id
                         title
-                        description
-                        amount
+                        balance
+                        total
                         time
-                        receiptImage
-                        category {
+                        items {
                             _id
-                            title
-                            categoryType
+                            amount
+                            balance
+                            category
                         }
                         modelType
                     }
@@ -27,10 +27,9 @@ const getInflows = async (userId: string) => {
         },
       },
     });
-    return res.data.data.inflows
   } catch (err: any) {
     console.log(err.message);
   }
 };
 
-export default getInflows
+export default getBudgets;

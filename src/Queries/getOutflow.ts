@@ -19,6 +19,7 @@ const getOutflows = async (userId: string) => {
                             title
                             categoryType
                         }
+                        modelType
                     }
                 }`,
         variables: {

@@ -11,6 +11,7 @@ const getSavings = async (userId: string) => {
                         _id
                         amount
                         time
+                        modelType
                     }
                 }`,
         variables: {

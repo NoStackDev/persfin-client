@@ -1,23 +1,14 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { useEffect, useMemo, useState } from "react";
 import { Pie } from "react-chartjs-2";
+import DateFilterFixed from "../../DateFiter/DateFilterFixed";
+import getLabelsColorsDataset from "./helpers/getLabelsColorsData";
 
 import "./DistributionChart.style.scss";
+import { getBudgets } from "../../../Queries";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const data = {
-  labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-  datasets: [
-    {
-      label: "# of Votes",
-      data: [30000, 40000, 20000],
-      backgroundColor: ["#F46E00", "#DD0408", "#F4B926"],
-      borderColor: ["#F46E00", "#DD0408", "#F4B926"],
-      borderWidth: 1,
-    },
-  ],
-};
-;
 const options = {
   responsive: true,
   // maintainAspectRatio: false,
@@ -36,67 +27,107 @@ const options = {
 
 type Props = {};
 
+type BudgetType = {
+  _id: string;
+  title: string;
+  total: number;
+  balance: number;
+  status: string;
+  description: string;
+  time: string;
+  items: BudgetItemsType[];
+};
+
+type BudgetItemsType = {
+  _id: string;
+  title: string;
+  amount: number;
+  balance: number;
+  category: string;
+  description: string;
+};
+
+interface rangeInterface {
+  min: Date;
+  max: Date;
+}
+
+interface TimeRangeInterface {
+  id: string;
+  title: string;
+  range(): rangeInterface;
+}
+
 const DistributionChart = (props: Props) => {
+  const [budgets, setBudgets] = useState<BudgetType[] | null>(null);
+  const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
+    null
+  );
+
+  const budgetsData = useMemo(() => {
+    return getLabelsColorsDataset(budgets, filterRange);
+  }, [budgets, filterRange]);
+
+  const data = {
+    labels: budgetsData.labels,
+    datasets: [
+      {
+        label: "",
+        data: budgetsData.totals,
+        backgroundColor: budgetsData.colors,
+        borderColor: budgetsData.colors,
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const budgetArr = await getBudgets("636ac4a250bbc5afa6004a8c");
+        setBudgets(budgetArr?.data.data.budgets);
+      } catch (err: any) {
+        console.log(err.message);
+      }
+    })();
+  }, []);
+
   return (
     <div className="distribution-chart-container">
       <div className="card">
         <div className="top">
-          <div className="duration">This month</div>
+          {/* <div className="duration">This month</div> */}
+          <DateFilterFixed setFilterRange={setFilterRange} />
           <h2 className="title">Budget</h2>
         </div>
 
         <div className="bottom">
           <Pie data={data} options={options} />
-          <div className="legend">
-            <div>
-              <div className="legend-top">
-                <div className="color"></div>
-                <div className="text">Party</div>
-              </div>
-              <div className="legend-bottom">
-                <div className="budgeted">
-                  <div className="budgeted-text">Budgeted</div>
-                  <div className="budgeted-amount">30000</div>
-                </div>
-                <div className="spent">
-                  <div className="spent-text">Spent</div>
-                  <div className="spent-amount">20000</div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div className="legend-top">
-                <div className="color"></div>
-                <div className="text">Party</div>
-              </div>
-              <div className="legend-bottom">
-                <div className="budgeted">
-                  <div className="budgeted-text">Budgeted</div>
-                  <div className="budgeted-amount">30000</div>
-                </div>
-                <div className="spent">
-                  <div className="spent-text">Spent</div>
-                  <div className="spent-amount">20000</div>
+          {budgetsData.budgetDataset.map((budget, index) => {
+            return (
+              <div className="legend" key={index}>
+                <div>
+                  <div className="legend-top">
+                    <div
+                      className="color"
+                      style={{ backgroundColor: budgetsData.colors[index] }}
+                    ></div>
+                    <div className="text">{budgetsData.labels[index]}</div>
+                  </div>
+                  <div className="legend-bottom">
+                    <div className="budgeted">
+                      <div className="budgeted-text">Budgeted</div>
+                      <div className="budgeted-amount">{budget.total}</div>
+                    </div>
+                    <div className="spent">
+                      <div className="spent-text">Balance</div>
+                      <div className="spent-amount">{budget.balance}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div>
-              <div className="legend-top">
-                <div className="color"></div>
-                <div className="text">Party</div>
-              </div>
-              <div className="legend-bottom">
-                <div className="budgeted">
-                  <div className="budgeted-text">Budgeted</div>
-                  <div className="budgeted-amount">30000</div>
-                </div>
-                <div className="spent">
-                  <div className="spent-text">Spent</div>
-                  <div className="spent-amount">20000</div>
-                </div>
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
     </div>

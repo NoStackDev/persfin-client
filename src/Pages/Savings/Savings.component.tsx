@@ -13,7 +13,7 @@ const Savings = (props: Props) => {
         <FilterBar />
       </section>
       <section id='savings-activity-section'>
-        <ActivityCard cardTitle="Savings" activities={savingsActivity} />
+        {/* <ActivityCard cardTitle="Savings" activities={savingsActivity} /> */}
       </section>
       <section id='distribution-chart-section'>
         <DistributionChart />

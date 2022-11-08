@@ -15,7 +15,7 @@ const Outflow = (props: Props) => {
         <FilterBar />
       </section>
       <section id='outflow-activity-section'>
-        <ActivityCard cardTitle="Outflow" activities={outflows} />
+        {/* <ActivityCard cardTitle="Outflow" activities={outflows} /> */}
       </section>
       <section id='distribution-chart-section'>
         <DistributionChart />

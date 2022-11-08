@@ -14,7 +14,7 @@ const Inflow = (props: Props) => {
         <FilterBar />
       </section>
       <section id='inflow-activity-section'>
-        <ActivityCard cardTitle="Inflow" activities={inflows} />
+        {/* <ActivityCard cardTitle="Inflow" activities={inflows} /> */}
       </section>
       <section id='distribution-chart-section'>
         <DistributionChart />

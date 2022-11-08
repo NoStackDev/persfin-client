@@ -66,8 +66,8 @@ const CategoryChart = (props: Props) => {
 
   useEffect(() => {
     (async () => {
-      const inflowArr = await getInflows("636160dec056c6ad1b601ec6");
-      const outflowArr = await getOutflows("636160dec056c6ad1b601ec6");
+      const inflowArr = await getInflows("636ac4a250bbc5afa6004a8c");
+      const outflowArr = await getOutflows("636ac4a250bbc5afa6004a8c");
       setInflows(inflowArr);
       setOutflows(outflowArr);
     })();

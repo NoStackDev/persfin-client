@@ -19,6 +19,10 @@
       gap: to-rem(20px);
       margin-bottom: to-rem(10px);
 
+      div:nth-of-type(1) {
+        align-self: flex-end;
+      }
+
       .duration {
         align-self: flex-end;
         @include theme-aware("background", "bg-color");
@@ -61,6 +65,7 @@
           flex-grow: 1;
           justify-content: center;
           flex-wrap: wrap;
+          font-size: to-rem(12px);
 
           .legend-top {
             display: flex;
@@ -70,7 +75,6 @@
             .color {
               width: to-rem(18px);
               height: to-rem(18px);
-              background: red;
             }
           }
 
@@ -94,8 +98,6 @@
       }
 
       canvas {
-        // max-height: 50vw;
-        // max-width: 50vw;
         max-width: to-rem(200px);
         max-height: to-rem(200px);
         align-self: center;
