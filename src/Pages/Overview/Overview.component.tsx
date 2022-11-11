@@ -3,7 +3,6 @@ import ActivityCard from "../../Components/ActivityCard";
 import InflowOutflowChart from "../../Components/Charts/LineChart/InflowOutflowChart.component";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 import DistributionChart from "../../Components/Charts/PieChart/DistributionChart.component";
-import recentActivities from "./recentAtivities";
 
 import "./Overview.style.scss";
 import { getInflows, getOutflows, getSavings } from "../../Queries";
@@ -34,7 +33,6 @@ type Savings = {
   time: string;
   modelType: string;
 };
-
 
 const Overview = (props: Props) => {
   const [inflows, setInflows] = useState<Transaction[] | null>(null);
@@ -70,7 +68,10 @@ const Overview = (props: Props) => {
         <CategoryChart />
       </section>
       <section id="recent-activity">
-        <ActivityCard cardTitle="Recent Activity" activities={data.slice(0, 5)} />
+        <ActivityCard
+          cardTitle="Recent Activity"
+          activities={data.slice(0, 5)}
+        />
       </section>
       <section id="distribution-chart">
         <DistributionChart />

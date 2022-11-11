@@ -2,7 +2,7 @@ import axios from "axios";
 
 const getBudgets = async (userId: string) => {
   try {
-    return await axios({
+    const res = await axios({
       url: "",
       method: "POST",
       data: {
@@ -14,6 +14,7 @@ const getBudgets = async (userId: string) => {
                         total
                         time
                         items {
+                            title
                             _id
                             amount
                             balance
@@ -27,6 +28,7 @@ const getBudgets = async (userId: string) => {
         },
       },
     });
+    return res.data.data.budgets;
   } catch (err: any) {
     console.log(err.message);
   }

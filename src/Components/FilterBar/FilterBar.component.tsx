@@ -1,10 +1,24 @@
+import { SetStateAction } from "react";
+import DateFilterDynamic from "../DateFiter/DateFilterDynamic";
 import "./FilterBar.style.scss";
 
 type Props = {
-  showTags?: boolean
+  showTags?: boolean;
+  setFilterRange: React.Dispatch<SetStateAction<TimeRangeInterface | null>>;
 };
 
-const FilterBar = ({showTags=false}: Props) => {
+interface rangeInterface {
+  min: Date;
+  max: Date;
+}
+
+interface TimeRangeInterface {
+  id: string;
+  title: string;
+  range(): rangeInterface;
+}
+
+const FilterBar = ({ showTags = false, setFilterRange }: Props) => {
   return (
     <div className="filter-bar-container">
       <div className="filter-bar">
@@ -18,17 +32,16 @@ const FilterBar = ({showTags=false}: Props) => {
             />
           </div>
 
-          <div className="duration-selector">
-            <input type="date" name="" id="" />
-            <span> - </span>
-            <input type="date" name="" id="" />
-          </div>
+          <DateFilterDynamic setFilterRange={setFilterRange} />
 
-          {showTags? <div className="filter-tags">
-            <div className="completed">completed</div>
-            <div className="pending">pending</div>
-          </div>: <></>}
-          
+          {showTags ? (
+            <div className="filter-tags">
+              <div className="completed">completed</div>
+              <div className="pending">pending</div>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

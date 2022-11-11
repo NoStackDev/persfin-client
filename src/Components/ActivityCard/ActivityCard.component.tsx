@@ -29,25 +29,26 @@ type Savings = {
 
 type Props = {
   cardTitle: string;
-  activities: Array<Tr | Savings | null>;
+  activities: Array<Tr | Savings | null>|null;
 };
 
-const ActivityCard = ({ cardTitle, activities }: Props) => {
-  const icons = (_type: string): JSX.Element => {
-    switch (_type) {
-      case "Budget":
-        return <span className="material-icons">pie_chart</span>;
-      case "Inflow":
-        return <span className="material-icons">south</span>;
-      case "Outflow":
-        return <span className="material-icons">north</span>;
-      case "Savings":
-        return <span className="material-icons">savings</span>;
-      default:
-        return <></>;
-    }
-  };
+const icons = (_type: string): JSX.Element => {
+  switch (_type.toLowerCase()) {
+    case "budget":
+      return <span className="material-icons">pie_chart</span>;
+    case "inflow":
+      return <span className="material-icons">south</span>;
+    case "outflow":
+      return <span className="material-icons">north</span>;
+    case "savings":
+      return <span className="material-icons">savings</span>;
+    default:
+      return <></>;
+  }
+};
 
+
+const ActivityCard = ({ cardTitle, activities}: Props) => {
   return (
     <div className="activity-container">
       <div className="card">
@@ -55,10 +56,10 @@ const ActivityCard = ({ cardTitle, activities }: Props) => {
           <h2>{cardTitle}</h2>
         </div>
         <div className="activities">
-          {activities.map((activity, index) => {
+          {activities?.map(activity => {
             if (activity)
               return (
-                <div className={"activity " + activity?.modelType} key={index}>
+                <div className={"activity " + activity?.modelType} key={activity._id}>
                   <div className="icon-title-wrapper">
                     {icons(activity?.modelType)}
                     {activity?.modelType === "savings" ? (
@@ -92,6 +93,7 @@ const ActivityCard = ({ cardTitle, activities }: Props) => {
                   </div>
                 </div>
               );
+              return <></>
           })}
         </div>
       </div>

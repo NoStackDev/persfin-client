@@ -83,7 +83,7 @@
     }
   }
 
-  .budget-left,
+  .budget-balance,
   .budget-total {
     @include theme-aware("color", "budget-item-color");
     display: flex;

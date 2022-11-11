@@ -85,7 +85,7 @@ const DistributionChart = (props: Props) => {
     (async () => {
       try {
         const budgetArr = await getBudgets("636ac4a250bbc5afa6004a8c");
-        setBudgets(budgetArr?.data.data.budgets);
+        setBudgets(budgetArr);
       } catch (err: any) {
         console.log(err.message);
       }

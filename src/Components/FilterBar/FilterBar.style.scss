@@ -47,32 +47,6 @@
         }
       }
 
-      .duration-selector {
-        grid-column: 1 / -1;
-        display: flex;
-        justify-content: flex-start;
-
-        @include breakpoint("m") {
-          grid-column: 4/ -1;
-        }
-
-        input {
-          font-size: to-rem(18px);
-          @include theme-aware("background", "bg-color");
-          border: none;
-          @include theme-aware("color", "text-color");
-          padding: to-rem(2px);
-          border-radius: to-rem(12px);
-
-          &:hover {
-            cursor: pointer;
-          }
-        }
-        span {
-          font-size: to-rem(18px);
-        }
-      }
-
       .filter-tags {
         grid-column: 1 / -1;
         display: flex;
