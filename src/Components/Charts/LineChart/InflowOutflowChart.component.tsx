@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import DateFilterFixed from "../../DateFiter/DateFilterFixed";
 import getLabelsAndDataset from "./helper/getLabelsAndDataset";
 
@@ -15,7 +15,7 @@ import {
 } from "chart.js";
 
 import "./InflowOutflowChart.style.scss";
-import { getInflows, getOutflows } from "../../../Queries";
+import { FetchInflows, FetchOutflows } from "../../../Queries";
 
 interface rangeInterface {
   min: Date;
@@ -66,25 +66,25 @@ interface dataType {
 type Props = {};
 
 const InflowOutflowChart = (props: Props) => {
+  const userId = "636ac4a250bbc5afa6004a8c";
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
-  const [inflows, setInflows] = useState<Transaction[] | null>(null);
-  const [outflows, setOutflows] = useState<Transaction[] | null>(null);
 
-  useEffect(() => {
-    (async () => {
-      const inflowsArr = await getInflows("636ac4a250bbc5afa6004a8c");
-      const outflowsArr = await getOutflows("636ac4a250bbc5afa6004a8c");
-
-      setInflows(inflowsArr);
-      setOutflows(outflowsArr);
-    })();
-  }, []);
+  const {
+    isLoading: isLoadingInflowsData,
+    isSuccess: isSuccessInflowsData,
+    data: inflowsData,
+  } = FetchInflows(userId);
+  const {
+    isLoading: isLoadingOutflowsData,
+    isSuccess: isSuccessOutflowsData,
+    data: outflowsData,
+  } = FetchOutflows(userId);
 
   const { labels: labelsArr, data: dataArr } = useMemo(() => {
-    return getLabelsAndDataset([inflows, outflows], filterRange);
-  }, [inflows, outflows, filterRange]);
+    return getLabelsAndDataset([inflowsData, outflowsData], filterRange);
+  }, [inflowsData, outflowsData, filterRange]);
 
   const data: dataType = {
     labels: labelsArr,

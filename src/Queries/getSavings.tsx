@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useQuery } from "react-query";
 
 const getSavings = async (userId: string) => {
   try {
@@ -19,10 +20,13 @@ const getSavings = async (userId: string) => {
         },
       },
     });
-    return res.data.data.savings
+    return res.data.data.savings;
   } catch (err: any) {
     console.log(err.message);
   }
 };
 
-export default getSavings
+const FetchSavings = (userId: string) =>
+  useQuery(["savings"], () => getSavings(userId));
+
+export default FetchSavings;

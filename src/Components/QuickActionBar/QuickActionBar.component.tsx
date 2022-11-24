@@ -3,10 +3,10 @@ import React, { useEffect, useMemo, useState } from "react";
 import quickActions from "./quickActionBarConfig";
 import QuickActionCard from "./Components/QuickActionCard";
 import {
-  getInflows,
-  getOutflows,
-  getSavings,
-  getCategories,
+  FetchSavings,
+  FetchInflows,
+  FetchOutflows,
+  FetchCategories,
 } from "../../Queries";
 import { calculateBalance, calculateSavings, countCategories } from "./helper";
 
@@ -30,11 +30,11 @@ type Transaction = {
   createdAt: Date;
 };
 
-type Savings = {
-  _id: string;
-  amount: number;
-  time: string;
-};
+// type Savings = {
+//   _id: string;
+//   amount: number;
+//   time: string;
+// };
 
 type Category = {
   _id: string;
@@ -44,40 +44,43 @@ type Category = {
 };
 
 const QuickActionBar = (props: Props) => {
-  const [savings, setSavings] = useState<Savings[] | null>(null);
-  const [inflows, setInflows] = useState<Transaction[] | null>(null);
-  const [outflows, setOutflows] = useState<Transaction[] | null>(null);
-  const [categories, setCategories] = useState<Category[] | null>(null);
+  const userId = "636ac4a250bbc5afa6004a8c";
+
+  const {
+    isLoading: isLoadingSavingsData,
+    isSuccess: isSuccessSavingsData,
+    data: savingsData,
+  } = FetchSavings(userId);
+
+  const {
+    isLoading: isLoadingInflowsData,
+    isSuccess: isSuccessInflowsData,
+    data: inflowsData,
+  } = FetchInflows(userId);
+
+  const {
+    isLoading: isLoadingOutflowsData,
+    isSuccess: isSuccessOutflowsData,
+    data: outflowsData,
+  } = FetchOutflows(userId);
+
+  const {
+    isLoading: isLoadingCategoriesData,
+    isSuccess: isSuccessCategoriesData,
+    data: categoriesData,
+  } = FetchCategories(userId);
 
   const balance = useMemo(() => {
-    return calculateBalance(savings, inflows, outflows);
-  }, [savings, inflows, outflows]);
+    return calculateBalance(savingsData, inflowsData, outflowsData);
+  }, [savingsData, inflowsData, outflowsData]);
 
   const savingsTotal = useMemo(() => {
-    return calculateSavings(savings);
-  }, [savings]);
+    return calculateSavings(savingsData);
+  }, [savingsData]);
 
-  const {inflowCategories, outflowCategories} = useMemo(()=> {
-    return countCategories(categories)
-  }, [categories])
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const inflowsArr = await getInflows("636ac4a250bbc5afa6004a8c");
-        const outflowsArr = await getOutflows("636ac4a250bbc5afa6004a8c");
-        const savingsArr = await getSavings("636ac4a250bbc5afa6004a8c");
-        const categoriesArr = await getCategories("636ac4a250bbc5afa6004a8c");
-
-        setInflows(inflowsArr);
-        setOutflows(outflowsArr);
-        setSavings(savingsArr);
-        setCategories(categoriesArr);
-      } catch (err: any) {
-        console.log(err.message);
-      }
-    })();
-  }, []);
+  const { inflowCategories, outflowCategories } = useMemo(() => {
+    return countCategories(categoriesData);
+  }, [categoriesData]);
 
   const getAmount = (title: string) => {
     switch (title.toLowerCase().trim()) {
@@ -86,13 +89,13 @@ const QuickActionBar = (props: Props) => {
       case "savings":
         return savingsTotal;
       case "inflow":
-        return inflows;
+        return inflowsData;
       case "outflow":
-        return outflows;
+        return outflowsData;
       case "inflow categories":
-        return inflowCategories
+        return inflowCategories;
       case "outflow categories":
-        return outflowCategories
+        return outflowCategories;
       default:
         return 0;
     }

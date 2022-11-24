@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useQuery } from "react-query";
 
 const getBudgets = async (userId: string) => {
   try {
@@ -34,4 +35,9 @@ const getBudgets = async (userId: string) => {
   }
 };
 
-export default getBudgets;
+// export default getBudgets;
+
+const FetchBudgets = (userId: string) =>
+  useQuery(["budgets"], () => getBudgets(userId));
+
+export default FetchBudgets

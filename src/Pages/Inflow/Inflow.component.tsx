@@ -4,7 +4,7 @@ import DistributionChart from "../../Components/Charts/PieChart/DistributionChar
 
 import "./Inflow.style.scss";
 import { useEffect, useMemo, useState } from "react";
-import { getInflows } from "../../Queries";
+import { FetchInflows } from "../../Queries";
 import filterDate from "./helpers/filterDate";
 
 interface rangeInterface {
@@ -38,25 +38,21 @@ type Transaction = {
 type Props = {};
 
 const Inflow = (props: Props) => {
+  const userId = "636ac4a250bbc5afa6004a8c";
+
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
-  const [inflows, setInflows] = useState<Transaction[] | null>(null);
-  
-  const dateFiltered = useMemo(() => {
-    return filterDate(inflows, filterRange);
-  }, [inflows, filterRange]);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const inflowArr = await getInflows("636ac4a250bbc5afa6004a8c");
-        setInflows(inflowArr);
-      } catch (err: any) {
-        console.log(err.message);
-      }
-    })();
-  }, []);
+  const {
+    isLoading: isLoadingInflowsData,
+    isSuccess: isSuccessInflowsData,
+    data: inflowsData,
+  } = FetchInflows(userId);
+
+  const dateFiltered = useMemo(() => {
+    return filterDate(inflowsData, filterRange);
+  }, [inflowsData, filterRange]);
 
   return (
     <main>

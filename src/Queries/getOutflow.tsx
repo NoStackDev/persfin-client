@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useQuery } from "react-query";
 
 const getOutflows = async (userId: string) => {
   try {
@@ -33,4 +34,9 @@ const getOutflows = async (userId: string) => {
   }
 };
 
-export default getOutflows
+// export default getOutflows
+
+const FetchOutflows = (userId: string) =>
+  useQuery(["outflows"], () => getOutflows(userId));
+
+export default FetchOutflows

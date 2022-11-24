@@ -4,7 +4,7 @@ import ActivityCard from "../../Components/ActivityCard";
 import DistributionChart from "../../Components/Charts/PieChart";
 import { useEffect, useMemo, useState } from "react";
 import filterDate from "./helpers/filterDate";
-import { getSavings } from "../../Queries";
+import { FetchSavings } from "../../Queries";
 
 interface rangeInterface {
   min: Date;
@@ -30,22 +30,18 @@ const Savings = (props: Props) => {
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
-  const [outflows, setOutflows] = useState<SavingsType[] | null>(null);
+
+  const userId = "636ac4a250bbc5afa6004a8c";
+
+  const {
+    isLoading: isLoadingSavingsData,
+    isSuccess: isSuccessSavingsData,
+    data: savingsData,
+  } = FetchSavings(userId);
 
   const dateFiltered = useMemo(() => {
-    return filterDate(outflows, filterRange);
-  }, [outflows, filterRange]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const savingsArr = await getSavings("636ac4a250bbc5afa6004a8c");
-        setOutflows(savingsArr);
-      } catch (err: any) {
-        console.log(err.message);
-      }
-    })();
-  }, []);
+    return filterDate(savingsData, filterRange);
+  }, [savingsData, filterRange]);
 
   return (
     <main>

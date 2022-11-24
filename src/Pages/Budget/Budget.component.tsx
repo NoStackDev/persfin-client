@@ -4,7 +4,7 @@ import DistributionChart from "../../Components/Charts/PieChart/DistributionChar
 
 import "./Budget.style.scss";
 import { useEffect, useMemo, useState } from "react";
-import { getBudgets } from "../../Queries";
+import { FetchBudgets } from "../../Queries";
 import filterDate from "./helpers/filterDate";
 
 interface rangeInterface {
@@ -37,25 +37,21 @@ interface BudgetInterface {
 type Props = {};
 
 const Budget = (props: Props) => {
+  const userId = "636ac4a250bbc5afa6004a8c";
+
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
-  const [budgets, setBudgets] = useState<BudgetInterface[] | null>(null);
+
+  const {
+    isLoading: isLoadingBudgetsData,
+    isSuccess: isSuccessBudgetsData,
+    data: budgetsData,
+  } = FetchBudgets(userId);
 
   const dateFiltered = useMemo(() => {
-    return filterDate(budgets, filterRange);
-  }, [budgets, filterRange]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const budgetArr = await getBudgets("636ac4a250bbc5afa6004a8c");
-        setBudgets(budgetArr);
-      } catch (err: any) {
-        console.log(err.message);
-      }
-    })();
-  }, []);
+    return filterDate(budgetsData, filterRange);
+  }, [budgetsData, filterRange]);
 
   return (
     <main>

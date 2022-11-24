@@ -1,11 +1,11 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import DateFilterFixed from "../../DateFiter/DateFilterFixed";
 import getLabelsColorsDataset from "./helpers/getLabelsColorsData";
 
 import "./DistributionChart.style.scss";
-import { getBudgets } from "../../../Queries";
+import { FetchBudgets } from "../../../Queries";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -59,38 +59,34 @@ interface TimeRangeInterface {
 }
 
 const DistributionChart = (props: Props) => {
-  const [budgets, setBudgets] = useState<BudgetType[] | null>(null);
+  const userId = "636ac4a250bbc5afa6004a8c";
+
+  const {
+    isLoading: isLoadingBudgetData,
+    isSuccess: isSuccessBudgetData,
+    data: budgetsData,
+  } = FetchBudgets(userId);
+
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
 
-  const budgetsData = useMemo(() => {
-    return getLabelsColorsDataset(budgets, filterRange);
-  }, [budgets, filterRange]);
+  const budgetsDataset = useMemo(() => {
+    return getLabelsColorsDataset(budgetsData, filterRange);
+  }, [budgetsData, filterRange]);
 
   const data = {
-    labels: budgetsData.labels,
+    labels: budgetsDataset.labels,
     datasets: [
       {
         label: "",
-        data: budgetsData.totals,
-        backgroundColor: budgetsData.colors,
-        borderColor: budgetsData.colors,
+        data: budgetsDataset.totals,
+        backgroundColor: budgetsDataset.colors,
+        borderColor: budgetsDataset.colors,
         borderWidth: 1,
       },
     ],
   };
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const budgetArr = await getBudgets("636ac4a250bbc5afa6004a8c");
-        setBudgets(budgetArr);
-      } catch (err: any) {
-        console.log(err.message);
-      }
-    })();
-  }, []);
 
   return (
     <div className="distribution-chart-container">
@@ -103,16 +99,16 @@ const DistributionChart = (props: Props) => {
 
         <div className="bottom">
           <Pie data={data} options={options} />
-          {budgetsData.budgetDataset.map((budget, index) => {
+          {budgetsDataset.budgetDataset.map((budget, index) => {
             return (
               <div className="legend" key={index}>
                 <div>
                   <div className="legend-top">
                     <div
                       className="color"
-                      style={{ backgroundColor: budgetsData.colors[index] }}
+                      style={{ backgroundColor: budgetsDataset.colors[index] }}
                     ></div>
-                    <div className="text">{budgetsData.labels[index]}</div>
+                    <div className="text">{budgetsDataset.labels[index]}</div>
                   </div>
                   <div className="legend-bottom">
                     <div className="budgeted">

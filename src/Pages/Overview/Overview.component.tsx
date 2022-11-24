@@ -5,7 +5,7 @@ import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.c
 import DistributionChart from "../../Components/Charts/PieChart/DistributionChart.component";
 
 import "./Overview.style.scss";
-import { getInflows, getOutflows, getSavings } from "../../Queries";
+import { FetchSavings, FetchInflows, FetchOutflows } from "../../Queries";
 import collateData from "./helpers";
 
 type Props = {};
@@ -35,29 +35,27 @@ type Savings = {
 };
 
 const Overview = (props: Props) => {
-  const [inflows, setInflows] = useState<Transaction[] | null>(null);
-  const [outflows, setOutflows] = useState<Transaction[] | null>(null);
-  const [savings, setSavings] = useState<Savings[] | null>(null);
+  const userId = "636ac4a250bbc5afa6004a8c";
+  const {
+    isLoading: isLoadingInflowsData,
+    isSuccess: isSuccessInflowsData,
+    data: inflowsData,
+  } = FetchInflows(userId);
+  const {
+    isLoading: isLoadingOutflowsData,
+    isSuccess: isSuccessOutflowsData,
+    data: outflowsData,
+  } = FetchOutflows(userId);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const inflowsArr = await getInflows("636ac4a250bbc5afa6004a8c");
-        const outflowsArr = await getOutflows("636ac4a250bbc5afa6004a8c");
-        const savingsArr = await getSavings("636ac4a250bbc5afa6004a8c");
-
-        setInflows(inflowsArr);
-        setOutflows(outflowsArr);
-        setSavings(savingsArr);
-      } catch (err: any) {
-        console.log(err.message);
-      }
-    })();
-  }, []);
+  const {
+    isLoading: isLoadingSavingsData,
+    isSuccess: isSuccessSavingsData,
+    data: savingsData,
+  } = FetchSavings(userId);
 
   const data = useMemo(() => {
-    return collateData([inflows, outflows, savings]);
-  }, [inflows, outflows, savings]);
+    return collateData([inflowsData, outflowsData, savingsData]);
+  }, [inflowsData, outflowsData, savingsData]);
 
   return (
     <main>

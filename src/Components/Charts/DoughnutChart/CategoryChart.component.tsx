@@ -1,7 +1,7 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
-import { getInflows, getOutflows } from "../../../Queries";
+import { FetchInflows, FetchOutflows } from "../../../Queries";
 import CategorySelector from "../../CategorySelector";
 import DateFilterFixed from "../../DateFiter/DateFilterFixed";
 
@@ -57,25 +57,27 @@ const options = {
 type Props = {};
 
 const CategoryChart = (props: Props) => {
-  const [inflows, setInflows] = useState<Transaction[] | null>(null);
-  const [outflows, setOutflows] = useState<Transaction[] | null>(null);
+  const userId = "636ac4a250bbc5afa6004a8c";
+
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
   const [selectedCategory, setSelectedCategory] = useState<string>("Outflow");
+  const {
+    isLoading: isLoadingInflowsData,
+    isSuccess: isSuccessInflowsData,
+    data: inflowsData,
+  } = FetchInflows(userId);
 
-  useEffect(() => {
-    (async () => {
-      const inflowArr = await getInflows("636ac4a250bbc5afa6004a8c");
-      const outflowArr = await getOutflows("636ac4a250bbc5afa6004a8c");
-      setInflows(inflowArr);
-      setOutflows(outflowArr);
-    })();
-  }, []);
+  const {
+    isLoading: isLoadingOutflowsData,
+    isSuccess: isSuccessOutflowsData,
+    data: outflowsData,
+  } = FetchOutflows(userId);
 
   const { inflow: inflowData, outflow: outflowData } = useMemo(() => {
-    return getLabelsColorsDataset([inflows, outflows], filterRange);
-  }, [inflows, outflows, filterRange]);
+    return getLabelsColorsDataset([inflowsData, outflowsData], filterRange);
+  }, [inflowsData, outflowsData, filterRange]);
 
   const selectedData =
     selectedCategory.toLowerCase() === "inflow" ? inflowData : outflowData;

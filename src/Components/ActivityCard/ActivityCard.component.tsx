@@ -29,7 +29,7 @@ type Savings = {
 
 type Props = {
   cardTitle: string;
-  activities: Array<Tr | Savings | null>|null;
+  activities: Array<Tr | Savings | null> | null;
 };
 
 const icons = (_type: string): JSX.Element => {
@@ -47,8 +47,7 @@ const icons = (_type: string): JSX.Element => {
   }
 };
 
-
-const ActivityCard = ({ cardTitle, activities}: Props) => {
+const ActivityCard = ({ cardTitle, activities }: Props) => {
   return (
     <div className="activity-container">
       <div className="card">
@@ -56,10 +55,13 @@ const ActivityCard = ({ cardTitle, activities}: Props) => {
           <h2>{cardTitle}</h2>
         </div>
         <div className="activities">
-          {activities?.map(activity => {
+          {activities?.map((activity, index) => {
             if (activity)
               return (
-                <div className={"activity " + activity?.modelType} key={activity._id}>
+                <div
+                  className={"activity " + activity?.modelType}
+                  key={activity._id}
+                >
                   <div className="icon-title-wrapper">
                     {icons(activity?.modelType)}
                     {activity?.modelType === "savings" ? (
@@ -93,7 +95,7 @@ const ActivityCard = ({ cardTitle, activities}: Props) => {
                   </div>
                 </div>
               );
-              return <></>
+            return <div key={index}></div>;
           })}
         </div>
       </div>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useQuery } from "react-query";
 
 const getCategories = async (userId: string) => {
   try {
@@ -25,4 +26,10 @@ const getCategories = async (userId: string) => {
   }
 };
 
-export default getCategories;
+// export default getCategories;
+
+
+const FetchCategories = (userId: string) =>
+  useQuery(["categories"], () => getCategories(userId));
+
+export default FetchCategories
