@@ -1,0 +1,13 @@
+@import "../../../../Assets/Styles/functions";
+@import "../../../../Assets/Styles/mixins";
+@import "../../../../Assets/Styles/themes";
+
+#modal-container {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background: hsla(0, 0, 0, 0.4);
+  backdrop-filter: blur(1px);
+}

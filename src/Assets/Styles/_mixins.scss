@@ -21,17 +21,17 @@
 }
 
 @mixin h1-bold {
-  font-size: to-rem(32px);
+  font-size: to-rem(36px);
   font-weight: $bold;
 }
 
 @mixin h1-semiBold {
-  font-size: to-rem(32px);
+  font-size: to-rem(36px);
   font-weight: $semiBold;
 }
 
 @mixin h1-regular {
-  font-size: to-rem(32px);
+  font-size: to-rem(36px);
   font-weight: $regular;
 }
 

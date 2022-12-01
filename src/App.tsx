@@ -6,6 +6,7 @@ import QuickActionBar from "./Components/QuickActionBar";
 
 import "./Assets/Styles/main.scss";
 import { Outlet } from "react-router-dom";
+import Modal from "./Components/Modal";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,6 +28,7 @@ function App() {
           <QuickActionBar />
           <Outlet />
         </div>
+        <Modal/>
       </div>
     </QueryClientProvider>
   );
