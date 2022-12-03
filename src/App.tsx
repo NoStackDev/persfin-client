@@ -28,7 +28,6 @@ function App() {
           <QuickActionBar />
           <Outlet />
         </div>
-        <Modal/>
       </div>
     </QueryClientProvider>
   );

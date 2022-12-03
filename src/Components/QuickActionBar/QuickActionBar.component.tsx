@@ -30,12 +30,6 @@ type Transaction = {
   createdAt: Date;
 };
 
-// type Savings = {
-//   _id: string;
-//   amount: number;
-//   time: string;
-// };
-
 type Category = {
   _id: string;
   title: string;
@@ -108,6 +102,7 @@ const QuickActionBar = (props: Props) => {
           {quickActions.map((quickAction, index) => {
             return (
               <QuickActionCard
+                id={quickAction.id}
                 icon={quickAction.icon}
                 title={quickAction.title}
                 showCurrency={quickAction.showCurrency}

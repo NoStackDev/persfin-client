@@ -1,4 +1,5 @@
 export interface quickActionInterface {
+  id: number;
   icon: string;
   title: string;
   showCurrency: boolean;
@@ -9,6 +10,7 @@ export interface quickActionInterface {
 
 const quickActions: quickActionInterface[] = [
   {
+    id: 0,
     icon: "account_balance_wallet",
     title: "Balance",
     showCurrency: true,
@@ -17,6 +19,7 @@ const quickActions: quickActionInterface[] = [
     hasFixedDateFilter: false,
   },
   {
+    id: 1,
     icon: "savings",
     title: "Savings",
     showCurrency: true,
@@ -25,6 +28,7 @@ const quickActions: quickActionInterface[] = [
     hasFixedDateFilter: false,
   },
   {
+    id: 2,
     icon: "south",
     title: "Inflow",
     showCurrency: true,
@@ -33,6 +37,7 @@ const quickActions: quickActionInterface[] = [
     hasFixedDateFilter: true,
   },
   {
+    id: 3,
     icon: "north",
     title: "Outflow",
     showCurrency: true,
@@ -41,20 +46,22 @@ const quickActions: quickActionInterface[] = [
     hasFixedDateFilter: true,
   },
   {
+    id: 4,
     icon: "category",
     title: "Inflow Categories",
     showCurrency: false,
     hasBtn: true,
     btnText: "Add Category",
-    hasFixedDateFilter: false
+    hasFixedDateFilter: false,
   },
   {
+    id: 5,
     icon: "category",
     title: "Outflow Categories",
     showCurrency: false,
     hasBtn: true,
     btnText: "Add Category",
-    hasFixedDateFilter: false
+    hasFixedDateFilter: false,
   },
 ];
 

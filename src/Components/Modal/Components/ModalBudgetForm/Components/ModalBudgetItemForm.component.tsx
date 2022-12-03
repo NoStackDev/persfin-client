@@ -1,9 +1,11 @@
 import { useState } from "react";
-import "./ModalTransactionForm.style.scss";
+import "./ModalBudgetItemForm.style.scss";
 
-type Props = {};
+type Props = {
+  setShowBudgetItemModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const ModalTransactionForm = (props: Props) => {
+const ModalBudgetItemForm = (props: Props) => {
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<string>("0");
   const [category, setCategory] = useState<string>("Option 1");
@@ -13,7 +15,7 @@ const ModalTransactionForm = (props: Props) => {
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    console.log(e.target);
+    props.setShowBudgetItemModal(false)
   };
 
   const onCategoryChange = (
@@ -24,9 +26,9 @@ const ModalTransactionForm = (props: Props) => {
   };
 
   return (
-    <div id="modal-transaction-form">
+    <div id="modal-budget-item-form">
       <form>
-        <h2>Transaction</h2>
+        <h2>Budget Item</h2>
         <div className="form-body">
           <div className="title">
             <label htmlFor="title">Title</label>
@@ -94,4 +96,4 @@ const ModalTransactionForm = (props: Props) => {
   );
 };
 
-export default ModalTransactionForm;
+export default ModalBudgetItemForm;

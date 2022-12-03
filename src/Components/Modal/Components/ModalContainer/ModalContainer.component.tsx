@@ -3,7 +3,7 @@ type Props = {}
 
 const ModalContainer = (props: Props) => {
   return (
-    <div id="modal-container">ModalContainer.component</div>
+    <div id="modal-container"></div>
   )
 }
 

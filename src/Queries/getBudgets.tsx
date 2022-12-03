@@ -35,7 +35,6 @@ const getBudgets = async (userId: string) => {
   }
 };
 
-// export default getBudgets;
 
 const FetchBudgets = (userId: string) =>
   useQuery(["budgets"], () => getBudgets(userId));

@@ -1,14 +1,17 @@
 import { useState } from "react";
 import "./ModalCategoryForm.style.scss";
-type Props = {};
+type Props = {
+  categoryType: string;
+  setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const ModalCategoryForm = (props: Props) => {
+const ModalCategoryForm = ({ categoryType, setShowMainModal }: Props) => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    console.log(e.target);
+    setShowMainModal(false);
   };
 
   return (
@@ -26,7 +29,7 @@ const ModalCategoryForm = (props: Props) => {
           </div>
           <div className="category-type">
             <label htmlFor="">Category Type</label>
-            <input type="text" value="Inflow Category" readOnly />
+            <input type="text" value={categoryType} readOnly />
           </div>
           <div className="description">
             <label htmlFor="description">Description</label>

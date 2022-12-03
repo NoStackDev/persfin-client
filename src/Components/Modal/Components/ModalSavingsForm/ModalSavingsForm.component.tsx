@@ -1,14 +1,16 @@
 import { useState } from "react";
 import "./ModalSavingsForm.style.scss";
 
-type Props = {};
+type Props = {
+  setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const ModalSavingsForm = (props: Props) => {
+const ModalSavingsForm = ({ setShowMainModal }: Props) => {
   const [amount, setAmount] = useState<number>(0);
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    console.log(amount);
+    setShowMainModal(false);
   };
 
   return (

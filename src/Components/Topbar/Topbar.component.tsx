@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FetchBudgets, FetchCategories, FetchInflows, FetchOutflows, FetchSavings, FetchUser } from "../../Queries";
+import {
+  FetchBudgets,
+  FetchCategories,
+  FetchInflows,
+  FetchOutflows,
+  FetchSavings,
+  FetchUser,
+} from "../../Queries";
 
 import "./Topbar.style.scss";
 
@@ -23,10 +30,10 @@ const Topbar = (props: Props) => {
   } = FetchUser(userId);
 
   FetchSavings(userId);
-  FetchInflows(userId)
-  FetchOutflows(userId)
-  FetchCategories(userId)
-  FetchBudgets(userId)
+  FetchInflows(userId);
+  FetchOutflows(userId);
+  FetchCategories(userId);
+  FetchBudgets(userId);
 
   useEffect(() => {
     const interval = setInterval(() => {

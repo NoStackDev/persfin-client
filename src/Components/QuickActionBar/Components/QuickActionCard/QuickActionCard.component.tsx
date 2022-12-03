@@ -3,8 +3,10 @@ import React, { useEffect, useMemo, useState } from "react";
 import DateFilterFixed from "../../../DateFiter/DateFilterFixed";
 import "./QuickActionCard.style.scss";
 import calculateFilteredAmount from "./helper";
+import Modal from "../../../Modal";
 
 type Props = {
+  id: number;
   icon: string;
   title: string;
   showCurrency: boolean;
@@ -42,6 +44,7 @@ interface TimeRangeInterface {
 }
 
 const QuickActionCard = ({
+  id,
   title,
   icon,
   showCurrency,
@@ -61,6 +64,9 @@ const QuickActionCard = ({
     () => calculateFilteredAmount(filteredDataArr),
     [filteredDataArr]
   );
+
+  const [showMainModal, setShowMainModal] = useState<boolean>(false);
+  const [quickActionId, setQuickActionId] = useState<number|null>(null)
 
   useEffect(() => {
     if (typeof amount === "object" && filterRange) {
@@ -82,30 +88,44 @@ const QuickActionCard = ({
 
   const filteredAmount = typeof amount === "number" ? amount : filteredTotal;
 
+  const onButtonClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    id: number
+  ) => {
+    setQuickActionId(id)
+    setShowMainModal(true);
+  };
+
   return (
-    <div className={"card " + title.toLowerCase()}>
-      <div className="card-top">
-        <div className={"icon-wrapper " + title.toLowerCase()}>
-          <span className="material-icons ">{icon}</span>
+    <>
+      <div className={"card " + title.toLowerCase()}>
+        <div className="card-top">
+          <div className={"icon-wrapper " + title.toLowerCase()}>
+            <span className="material-icons ">{icon}</span>
+          </div>
+          {hasFixedDateFilter ? (
+            <DateFilterFixed setFilterRange={setFilterRange} />
+          ) : null}
         </div>
-        {hasFixedDateFilter ? (
-          <DateFilterFixed setFilterRange={setFilterRange} />
+
+        <div className="action-info">
+          <h2>{title}</h2>
+          <h3 className="amount">
+            {showCurrency ? <>&#x20A6;</> : null}{" "}
+            {new Intl.NumberFormat().format(filteredAmount)}
+          </h3>
+        </div>
+        {hasBtn ? (
+          <button
+            className={title.toLowerCase()}
+            onClick={(e) => onButtonClick(e, id)}
+          >
+            {btnText}
+          </button>
         ) : null}
       </div>
-
-      <div className="action-info">
-        <h2>{title}</h2>
-        <h3 className="amount">
-          {showCurrency ? <>&#x20A6;</> : null}{" "}
-          {new Intl.NumberFormat().format(filteredAmount)}
-        </h3>
-      </div>
-      {hasBtn ? (
-        <button className={title.toLowerCase()}>{btnText}</button>
-      ) : (
-        <></>
-      )}
-    </div>
+      {showMainModal ? <Modal quickActionId={quickActionId} setShowMainModal={setShowMainModal}/> : null}
+    </>
   );
 };
 
