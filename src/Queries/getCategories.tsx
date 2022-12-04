@@ -26,10 +26,7 @@ const getCategories = async (userId: string) => {
   }
 };
 
-// export default getCategories;
-
-
 const FetchCategories = (userId: string) =>
   useQuery(["categories"], () => getCategories(userId));
 
-export default FetchCategories
+export default FetchCategories;

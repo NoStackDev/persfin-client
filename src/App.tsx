@@ -6,14 +6,13 @@ import QuickActionBar from "./Components/QuickActionBar";
 
 import "./Assets/Styles/main.scss";
 import { Outlet } from "react-router-dom";
-import Modal from "./Components/Modal";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
       refetchOnMount: false,
-      cacheTime: 1000*60*60*24,
+      cacheTime: 1000 * 60 * 60 * 24,
     },
   },
 });

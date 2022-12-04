@@ -4,6 +4,8 @@ import DateFilterFixed from "../../../DateFiter/DateFilterFixed";
 import "./QuickActionCard.style.scss";
 import calculateFilteredAmount from "./helper";
 import Modal from "../../../Modal";
+import { CreateSavings } from "../../../../Mutations";
+import Spinner  from "../../../Spinners";
 
 type Props = {
   id: number;
@@ -59,14 +61,26 @@ const QuickActionCard = ({
   const [filteredDataArr, setFilteredDataArr] = useState<Transaction[] | null>(
     null
   );
+  const [showMainModal, setShowMainModal] = useState<boolean>(false);
+  const [quickActionId, setQuickActionId] = useState<number | null>(null);
+  const [showSpinner, setShowSpinner] = useState<boolean>(true);
+
+  // mutations
+  const {
+    mutate: mutateSavings,
+    isError: isErrorSavings,
+    isLoading: isLoadingSavings,
+    isSuccess: isSuccessSavings,
+  } = CreateSavings();
+
+  const mutations = {
+    1: mutateSavings,
+  };
 
   const filteredTotal = useMemo(
     () => calculateFilteredAmount(filteredDataArr),
     [filteredDataArr]
   );
-
-  const [showMainModal, setShowMainModal] = useState<boolean>(false);
-  const [quickActionId, setQuickActionId] = useState<number|null>(null)
 
   useEffect(() => {
     if (typeof amount === "object" && filterRange) {
@@ -92,9 +106,13 @@ const QuickActionCard = ({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     id: number
   ) => {
-    setQuickActionId(id)
+    setQuickActionId(id);
     setShowMainModal(true);
   };
+
+  console.log("isLoading: ", isLoadingSavings);
+  console.log("isError: ", isErrorSavings);
+  console.log("isSuccess: ", isSuccessSavings);
 
   return (
     <>
@@ -124,7 +142,14 @@ const QuickActionCard = ({
           </button>
         ) : null}
       </div>
-      {showMainModal ? <Modal quickActionId={quickActionId} setShowMainModal={setShowMainModal}/> : null}
+      {showMainModal ? (
+        <Modal
+          quickActionId={quickActionId}
+          setShowMainModal={setShowMainModal}
+          mutations={mutations}
+        />
+      ) : null}
+      {showSpinner ? <Spinner /> : null}
     </>
   );
 };

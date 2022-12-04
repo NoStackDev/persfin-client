@@ -1,0 +1,38 @@
+@import "../../Assets/Styles/mixins";
+@import "../../Assets/Styles/functions";
+@import "../../Assets/Styles/themes";
+
+#spinner-container {
+  position: fixed;
+  top: to-rem(15px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: to-rem(20px);
+
+  #spinner {
+    border-top: to-rem(3px) solid;
+    height: to-rem(20px);
+    width: to-rem(20px);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  &.loading {
+    @include theme-aware('background', 'bg-color');
+    padding: to-rem(3px) to-rem(8px);
+    border-radius: to-rem(12px);
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
