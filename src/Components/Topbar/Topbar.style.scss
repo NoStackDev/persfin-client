@@ -14,9 +14,9 @@
   @include breakpoint("m") {
     grid-template-columns: repeat(3, 1fr);
     grid-column: 2 / 3;
-    margin-inline: to-rem(20px);
-    margin-top: to-rem(20px);
-    border-radius: to-rem(12px);
+    // margin-inline: to-rem(20px);
+    // margin-top: to-rem(20px);
+    // border-radius: to-rem(12px);
   }
 
   .leftTopbar {

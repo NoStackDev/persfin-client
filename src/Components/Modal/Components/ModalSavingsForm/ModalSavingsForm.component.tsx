@@ -15,7 +15,14 @@ const ModalSavingsForm = ({ setShowMainModal, mutate }: Props) => {
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     mutate({ userId, amount });
-    setShowMainModal(false)
+    setShowMainModal(false);
+  };
+
+  const onAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (isNaN(Number(e.target.value))) {
+      return;
+    }
+    setAmount(Number(e.target.value));
   };
 
   return (
@@ -27,7 +34,7 @@ const ModalSavingsForm = ({ setShowMainModal, mutate }: Props) => {
             <label htmlFor="title">Amount</label>
             <input
               type="text"
-              onChange={(e) => setAmount(Number(e.target.value))}
+              onChange={(e) => onAmountChange(e)}
               value={amount}
             />
           </div>

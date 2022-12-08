@@ -26,7 +26,6 @@ interface TimeRangeInterface {
   range(): rangeInterface;
 }
 
-
 const filterData = (
   data: Transaction[] | null,
   filterRange: TimeRangeInterface
@@ -48,17 +47,25 @@ const filterData = (
   return filteredData;
 };
 
-
 const generateLabelsAmount = (data: Transaction[] | null) => {
   if (data) {
     const labelAmount: Record<string, number> = {};
     data.map((ele) => {
+      if (!ele.category) {
+        if (typeof labelAmount["Others"] === "number") {
+          labelAmount["Others"] += ele.amount;
+          return ele;
+        }
+        labelAmount["Others"] = 0;
+        return ele;
+      }
+
       if (typeof labelAmount[ele.category.title] === "number") {
         labelAmount[ele.category.title] += ele.amount;
-        return ele
+        return ele;
       } else {
         labelAmount[ele.category.title] = ele.amount;
-        return ele
+        return ele;
       }
     });
     return labelAmount;
@@ -136,6 +143,7 @@ const getLabelsColorsDataset = (
     outflow.labels = Object.keys(outflowLabelsAmount);
     outflow.amount = Object.values(outflowLabelsAmount);
   }
+
 
   return { inflow, outflow };
 };

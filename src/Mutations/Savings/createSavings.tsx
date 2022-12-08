@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 const AddSavings = async (userId: string, amount: number) => {
   try {
@@ -25,18 +25,25 @@ const AddSavings = async (userId: string, amount: number) => {
         },
       },
     });
-    return res.data.data.savings
+    return res.data.data.savings;
   } catch (err: any) {
     console.log(err.message);
   }
 };
 
-type args = {
+type Args = {
   userId: string;
   amount: number;
 };
 
-const CreateSavings = () =>
-  useMutation({ mutationFn: ({userId, amount}: args) => AddSavings(userId, amount) });
+const CreateSavings = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ userId, amount }: Args) => AddSavings(userId, amount),
+    onSuccess: () => {
+      queryClient.invalidateQueries("savings");
+    },
+  });
+};
 
 export default CreateSavings;

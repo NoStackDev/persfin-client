@@ -1,28 +1,46 @@
 import { useState } from "react";
 import "./ModalInflowForm.style.scss";
+import { UseMutateFunction } from "react-query";
+import { FetchCategories } from "../../../../Queries";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
+  mutate: UseMutateFunction<any, unknown, any, unknown>;
 };
 
-const ModalInflowForm = ({setShowMainModal}: Props) => {
+const ModalInflowForm = ({ setShowMainModal, mutate }: Props) => {
   const [title, setTitle] = useState<string>("");
-  const [amount, setAmount] = useState<string>("0");
-  const [category, setCategory] = useState<string>("Option 1");
+  const [amount, setAmount] = useState<number>(0);
+  const [categoryId, setCategoryId] = useState<string | null>(null);
+  const [category, setCategory] = useState<string>("Others");
   const [description, setDescription] = useState<string>("");
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
 
+  const userId = "636ac4a250bbc5afa6004a8c";
+
+  const { data: categoryData } = FetchCategories(userId);
+  console.log(categoryData);
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    setShowMainModal(false)
+    mutate({ userId, title, amount, category: categoryId, description });
+    setShowMainModal(false);
   };
 
   const onCategoryChange = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    id: string | null
   ) => {
+    setCategoryId(id);
     setCategory(e.currentTarget.innerText.trim());
     setShowCategoryOptions(!showCategoryOptions);
+  };
+
+  const onAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (isNaN(Number(e.target.value))) {
+      return;
+    }
+    setAmount(Number(e.target.value));
   };
 
   return (
@@ -42,7 +60,7 @@ const ModalInflowForm = ({setShowMainModal}: Props) => {
             <label htmlFor="amount">amount</label>
             <input
               type="text"
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => onAmountChange(e)}
               value={amount}
             />
           </div>
@@ -59,22 +77,25 @@ const ModalInflowForm = ({setShowMainModal}: Props) => {
             >
               <div
                 className="category-options"
-                onClick={(e) => onCategoryChange(e)}
+                onClick={(e) => onCategoryChange(e, null)}
               >
-                Option 1
+                Others
               </div>
-              <div
-                className="category-options"
-                onClick={(e) => onCategoryChange(e)}
-              >
-                Option 2
-              </div>
-              <div
-                className="category-options"
-                onClick={(e) => onCategoryChange(e)}
-              >
-                Option 3
-              </div>
+
+              {categoryData.map(
+                (ele: { title: string; _id: string; categoryType: string }) => {
+                  if (ele.categoryType === "inflow")
+                    return (
+                      <div
+                        className="category-options"
+                        onClick={(e) => onCategoryChange(e, ele._id)}
+                        key={ele._id}
+                      >
+                        {ele.title}
+                      </div>
+                    );
+                }
+              )}
             </div>
           </div>
           <div className="description">
@@ -89,7 +110,7 @@ const ModalInflowForm = ({setShowMainModal}: Props) => {
           </div>
         </div>
         <button type="submit" onClick={(e) => onSubmit(e)}>
-          Add Transaction
+          Add Inflow
         </button>
       </form>
     </div>

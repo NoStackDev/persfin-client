@@ -161,6 +161,10 @@ nav {
     align-items: center;
     gap: to-rem(20px);
 
+    .logout {
+      min-width: max-content;
+    }
+
     &:hover {
       color: blue;
       cursor: pointer;

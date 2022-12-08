@@ -7,36 +7,33 @@ import ModalSavingsForm from "./Components/ModalSavingsForm";
 
 import "./Modal.style.scss";
 import ModalBudgetForm from "./Components/ModalBudgetForm";
-import { CreateSavings } from "../../Mutations";
 import { UseMutateFunction } from "react-query";
 
 type Props = {
   quickActionId: number | null;
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
-  // mutate: UseMutateFunction<any, unknown, any, unknown>;
-  mutations: Record<string, UseMutateFunction<any, unknown, any, unknown>>
+  mutate: UseMutateFunction<any, unknown, any, unknown>| null;
 };
 
 interface GetFormArgs {
   quickActionId: number | null;
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
-  // mutate: UseMutateFunction<any, unknown, any, unknown>;
-  mutations: Record<string, UseMutateFunction<any, unknown, any, unknown>>
+  mutate: UseMutateFunction<any, unknown, any, unknown>|null;
 }
 
-const getForm = ({ quickActionId, setShowMainModal, mutations }: GetFormArgs) => {
-  if (!quickActionId) {
+const getForm = ({ quickActionId, setShowMainModal, mutate }: GetFormArgs) => {
+  if (!quickActionId || !mutate ) {
     return null;
   }
   switch (quickActionId) {
     case 1:
       return (
-        <ModalSavingsForm setShowMainModal={setShowMainModal} mutate={mutations["1"]} />
+        <ModalSavingsForm setShowMainModal={setShowMainModal} mutate={mutate} />
       );
-    // case 2:
-    //   return (
-    //     <ModalInflowForm setShowMainModal={setShowMainModal} mutate={mutate} />
-    //   );
+    case 2:
+      return (
+        <ModalInflowForm setShowMainModal={setShowMainModal} mutate={mutate} />
+      );
     // case 3:
     //   return (
     //     <ModalOutflowForm setShowMainModal={setShowMainModal} mutate={mutate} />
@@ -64,13 +61,12 @@ const getForm = ({ quickActionId, setShowMainModal, mutations }: GetFormArgs) =>
   }
 };
 
-const Modal = ({ quickActionId, setShowMainModal, mutations }: Props) => {
-
+const Modal = ({ quickActionId, setShowMainModal, mutate }: Props) => {
 
   return (
     <section id="modal">
       <ModalContainer />
-      {getForm({ quickActionId, setShowMainModal, mutations })}
+      {getForm({ quickActionId, setShowMainModal, mutate })}
     </section>
   );
 };

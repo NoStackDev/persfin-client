@@ -3,9 +3,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import DateFilterFixed from "../../../DateFiter/DateFilterFixed";
 import "./QuickActionCard.style.scss";
 import calculateFilteredAmount from "./helper";
-import Modal from "../../../Modal";
-import { CreateSavings } from "../../../../Mutations";
-import Spinner  from "../../../Spinners";
 
 type Props = {
   id: number;
@@ -15,7 +12,9 @@ type Props = {
   amount: number | Transaction[] | null;
   hasBtn: boolean;
   btnText: string | null;
+  setSelectedFormId: React.Dispatch<React.SetStateAction<number | null>>;
   hasFixedDateFilter: boolean;
+  setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type Transaction = {
@@ -53,7 +52,9 @@ const QuickActionCard = ({
   amount,
   hasBtn,
   btnText,
+  setSelectedFormId,
   hasFixedDateFilter,
+  setShowMainModal,
 }: Props) => {
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
@@ -61,21 +62,6 @@ const QuickActionCard = ({
   const [filteredDataArr, setFilteredDataArr] = useState<Transaction[] | null>(
     null
   );
-  const [showMainModal, setShowMainModal] = useState<boolean>(false);
-  const [quickActionId, setQuickActionId] = useState<number | null>(null);
-  const [showSpinner, setShowSpinner] = useState<boolean>(true);
-
-  // mutations
-  const {
-    mutate: mutateSavings,
-    isError: isErrorSavings,
-    isLoading: isLoadingSavings,
-    isSuccess: isSuccessSavings,
-  } = CreateSavings();
-
-  const mutations = {
-    1: mutateSavings,
-  };
 
   const filteredTotal = useMemo(
     () => calculateFilteredAmount(filteredDataArr),
@@ -106,51 +92,37 @@ const QuickActionCard = ({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     id: number
   ) => {
-    setQuickActionId(id);
+    setSelectedFormId(id);
     setShowMainModal(true);
   };
 
-  console.log("isLoading: ", isLoadingSavings);
-  console.log("isError: ", isErrorSavings);
-  console.log("isSuccess: ", isSuccessSavings);
-
   return (
-    <>
-      <div className={"card " + title.toLowerCase()}>
-        <div className="card-top">
-          <div className={"icon-wrapper " + title.toLowerCase()}>
-            <span className="material-icons ">{icon}</span>
-          </div>
-          {hasFixedDateFilter ? (
-            <DateFilterFixed setFilterRange={setFilterRange} />
-          ) : null}
+    <div className={"card " + title.toLowerCase()}>
+      <div className="card-top">
+        <div className={"icon-wrapper " + title.toLowerCase()}>
+          <span className="material-icons ">{icon}</span>
         </div>
-
-        <div className="action-info">
-          <h2>{title}</h2>
-          <h3 className="amount">
-            {showCurrency ? <>&#x20A6;</> : null}{" "}
-            {new Intl.NumberFormat().format(filteredAmount)}
-          </h3>
-        </div>
-        {hasBtn ? (
-          <button
-            className={title.toLowerCase()}
-            onClick={(e) => onButtonClick(e, id)}
-          >
-            {btnText}
-          </button>
+        {hasFixedDateFilter ? (
+          <DateFilterFixed setFilterRange={setFilterRange} />
         ) : null}
       </div>
-      {showMainModal ? (
-        <Modal
-          quickActionId={quickActionId}
-          setShowMainModal={setShowMainModal}
-          mutations={mutations}
-        />
+
+      <div className="action-info">
+        <h2>{title}</h2>
+        <h3 className="amount">
+          {showCurrency ? <>&#x20A6;</> : null}{" "}
+          {new Intl.NumberFormat().format(filteredAmount)}
+        </h3>
+      </div>
+      {hasBtn ? (
+        <button
+          className={title.toLowerCase()}
+          onClick={(e) => onButtonClick(e, id)}
+        >
+          {btnText}
+        </button>
       ) : null}
-      {showSpinner ? <Spinner /> : null}
-    </>
+    </div>
   );
 };
 

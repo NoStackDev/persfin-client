@@ -7,24 +7,43 @@
   top: to-rem(15px);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 5;
+  z-index: 6;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: to-rem(20px);
+  gap: to-rem(10px);
+  padding: to-rem(5px) to-rem(10px);
+  border-radius: to-rem(12px);
 
   #spinner {
     border-top: to-rem(3px) solid;
-    height: to-rem(20px);
-    width: to-rem(20px);
+    height: to-rem(15px);
+    width: to-rem(15px);
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
 
   &.loading {
-    @include theme-aware('background', 'bg-color');
-    padding: to-rem(3px) to-rem(8px);
-    border-radius: to-rem(12px);
+    @include theme-aware("background", "bg-color");
+    color: #fff;
+  }
+
+  &.error {
+    @include theme-aware("background", "outflow-color");
+    color: #fff;
+
+    #spinner {
+      display: none;
+    }
+  }
+
+  &.success {
+    @include theme-aware("background", "inflow-color");
+    color: #fff;
+
+    #spinner {
+      display: none;
+    }
   }
 
   @keyframes spin {
