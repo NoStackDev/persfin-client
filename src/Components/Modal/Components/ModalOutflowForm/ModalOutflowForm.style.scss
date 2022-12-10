@@ -128,15 +128,15 @@
 
     .budget-item {
       z-index: 1;
-
-      .limit {
-        font-size: to-rem(16px);
-        padding-top: to-rem(5px);
-        display: flex;
-        justify-content: space-between;
-      }
     }
 
+    .limit {
+      font-size: to-rem(16px);
+      padding-top: to-rem(5px);
+      display: flex;
+      justify-content: space-between;
+    }
+    
     button {
       //   color: hsl(0, 0%, 100%);
       @include theme-aware("color", "btn-text-color");

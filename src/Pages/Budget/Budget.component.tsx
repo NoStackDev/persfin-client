@@ -32,6 +32,7 @@ interface BudgetInterface {
     category: string;
   }[];
   modelType: string;
+  completed: boolean;
 }
 
 type Props = {};

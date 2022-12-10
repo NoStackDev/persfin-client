@@ -1,16 +1,47 @@
 import { useState } from "react";
+import { UseMutateFunction } from "react-query";
+import { FetchBudgets, FetchCategories } from "../../../../Queries";
 import "./ModalOutflowForm.style.scss";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
+  mutate: UseMutateFunction<any, unknown, any, unknown>;
 };
 
-const ModalOutflowForm = ({ setShowMainModal }: Props) => {
+interface BudgetInterface {
+  _id: string;
+  title: string;
+  balance: number;
+  total: number;
+  time: string;
+  items: BudgetItems[];
+  modelType: string;
+  completed: boolean;
+}
+
+interface BudgetItems {
+  _id: string;
+  title: string;
+  amount: number;
+  balance: number;
+  category: string;
+}
+
+interface CategoryInterface {
+  _id: string;
+  title: string;
+  categoryType: string;
+}
+
+const ModalOutflowForm = ({ setShowMainModal, mutate }: Props) => {
   const [title, setTitle] = useState<string>("");
-  const [amount, setAmount] = useState<string>("0");
-  const [category, setCategory] = useState<string>("Option 1");
-  const [budget, setBudget] = useState<string>("unbudgeted");
-  const [budgetItem, setBudgetItem] = useState<string>("Option 1");
+  const [amount, setAmount] = useState<number>(0);
+  const [category, setCategory] = useState<CategoryInterface | null>(null);
+  const [budget, setBudget] = useState<BudgetInterface | null>(null);
+  const [budgetItems, setBudgetItems] = useState<BudgetItems[] | null>(null);
+  const [item, setItem] = useState<BudgetItems | null>(
+    budgetItems ? budgetItems[0] : null
+  );
   const [description, setDescription] = useState<string>("");
   const [showBudgetOptions, setShowBudgetOptions] = useState<boolean>(false);
   const [showBudgetItemsOptions, setShowBudgetItemsOptions] =
@@ -18,27 +49,55 @@ const ModalOutflowForm = ({ setShowMainModal }: Props) => {
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
 
+  const userId = "636ac4a250bbc5afa6004a8c";
+
+  const { data: categoryData } = FetchCategories(userId);
+  const { data: budgetData } = FetchBudgets(userId);
+
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    mutate({
+      userId,
+      title,
+      amount,
+      budget: budget?._id,
+      item: item?._id,
+      category: category?._id,
+      description,
+    });
     setShowMainModal(false);
   };
 
-  const onBudgetChange = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    setBudgetItem(e.currentTarget.innerText.trim());
+  const onAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (isNaN(Number(e.target.value))) {
+      return;
+    }
+    setAmount(Number(e.target.value));
+  };
+
+  const onBudgetChange = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    budget: BudgetInterface | null
+  ) => {
+    setBudget(budget);
+    setBudgetItems(budget?.items || null);
+    setItem(budget ? budget.items[0] : null);
     setShowBudgetOptions(!showBudgetOptions);
   };
 
   const onBudgetItemChange = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    item: BudgetItems | null
   ) => {
-    setBudgetItem(e.currentTarget.innerText.trim());
+    setItem(item ? item : null);
     setShowBudgetItemsOptions(!showBudgetItemsOptions);
   };
 
   const onCategoryChange = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    category: CategoryInterface | null
   ) => {
-    setCategory(e.currentTarget.innerText.trim());
+    setCategory(category ? category : null);
     setShowCategoryOptions(!showCategoryOptions);
   };
 
@@ -56,110 +115,134 @@ const ModalOutflowForm = ({ setShowMainModal }: Props) => {
             />
           </div>
           <div className="amount">
-            <label htmlFor="amount">Amount</label>
+            <label htmlFor="amount">amount</label>
             <input
               type="text"
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => onAmountChange(e)}
               value={amount}
             />
           </div>
+
+          {/* budgets  */}
           <div className="budget">
             <label htmlFor="budget-options-container">Budget</label>
             <div
               className="budget-selected"
               onClick={() => setShowBudgetOptions(!showBudgetOptions)}
             >
-              {budget}
+              {budget ? budget.title : "Unbudgeted"}
             </div>
             <div
               className={`budget-options-container show-${showBudgetOptions}`}
             >
               <div
                 className="budget-options"
-                onClick={(e) => onBudgetChange(e)}
+                onClick={(e) => onBudgetChange(e, null)}
               >
-                unbudgeted
+                {budget ? "Unbudgeted" : null}
               </div>
-              <div
-                className="budget-options"
-                onClick={(e) => onBudgetChange(e)}
-              >
-                Option 2
-              </div>
-              <div
-                className="budget-options"
-                onClick={(e) => onBudgetChange(e)}
-              >
-                Option 3
-              </div>
+
+              {budgetData.map((ele: BudgetInterface) => {
+                // if (ele.completed === false && ele._id != budget?._id)
+                  return (
+                    <div
+                      className="budget-options"
+                      onClick={(e) => onBudgetChange(e, ele)}
+                      key={ele._id}
+                    >
+                      {ele.title}
+                    </div>
+                  );
+                // return null;
+              })}
             </div>
+            {budget ? (
+              <div className="limit">
+                <div>limit</div>
+                <div>{budget.balance}</div>
+              </div>
+            ) : null}
           </div>
-          <div className="budget-item">
-            <label htmlFor="budget-item-options-container">Budget Item</label>
-            <div
-              className="budget-item-selected"
-              onClick={() => setShowBudgetItemsOptions(!showBudgetItemsOptions)}
-            >
-              {budgetItem}
+
+          {/* budget items  */}
+          {budget ? (
+            <div className="budget-item">
+              <label htmlFor="budget-item-options-container">Items</label>
+              <div
+                className="budget-item-selected"
+                onClick={() =>
+                  setShowBudgetItemsOptions(!showBudgetItemsOptions)
+                }
+              >
+                {item ? item.title : null}
+              </div>
+              <div
+                className={`budget-item-options-container show-${showBudgetItemsOptions}`}
+              >
+                {budgetItems?.map((ele: BudgetItems) => {
+                  if (ele._id != item?._id)
+                    return (
+                      <div
+                        className="budget-item-options"
+                        onClick={(e) => onBudgetItemChange(e, ele)}
+                        key={ele._id}
+                      >
+                        {ele.title}
+                      </div>
+                    );
+                  return null;
+                })}
+              </div>
+              {item ? (
+                <div className="limit">
+                  <div>limit</div>
+                  <div>{item.balance}</div>
+                </div>
+              ) : null}
             </div>
-            <div
-              className={`budget-item-options-container show-${showBudgetItemsOptions}`}
-            >
+          ) : null}
+
+          {/* category  */}
+          {budget ? null : (
+            <div className="category">
+              <label htmlFor="category-options-container">Category</label>
               <div
-                className="budget-item-options"
-                onClick={(e) => onBudgetItemChange(e)}
+                className="category-selected"
+                onClick={() => setShowCategoryOptions(!showCategoryOptions)}
               >
-                unbudgeted
+                {category ? category.title : "Others"}
               </div>
               <div
-                className="budget-item-options"
-                onClick={(e) => onBudgetItemChange(e)}
+                className={`category-options-container show-${showCategoryOptions}`}
               >
-                Option 2
-              </div>
-              <div
-                className="budget-item-options"
-                onClick={(e) => onBudgetItemChange(e)}
-              >
-                Option 3
-              </div>
-            </div>
-            <div className="limit">
-              <div>limit</div>
-              <div>12000</div>
-            </div>
-          </div>
-          <div className="category">
-            <label htmlFor="category-options-container">Category</label>
-            <div
-              className="category-selected"
-              onClick={() => setShowCategoryOptions(!showCategoryOptions)}
-            >
-              {category}
-            </div>
-            <div
-              className={`category-options-container show-${showCategoryOptions}`}
-            >
-              <div
-                className="category-options"
-                onClick={(e) => onCategoryChange(e)}
-              >
-                Option 1
-              </div>
-              <div
-                className="category-options"
-                onClick={(e) => onCategoryChange(e)}
-              >
-                Option 2
-              </div>
-              <div
-                className="category-options"
-                onClick={(e) => onCategoryChange(e)}
-              >
-                Option 3
+                <div
+                  className="category-options"
+                  onClick={(e) => onCategoryChange(e, null)}
+                >
+                  {category ? "Others" : null}
+                </div>
+
+                {categoryData.map((ele: CategoryInterface) => {
+                  if (
+                    ele.categoryType === "outflow" &&
+                    ele._id != category?._id
+                  )
+                    return (
+                      <div
+                        className="category-options"
+                        onClick={(e) => onCategoryChange(e, ele)}
+                        key={ele._id}
+                      >
+                        {ele.title}
+                      </div>
+                    );
+                  return null;
+                })}
               </div>
             </div>
-          </div>
+          )}
+
+          {/* description  */}
           <div className="description">
             <label htmlFor="description">Description</label>
             <textarea
@@ -172,7 +255,7 @@ const ModalOutflowForm = ({ setShowMainModal }: Props) => {
           </div>
         </div>
         <button type="submit" onClick={(e) => onSubmit(e)}>
-          Add Transaction
+          Add Outflow
         </button>
       </form>
     </div>

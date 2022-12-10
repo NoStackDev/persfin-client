@@ -34,10 +34,10 @@ const getForm = ({ quickActionId, setShowMainModal, mutate }: GetFormArgs) => {
       return (
         <ModalInflowForm setShowMainModal={setShowMainModal} mutate={mutate} />
       );
-    // case 3:
-    //   return (
-    //     <ModalOutflowForm setShowMainModal={setShowMainModal} mutate={mutate} />
-    //   );
+    case 3:
+      return (
+        <ModalOutflowForm setShowMainModal={setShowMainModal} mutate={mutate} />
+      );
     // case 4:
     //   return (
     //     <ModalCategoryForm

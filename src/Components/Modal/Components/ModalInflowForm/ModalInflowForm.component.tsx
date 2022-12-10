@@ -20,7 +20,7 @@ const ModalInflowForm = ({ setShowMainModal, mutate }: Props) => {
   const userId = "636ac4a250bbc5afa6004a8c";
 
   const { data: categoryData } = FetchCategories(userId);
-  console.log(categoryData);
+
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     mutate({ userId, title, amount, category: categoryId, description });
@@ -94,6 +94,7 @@ const ModalInflowForm = ({ setShowMainModal, mutate }: Props) => {
                         {ele.title}
                       </div>
                     );
+                  return null
                 }
               )}
             </div>

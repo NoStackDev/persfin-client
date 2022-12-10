@@ -11,7 +11,7 @@ import {
 import { calculateBalance, calculateSavings, countCategories } from "./helper";
 
 import "./QuickActionBar.style.scss";
-import { CreateInflow, CreateSavings } from "../../Mutations";
+import { CreateInflow, CreateOutflow, CreateSavings } from "../../Mutations";
 import Modal from "../Modal";
 import Spinner from "../Spinners";
 import { UseMutateFunction } from "react-query";
@@ -80,6 +80,7 @@ const QuickActionBar = (props: Props) => {
   // mutations
   const mutationSavings = CreateSavings();
   const mutationInflow = CreateInflow();
+  const mutationOutflow = CreateOutflow()
 
   const mutations: Record<
     number,
@@ -87,11 +88,12 @@ const QuickActionBar = (props: Props) => {
   > = {
     1: mutationSavings.mutate,
     2: mutationInflow.mutate,
+    3: mutationOutflow.mutate
   };
 
-  let isLoading = mutationSavings.isLoading || mutationInflow.isLoading;
-  let isError = mutationSavings.isError || mutationInflow.isError;
-  let isSuccess = mutationSavings.isSuccess || mutationInflow.isSuccess;
+  let isLoading = mutationSavings.isLoading || mutationInflow.isLoading || mutationOutflow.isLoading;
+  let isError = mutationSavings.isError || mutationInflow.isError || mutationOutflow.isError;
+  let isSuccess = mutationSavings.isSuccess || mutationInflow.isSuccess || mutationOutflow.isSuccess;
 
   if (!showSpinner && isLoading) {
     setShowSpinner(true);
