@@ -1,1 +1,1 @@
-export {default} from "./Outflow"
+export {default} from "./AddOutflow"

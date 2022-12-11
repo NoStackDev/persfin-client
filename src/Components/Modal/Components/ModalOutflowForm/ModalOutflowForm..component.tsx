@@ -143,7 +143,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutate }: Props) => {
               </div>
 
               {budgetData.map((ele: BudgetInterface) => {
-                // if (ele.completed === false && ele._id != budget?._id)
+                if (ele.completed === false && ele._id !== budget?._id)
                   return (
                     <div
                       className="budget-options"
@@ -153,7 +153,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutate }: Props) => {
                       {ele.title}
                     </div>
                   );
-                // return null;
+                return null;
               })}
             </div>
             {budget ? (
@@ -180,7 +180,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutate }: Props) => {
                 className={`budget-item-options-container show-${showBudgetItemsOptions}`}
               >
                 {budgetItems?.map((ele: BudgetItems) => {
-                  if (ele._id != item?._id)
+                  if (ele._id !== item?._id)
                     return (
                       <div
                         className="budget-item-options"
@@ -225,7 +225,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutate }: Props) => {
                 {categoryData.map((ele: CategoryInterface) => {
                   if (
                     ele.categoryType === "outflow" &&
-                    ele._id != category?._id
+                    ele._id !== category?._id
                   )
                     return (
                       <div

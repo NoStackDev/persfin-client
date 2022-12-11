@@ -1,16 +1,22 @@
 import { useState } from "react";
+import { UseMutateFunction } from "react-query";
 import "./ModalCategoryForm.style.scss";
+
 type Props = {
   categoryType: string;
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
+  mutate: UseMutateFunction<any, unknown, any, unknown>;
 };
 
-const ModalCategoryForm = ({ categoryType, setShowMainModal }: Props) => {
+const ModalCategoryForm = ({ categoryType, setShowMainModal, mutate }: Props) => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
+  const userId = "636ac4a250bbc5afa6004a8c";
+
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    mutate({userId, title, categoryType, description})
     setShowMainModal(false);
   };
 

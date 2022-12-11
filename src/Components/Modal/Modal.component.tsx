@@ -12,18 +12,17 @@ import { UseMutateFunction } from "react-query";
 type Props = {
   quickActionId: number | null;
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
-  mutate: UseMutateFunction<any, unknown, any, unknown>| null;
+  mutate: UseMutateFunction<any, unknown, any, unknown> | null;
 };
 
 interface GetFormArgs {
   quickActionId: number | null;
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
-  mutate: UseMutateFunction<any, unknown, any, unknown>|null;
+  mutate: UseMutateFunction<any, unknown, any, unknown> | null;
 }
 
 const getForm = ({ quickActionId, setShowMainModal, mutate }: GetFormArgs) => {
-  if (!quickActionId || !mutate ) {
-    return null;
+  if (!quickActionId || !mutate) {    return null;
   }
   switch (quickActionId) {
     case 1:
@@ -38,22 +37,22 @@ const getForm = ({ quickActionId, setShowMainModal, mutate }: GetFormArgs) => {
       return (
         <ModalOutflowForm setShowMainModal={setShowMainModal} mutate={mutate} />
       );
-    // case 4:
-    //   return (
-    //     <ModalCategoryForm
-    //       categoryType="Inflow"
-    //       setShowMainModal={setShowMainModal}
-    //       mutate={mutate}
-    //     />
-    //   );
-    // case 5:
-    //   return (
-    //     <ModalCategoryForm
-    //       categoryType="Outflow"
-    //       setShowMainModal={setShowMainModal}
-    //       mutate={mutate}
-    //     />
-    //   );
+    case 4:
+      return (
+        <ModalCategoryForm
+          categoryType="inflow"
+          setShowMainModal={setShowMainModal}
+          mutate={mutate}
+        />
+      );
+    case 5:
+      return (
+        <ModalCategoryForm
+          categoryType="outflow"
+          setShowMainModal={setShowMainModal}
+          mutate={mutate}
+        />
+      );
     // case "budget":
     //   return <ModalBudgetForm setShowMainModal={setShowMainModal} mutate={mutate}/>
     default:
@@ -62,7 +61,6 @@ const getForm = ({ quickActionId, setShowMainModal, mutate }: GetFormArgs) => {
 };
 
 const Modal = ({ quickActionId, setShowMainModal, mutate }: Props) => {
-
   return (
     <section id="modal">
       <ModalContainer />
