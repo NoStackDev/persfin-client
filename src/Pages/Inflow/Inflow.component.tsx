@@ -62,9 +62,9 @@ const Inflow = (props: Props) => {
       <section id="inflow-activity-section">
         <ActivityCard cardTitle="Inflow" activities={dateFiltered} />
       </section>
-      <section id="distribution-chart-section">
+      {/* <section id="distribution-chart-section">
         <DistributionChart />
-      </section>
+      </section> */}
     </main>
   );
 };
