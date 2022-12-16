@@ -47,6 +47,15 @@ const quickActions: quickActionInterface[] = [
   },
   {
     id: 4,
+    icon: "pie_chart",
+    title: "Budgets",
+    showCurrency: false,
+    hasBtn: true,
+    btnText: "Create Budget",
+    hasFixedDateFilter: false,
+  },
+  {
+    id: 5,
     icon: "category",
     title: "Inflow Categories",
     showCurrency: false,
@@ -55,7 +64,7 @@ const quickActions: quickActionInterface[] = [
     hasFixedDateFilter: false,
   },
   {
-    id: 5,
+    id: 6,
     icon: "category",
     title: "Outflow Categories",
     showCurrency: false,

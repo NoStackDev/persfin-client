@@ -6,25 +6,64 @@ import CategorySelector from "../../CategorySelector";
 import DateFilterFixed from "../../DateFiter/DateFilterFixed";
 
 import "./CategoryChart.style.scss";
-import getLabelsColorsDataset from "./helpers/getLabelsColorsData";
+import generateLabelsColorsAmount from "./helpers/generateLabelsColorsAmount";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-type Transaction = {
+type InflowType = {
+  _id: string;
   title: string;
   amount: number;
-  transactionType: string;
-  category: TransactionCategory;
+  category: CategoryType;
+  description: string;
+  time: string;
+  createdAt: string;
+  modelType: string;
+};
+
+type OutflowType = {
+  _id: string;
+  title: string;
+  amount: number;
+  category: CategoryType;
   budget: string;
+  item: string;
   description: string;
   receiptImage: string[];
   time: string;
+  createdAt: string;
+  modelType: string;
 };
 
-type TransactionCategory = {
+type BudgetType = {
+  _id: string;
+  title: string;
+  total: number;
+  balance: number;
+  status: string;
+  description: string;
+  items: BudgetItemType[];
+  time: string;
+  completed: boolean;
+  createdAt: string;
+  modelType: string;
+};
+
+type BudgetItemType = {
+  _id: string;
+  title: string;
+  amount: number;
+  category: string;
+  balance: number;
+  description: string;
+};
+
+type CategoryType = {
   _id: string;
   title: string;
   categoryType: string;
+  description: string;
+  createdAt: string;
 };
 
 interface rangeInterface {
@@ -54,45 +93,35 @@ const options = {
   },
 };
 
-type Props = {};
+type Props = {
+  dataset: Array<InflowType[] | OutflowType[] | BudgetType[]|null>;
+  showFixedDateFilter: boolean;
+  heading?: string;
+  category?: boolean
+};
 
-const CategoryChart = (props: Props) => {
-  const userId = "636ac4a250bbc5afa6004a8c";
+const CategoryChart = ({ dataset, showFixedDateFilter, heading, category }: Props) => {
 
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
-  const [selectedCategory, setSelectedCategory] = useState<string>("Outflow");
-  const {
-    isLoading: isLoadingInflowsData,
-    isSuccess: isSuccessInflowsData,
-    data: inflowsData,
-  } = FetchInflows(userId);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const {
-    isLoading: isLoadingOutflowsData,
-    isSuccess: isSuccessOutflowsData,
-    data: outflowsData,
-  } = FetchOutflows(userId);
+  const labelsColorsAmount = useMemo(() => {
+    return generateLabelsColorsAmount(dataset, filterRange, category);
+  }, [dataset, filterRange]);
 
-  const { inflow: inflowData, outflow: outflowData } = useMemo(() => {
-    return getLabelsColorsDataset([inflowsData, outflowsData], filterRange);
-  }, [inflowsData, outflowsData, filterRange]);
-
-  const selectedData =
-    selectedCategory.toLowerCase() === "inflow" ? inflowData : outflowData;
+  const selectedData = selectedCategory? labelsColorsAmount[selectedCategory]: null
 
   const data = {
     labels:
-      selectedCategory.toLowerCase() === "inflow"
-        ? inflowData.labels
-        : outflowData.labels,
+      selectedData? selectedData.labels: [],
     datasets: [
       {
         label: "",
-        data: selectedData.amount,
-        backgroundColor: selectedData.colors,
-        borderColor: selectedData.colors,
+        data: selectedData? selectedData.amount : [],
+        backgroundColor: selectedData? selectedData.colors : [],
+        borderColor: selectedData? selectedData.colors : [],
         borderWidth: 0,
         cutout: "85%",
       },
@@ -104,11 +133,11 @@ const CategoryChart = (props: Props) => {
       <div className="card">
         <div className="top">
           <DateFilterFixed setFilterRange={setFilterRange} />
-          <CategorySelector setSelectedCategory={setSelectedCategory} />
+          <CategorySelector categories={Object.keys(labelsColorsAmount)} setSelectedCategory={setSelectedCategory} />
         </div>
         <div className="legend-doughnut">
           <div className="legend-bar">
-            {selectedData.labels.map((label, index) => {
+            {selectedData?.labels.map((label, index) => {
               return (
                 <div className="legend" key={index}>
                   <div
@@ -119,10 +148,9 @@ const CategoryChart = (props: Props) => {
               );
             })}
           </div>
-          {selectedData.amount.length > 0 ? (
+          {selectedData ? (
             <Doughnut data={data} options={options} />
           ) : null}
-          {/* <Doughnut data={data} options={options} /> */}
         </div>
       </div>
     </div>

@@ -21,7 +21,6 @@ const AddSavings = async (userId: string, amount: number) => {
         variables: {
           user: userId,
           amount: amount,
-          modelType: "savings",
         },
       },
     });

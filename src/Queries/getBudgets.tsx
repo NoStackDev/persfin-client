@@ -14,14 +14,18 @@ const getBudgets = async (userId: string) => {
                         balance
                         total
                         time
+                        description
                         items {
                             title
                             _id
                             amount
                             balance
                             category
+                            description
                         }
                         modelType
+                        completed
+                        createdAt
                     }
                 }`,
         variables: {

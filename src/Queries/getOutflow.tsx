@@ -15,12 +15,15 @@ const getOutflows = async (userId: string) => {
                         amount
                         time
                         receiptImage
+                        budget
+                        item
                         category {
                             _id
                             title
                             categoryType
                         }
                         modelType
+                        createdAt
                     }
                 }`,
         variables: {

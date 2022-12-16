@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import ModalContainer from "../ModalContainer";
 import ModalBudgetItemForm from "./Components/ModalBudgetItemForm.component";
+import { UseMutateFunction } from "react-query";
 import "./ModalBudgetForm.style.scss";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
+  mutate: UseMutateFunction<any, unknown, any, unknown>;
 };
 
-const ModalBudgetForm = ({ setShowMainModal }: Props) => {
+
+const ModalBudgetForm = ({ setShowMainModal, mutate }: Props) => {
   const [title, setTitle] = useState<string>("");
   const [total, setTotal] = useState<string>("0");
   const [description, setDescription] = useState<string>("");

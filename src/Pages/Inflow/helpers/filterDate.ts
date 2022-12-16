@@ -1,18 +1,20 @@
-type Transaction = {
+type InflowType = {
   _id: string;
   title: string;
   amount: number;
-  category: {
-    _id: string;
-    title: string;
-    categoryType: string;
-  };
-  budget: string;
+  category: CategoryType;
   description: string;
-  receiptImage: string[];
   time: string;
-  createdAt: Date;
+  createdAt: string;
   modelType: string;
+};
+
+type CategoryType = {
+  _id: string;
+  title: string;
+  categoryType: string;
+  description: string;
+  createdAt: string;
 };
 
 interface rangeInterface {
@@ -27,7 +29,7 @@ interface TimeRangeInterface {
 }
 
 const filterDate = (
-  data: Transaction[] | null,
+  data: InflowType[] | null,
   filterRange: TimeRangeInterface | null
 ) => {
   if (!data) {

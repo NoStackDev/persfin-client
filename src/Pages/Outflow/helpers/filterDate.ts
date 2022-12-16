@@ -1,19 +1,25 @@
-type Transaction = {
+type OutflowType = {
   _id: string;
   title: string;
   amount: number;
-  category: {
-    _id: string;
-    title: string;
-    categoryType: string;
-  };
+  category: CategoryType;
   budget: string;
+  item: string;
   description: string;
   receiptImage: string[];
   time: string;
-  createdAt: Date;
+  createdAt: string;
   modelType: string;
 };
+
+type CategoryType = {
+  _id: string;
+  title: string;
+  categoryType: string;
+  description: string;
+  createdAt: string;
+};
+
 
 interface rangeInterface {
   min: Date;
@@ -27,7 +33,7 @@ interface TimeRangeInterface {
 }
 
 const filterDate = (
-  data: Transaction[] | null,
+  data: OutflowType[] | null,
   filterRange: TimeRangeInterface | null
 ) => {
   if (!data) {

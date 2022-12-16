@@ -13,6 +13,8 @@ const getCategories = async (userId: string) => {
                         categoryType
                         title
                         description
+                        modelType
+                        createdAt
                     }
                 }`,
         variables: {

@@ -5,8 +5,9 @@ import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.c
 import DistributionChart from "../../Components/Charts/PieChart/DistributionChart.component";
 
 import "./Overview.style.scss";
-import { FetchSavings, FetchInflows, FetchOutflows } from "../../Queries";
+import { FetchSavings, FetchInflows, FetchOutflows, FetchBudgets } from "../../Queries";
 import collateData from "./helpers";
+import BudgetCard from "../Budget/Components/BudgetCard";
 
 type Props = {};
 
@@ -26,6 +27,23 @@ type Transaction = {
   createdAt: Date;
   modelType: string;
 };
+
+interface BudgetInterface {
+  _id: string;
+  title: string;
+  balance: number;
+  total: number;
+  time: string;
+  items: {
+    _id: string;
+    title: string;
+    amount: number;
+    balance: number;
+    category: string;
+  }[];
+  modelType: string;
+  completed: boolean;
+}
 
 type Savings = {
   _id: string;
@@ -53,6 +71,12 @@ const Overview = (props: Props) => {
     data: savingsData,
   } = FetchSavings(userId);
 
+  const {
+    isLoading: isLoadingBudgetsData,
+    isSuccess: isSuccessBudgetsData,
+    data: budgetsData,
+  } = FetchBudgets(userId);
+
   const data = useMemo(() => {
     return collateData([inflowsData, outflowsData, savingsData]);
   }, [inflowsData, outflowsData, savingsData]);
@@ -63,7 +87,7 @@ const Overview = (props: Props) => {
         <InflowOutflowChart />
       </section>
       <section id="category-chart">
-        <CategoryChart />
+        <CategoryChart dataset={[inflowsData, outflowsData]} showFixedDateFilter={true} category/>
       </section>
       <section id="recent-activity">
         <ActivityCard
@@ -71,8 +95,12 @@ const Overview = (props: Props) => {
           activities={data.slice(0, 5)}
         />
       </section>
-      <section id="distribution-chart">
-        <DistributionChart />
+      <section id="budgets">
+        {
+          budgetsData?.map((budget: BudgetInterface) => {
+            return <BudgetCard budget={budget} key={budget._id}/>
+          })
+        }
       </section>
     </main>
   );

@@ -1,1 +1,1 @@
-export { default as filterArray } from "./getLabelsColorsData";
+export { default as generateLabelsColorsAmount } from "./generateLabelsColorsAmount";

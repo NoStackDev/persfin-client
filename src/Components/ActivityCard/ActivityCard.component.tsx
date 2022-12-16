@@ -1,25 +1,55 @@
 import React from "react";
 
 import "./ActivityCard.style.scss";
-
-type Tr = {
+type InflowType = {
   _id: string;
   title: string;
   amount: number;
-  category: {
-    _id: string;
-    title: string;
-    categoryType: string;
-  };
-  budget: string;
+  category: CategoryType;
   description: string;
-  receiptImage: string[];
   time: string;
-  createdAt: Date;
+  createdAt: string;
   modelType: string;
 };
 
-type Savings = {
+type OutflowType = {
+  _id: string;
+  title: string;
+  amount: number;
+  category: CategoryType;
+  budget: string;
+  item: string;
+  description: string;
+  receiptImage: string[];
+  time: string;
+  createdAt: string;
+  modelType: string;
+};
+
+type BudgetType = {
+  _id: string;
+  title: string;
+  total: number;
+  balance: number;
+  status: string;
+  description: string;
+  items: BudgetItemType[];
+  time: string;
+  completed: boolean;
+  createdAt: string;
+  modelType: string;
+};
+
+type BudgetItemType = {
+  _id: string;
+  title: string;
+  amount: number;
+  category: string;
+  balance: number;
+  description: string;
+};
+
+type SavingsType = {
   _id: string;
   amount: number;
   time: string;
@@ -27,9 +57,19 @@ type Savings = {
   title?: string;
 };
 
+type CategoryType = {
+  _id: string;
+  title: string;
+  categoryType: string;
+  description: string;
+  createdAt: string;
+};
+
+type DataObj = InflowType | OutflowType | BudgetType | SavingsType;
+
 type Props = {
   cardTitle: string;
-  activities: Array<Tr | Savings | null> | null;
+  activities: Array<DataObj | null> | null;
 };
 
 const icons = (_type: string): JSX.Element => {
@@ -90,7 +130,12 @@ const ActivityCard = ({ cardTitle, activities }: Props) => {
                   <div className="amount">
                     <span className="material-icons">attach_money</span>
                     <span>
-                      {new Intl.NumberFormat().format(activity.amount)}
+                      {new Intl.NumberFormat().format(
+                        activity.modelType === "budget"
+                          ? (activity as BudgetType).total
+                          : (activity as InflowType | OutflowType | SavingsType)
+                              .amount
+                      )}
                     </span>
                   </div>
                 </div>

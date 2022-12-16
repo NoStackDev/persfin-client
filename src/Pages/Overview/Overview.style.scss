@@ -1,7 +1,18 @@
 @import "../../Assets/Styles/functions";
 @import "../../Assets/Styles/mixins";
+@import "../../Assets/Styles/themes";
 
 main {
+  #budgets {
+    @include theme-aware("background", "card-bg-color");
+    padding: to-rem(20px);
+    border-radius: to-rem(12px);
+    display: flex;
+    flex-direction: column;
+    gap: to-rem(20px);
+    overflow-y: scroll;
+  }
+
   @include breakpoint("l") {
     #inflow-outflow-chart {
       grid-column: 1 / 2;
@@ -18,13 +29,14 @@ main {
       grid-row: 1 / 2;
     }
 
-    #distribution-chart {
+    #budgets {
       grid-column: 2 / 3;
       grid-row: 2 / 3;
+      max-height: inherit;
     }
   }
 
-  @include breakpoint('xl') {
+  @include breakpoint("xl") {
     #recent-activity {
       grid-column: 1 / 3;
       grid-row: 2 / 3;
@@ -35,10 +47,9 @@ main {
       grid-row: 1 / 2;
     }
 
-    #distribution-chart {
+    #budgets {
       grid-column: 3 / 4;
       grid-row: 1 / 3;
     }
-
   }
 }

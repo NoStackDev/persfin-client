@@ -40,7 +40,6 @@ const AddOutflow = async (
           item,
           category,
           description,
-          modelType: "outflow",
         },
       },
     });

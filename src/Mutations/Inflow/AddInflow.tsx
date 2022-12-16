@@ -38,7 +38,6 @@ const AddInflow = async (
           amount,
           category,
           description,
-          modelType: "inflow",
         },
       },
     });

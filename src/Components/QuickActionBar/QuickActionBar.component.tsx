@@ -12,6 +12,7 @@ import { calculateBalance, calculateSavings, countCategories } from "./helper";
 
 import "./QuickActionBar.style.scss";
 import {
+  CreateBudget,
   CreateCategory,
   CreateInflow,
   CreateOutflow,
@@ -87,6 +88,7 @@ const QuickActionBar = (props: Props) => {
   const mutationInflow = CreateInflow();
   const mutationOutflow = CreateOutflow();
   const mutationCategory = CreateCategory();
+  const mutationBudget = CreateBudget();
 
   const mutations: Record<
     number,
@@ -95,25 +97,29 @@ const QuickActionBar = (props: Props) => {
     1: mutationSavings.mutate,
     2: mutationInflow.mutate,
     3: mutationOutflow.mutate,
-    4: mutationCategory.mutate,
+    4: mutationBudget.mutate,
     5: mutationCategory.mutate,
+    6: mutationCategory.mutate,
   };
 
   let isLoading =
     mutationSavings.isLoading ||
     mutationInflow.isLoading ||
     mutationOutflow.isLoading ||
-    mutationCategory.isLoading;
+    mutationCategory.isLoading ||
+    mutationBudget.isLoading;
   let isError =
     mutationSavings.isError ||
     mutationInflow.isError ||
     mutationOutflow.isError ||
-    mutationCategory.isError;
+    mutationCategory.isError ||
+    mutationBudget.isError;
   let isSuccess =
     mutationSavings.isSuccess ||
     mutationInflow.isSuccess ||
     mutationOutflow.isSuccess ||
-    mutationCategory.isSuccess;
+    mutationCategory.isSuccess ||
+    mutationBudget.isSuccess;
 
   if (!showSpinner && isLoading) {
     setShowSpinner(true);

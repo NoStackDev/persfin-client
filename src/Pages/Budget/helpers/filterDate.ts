@@ -1,17 +1,25 @@
-interface BudgetInterface {
+type BudgetType = {
   _id: string;
   title: string;
-  balance: number;
   total: number;
+  balance: number;
+  status: string;
+  description: string;
+  items: BudgetItemType[];
   time: string;
-  items: {
-    _id: string;
-    amount: number;
-    balance: number;
-    category: string
-  }[];
-  modelType: string
-}
+  completed: boolean;
+  createdAt: string;
+  modelType: string;
+};
+
+type BudgetItemType = {
+  _id: string;
+  title: string;
+  amount: number;
+  category: string;
+  balance: number;
+  description: string;
+};
 
 interface rangeInterface {
   min: Date;
@@ -25,7 +33,7 @@ interface TimeRangeInterface {
 }
 
 const filterDate = (
-  data: BudgetInterface[] | null,
+  data: BudgetType[] | null,
   filterRange: TimeRangeInterface | null
 ) => {
   if (!data) {

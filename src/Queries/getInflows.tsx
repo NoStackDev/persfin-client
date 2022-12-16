@@ -21,6 +21,7 @@ const getInflows = async (userId: string) => {
                             categoryType
                         }
                         modelType
+                        createdAt
                     }
                 }`,
         variables: {

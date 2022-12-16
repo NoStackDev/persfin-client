@@ -8,11 +8,16 @@ type Props = {
   mutate: UseMutateFunction<any, unknown, any, unknown>;
 };
 
+interface CategoryInterface {
+  _id: string;
+  title: string;
+  categoryType: string;
+}
+
 const ModalInflowForm = ({ setShowMainModal, mutate }: Props) => {
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
-  const [categoryId, setCategoryId] = useState<string | null>(null);
-  const [category, setCategory] = useState<string>("Others");
+  const [category, setCategory] = useState<CategoryInterface | null>(null);
   const [description, setDescription] = useState<string>("");
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
@@ -23,16 +28,15 @@ const ModalInflowForm = ({ setShowMainModal, mutate }: Props) => {
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    mutate({ userId, title, amount, category: categoryId, description });
+    mutate({ userId, title, amount, category: category?._id, description });
     setShowMainModal(false);
   };
 
   const onCategoryChange = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    id: string | null
+    category: CategoryInterface | null
   ) => {
-    setCategoryId(id);
-    setCategory(e.currentTarget.innerText.trim());
+    setCategory(category ? category : null);
     setShowCategoryOptions(!showCategoryOptions);
   };
 
@@ -48,6 +52,7 @@ const ModalInflowForm = ({ setShowMainModal, mutate }: Props) => {
       <form>
         <h2>Inflow</h2>
         <div className="form-body">
+          {/* title  */}
           <div className="title">
             <label htmlFor="title">Title</label>
             <input
@@ -56,6 +61,7 @@ const ModalInflowForm = ({ setShowMainModal, mutate }: Props) => {
               value={title}
             />
           </div>
+          {/* amount  */}
           <div className="amount">
             <label htmlFor="amount">amount</label>
             <input
@@ -64,13 +70,14 @@ const ModalInflowForm = ({ setShowMainModal, mutate }: Props) => {
               value={amount}
             />
           </div>
+          {/* category  */}
           <div className="category">
             <label htmlFor="category-options-container">Category</label>
             <div
               className="category-selected"
               onClick={() => setShowCategoryOptions(!showCategoryOptions)}
             >
-              {category}
+              {category ? category.title : "Others"}
             </div>
             <div
               className={`category-options-container show-${showCategoryOptions}`}
@@ -79,26 +86,25 @@ const ModalInflowForm = ({ setShowMainModal, mutate }: Props) => {
                 className="category-options"
                 onClick={(e) => onCategoryChange(e, null)}
               >
-                Others
+                {category ? "Others" : null}
               </div>
 
-              {categoryData.map(
-                (ele: { title: string; _id: string; categoryType: string }) => {
-                  if (ele.categoryType === "inflow")
-                    return (
-                      <div
-                        className="category-options"
-                        onClick={(e) => onCategoryChange(e, ele._id)}
-                        key={ele._id}
-                      >
-                        {ele.title}
-                      </div>
-                    );
-                  return null
-                }
-              )}
+              {categoryData.map((ele: CategoryInterface) => {
+                if (ele.categoryType === "inflow" && ele._id !== category?._id)
+                  return (
+                    <div
+                      className="category-options"
+                      onClick={(e) => onCategoryChange(e, ele)}
+                      key={ele._id}
+                    >
+                      {ele.title}
+                    </div>
+                  );
+                return null;
+              })}
             </div>
           </div>
+          {/* description  */}
           <div className="description">
             <label htmlFor="description">Description</label>
             <textarea

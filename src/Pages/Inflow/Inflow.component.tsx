@@ -6,6 +6,7 @@ import "./Inflow.style.scss";
 import { useEffect, useMemo, useState } from "react";
 import { FetchInflows } from "../../Queries";
 import filterDate from "./helpers/filterDate";
+import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
 interface rangeInterface {
   min: Date;
@@ -18,22 +19,6 @@ interface TimeRangeInterface {
   range(): rangeInterface;
 }
 
-type Transaction = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: {
-    _id: string;
-    title: string;
-    categoryType: string;
-  };
-  budget: string;
-  description: string;
-  receiptImage: string[];
-  time: string;
-  createdAt: Date;
-  modelType: string;
-};
 
 type Props = {};
 
@@ -62,9 +47,10 @@ const Inflow = (props: Props) => {
       <section id="inflow-activity-section">
         <ActivityCard cardTitle="Inflow" activities={dateFiltered} />
       </section>
-      {/* <section id="distribution-chart-section">
-        <DistributionChart />
-      </section> */}
+      <section id="distribution-chart-section">
+        {/* <DistributionChart /> */}
+        <CategoryChart dataset={[dateFiltered]} showFixedDateFilter/>
+      </section>
     </main>
   );
 };

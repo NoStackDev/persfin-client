@@ -6,6 +6,7 @@ import "./Budget.style.scss";
 import { useEffect, useMemo, useState } from "react";
 import { FetchBudgets } from "../../Queries";
 import filterDate from "./helpers/filterDate";
+import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
 interface rangeInterface {
   min: Date;
@@ -16,23 +17,6 @@ interface TimeRangeInterface {
   id: string;
   title: string;
   range(): rangeInterface;
-}
-
-interface BudgetInterface {
-  _id: string;
-  title: string;
-  balance: number;
-  total: number;
-  time: string;
-  items: {
-    _id: string;
-    title: string;
-    amount: number;
-    balance: number;
-    category: string;
-  }[];
-  modelType: string;
-  completed: boolean;
 }
 
 type Props = {};
@@ -69,7 +53,8 @@ const Budget = (props: Props) => {
         })}
       </section>
       <section id="distribution-chart-section">
-        <DistributionChart />
+        {/* <DistributionChart /> */}
+        <CategoryChart dataset={[dateFiltered]} showFixedDateFilter />
       </section>
     </main>
   );

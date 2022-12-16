@@ -6,6 +6,7 @@ import "./Outflow.style.scss";
 import { useMemo, useState } from "react";
 import filterDate from "./helpers/filterDate";
 import { FetchOutflows } from "../../Queries";
+import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
 interface rangeInterface {
   min: Date;
@@ -17,23 +18,6 @@ interface TimeRangeInterface {
   title: string;
   range(): rangeInterface;
 }
-
-type Transaction = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: {
-    _id: string;
-    title: string;
-    categoryType: string;
-  };
-  budget: string;
-  description: string;
-  receiptImage: string[];
-  time: string;
-  createdAt: Date;
-  modelType: string;
-};
 
 type Props = {};
 
@@ -63,7 +47,8 @@ const Outflow = (props: Props) => {
         <ActivityCard cardTitle="Outflow" activities={dateFiltered} />
       </section>
       <section id="distribution-chart-section">
-        <DistributionChart />
+        {/* <DistributionChart /> */}
+        <CategoryChart dataset={[outflowsData]} showFixedDateFilter />
       </section>
     </main>
   );

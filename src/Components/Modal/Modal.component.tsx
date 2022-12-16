@@ -22,7 +22,8 @@ interface GetFormArgs {
 }
 
 const getForm = ({ quickActionId, setShowMainModal, mutate }: GetFormArgs) => {
-  if (!quickActionId || !mutate) {    return null;
+  if (!quickActionId || !mutate) {
+    return null;
   }
   switch (quickActionId) {
     case 1:
@@ -39,13 +40,17 @@ const getForm = ({ quickActionId, setShowMainModal, mutate }: GetFormArgs) => {
       );
     case 4:
       return (
+        <ModalBudgetForm setShowMainModal={setShowMainModal} mutate={mutate}/>
+      );
+    case 5:
+      return (
         <ModalCategoryForm
           categoryType="inflow"
           setShowMainModal={setShowMainModal}
           mutate={mutate}
         />
       );
-    case 5:
+    case 6:
       return (
         <ModalCategoryForm
           categoryType="outflow"
@@ -53,8 +58,6 @@ const getForm = ({ quickActionId, setShowMainModal, mutate }: GetFormArgs) => {
           mutate={mutate}
         />
       );
-    // case "budget":
-    //   return <ModalBudgetForm setShowMainModal={setShowMainModal} mutate={mutate}/>
     default:
       return null;
   }
