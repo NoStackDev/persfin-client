@@ -1,15 +1,24 @@
+import { useEffect, useRef } from "react";
+import { UseMutationResult } from "react-query";
 import "./Spinner.style.scss";
 
 type Props = {
-  isLoading?: boolean;
-  isError?: boolean;
-  isSuccess?: boolean;
+  mutation: UseMutationResult<any, unknown, any, unknown> | null;
   message?: string;
 };
 
-const Spinner = ({ isLoading, isError, isSuccess, message }: Props) => {
+const Spinner = ({ mutation, message }: Props) => {
+  const timerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => window.clearTimeout(timerRef.current || 0);
+  }, []);
+
+  if (!mutation) {
+    return <></>;
+  }
   let status = "";
-  if (isLoading) {
+  if (mutation.isLoading) {
     status = "loading";
     return (
       <div id="spinner-container" className={status}>
@@ -18,8 +27,12 @@ const Spinner = ({ isLoading, isError, isSuccess, message }: Props) => {
       </div>
     );
   }
-  if (isError) {
+  // mutation.reset();
+  if (mutation.isError) {
     status = "error";
+    timerRef.current = window.setTimeout(() => {
+      mutation?.reset();
+    }, 5000);
     return (
       <div id="spinner-container" className={status}>
         <span>failed</span>
@@ -27,8 +40,11 @@ const Spinner = ({ isLoading, isError, isSuccess, message }: Props) => {
       </div>
     );
   }
-  if (isSuccess) {
+  if (mutation.isSuccess) {
     status = "success";
+    timerRef.current = window.setTimeout(() => {
+      mutation?.reset();
+    }, 5000);
     return (
       <div id="spinner-container" className={status}>
         <span>successful</span>

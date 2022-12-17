@@ -8,7 +8,7 @@ const AddCategory = async (
   description: string
 ) => {
   try {
-    const res = await axios({
+    return axios({
       url: "",
       method: "POST",
       data: {
@@ -29,7 +29,6 @@ const AddCategory = async (
         },
       },
     });
-    return res.data.data.category;
   } catch (err: any) {
     console.log(err.message);
   }

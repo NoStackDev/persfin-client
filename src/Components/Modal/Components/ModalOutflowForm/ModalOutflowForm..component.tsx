@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { UseMutateFunction } from "react-query";
+import { UseMutationResult } from "react-query";
 import { FetchBudgets, FetchCategories } from "../../../../Queries";
 import "./ModalOutflowForm.style.scss";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
-  mutate: UseMutateFunction<any, unknown, any, unknown>;
+  mutation: UseMutationResult<any, unknown, any, unknown>;
 };
 
 interface BudgetInterface {
@@ -33,7 +33,7 @@ interface CategoryInterface {
   categoryType: string;
 }
 
-const ModalOutflowForm = ({ setShowMainModal, mutate }: Props) => {
+const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
   const [category, setCategory] = useState<CategoryInterface | null>(null);
@@ -56,7 +56,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutate }: Props) => {
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    mutate({
+    mutation.mutate({
       userId,
       title,
       amount,

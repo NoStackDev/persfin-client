@@ -9,28 +9,28 @@ const AddInflow = async (
   description: string
 ) => {
   try {
-    const res = await axios({
+    return axios({
       url: "",
       method: "POST",
       data: {
         query: `
-                    mutation AddInflow($user: ID, $title: String, $amount: Float, $category: ID, $description: String, $receiptImage: [String], $modelType: String) {
-                        addInflow(user: $user, title: $title, amount: $amount, category: $category, description: $description, receiptImage: $receiptImage, modelType: $modelType) {
-                            user {
-                                _id
-                                firstname
-                                lastname
-                            }
+                mutation AddInflow($user: ID, $title: String, $amount: Float, $category: ID, $description: String, $receiptImage: [String]) {
+                    addInflow(user: $user, title: $title, amount: $amount, category: $category, description: $description, receiptImage: $receiptImage, modelType: $modelType) {
+                        user {
+                            _id
+                            firstname
+                            lastname
+                        }
+                        _id
+                        title
+                        category {
                             _id
                             title
-                            category {
-                                _id
-                                title
-                                categoryType
-                            }
-                            amount
+                            categoryType
                         }
+                        amount
                     }
+                }
                 `,
         variables: {
           user: userId,
@@ -41,10 +41,9 @@ const AddInflow = async (
         },
       },
     });
-
-    return res.data.data.inflow;
   } catch (err: any) {
     console.log(err.message);
+    return err;
   }
 };
 
@@ -67,4 +66,4 @@ const CreateInflow = () => {
   });
 };
 
-export default CreateInflow
+export default CreateInflow;

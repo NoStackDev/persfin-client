@@ -1,24 +1,46 @@
 import React, { useState } from "react";
 import ModalContainer from "../ModalContainer";
 import ModalBudgetItemForm from "./Components/ModalBudgetItemForm.component";
-import { UseMutateFunction } from "react-query";
+import { UseMutateFunction, UseMutationResult } from "react-query";
 import "./ModalBudgetForm.style.scss";
+
+type BudgetItemType = {
+  _id: string;
+  title: string;
+  amount: number;
+  category: string | null;
+  description: string;
+};
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
-  mutate: UseMutateFunction<any, unknown, any, unknown>;
+  mutation: UseMutationResult<any, unknown, any, unknown>;
 };
 
-
-const ModalBudgetForm = ({ setShowMainModal, mutate }: Props) => {
+const ModalBudgetForm = ({ setShowMainModal, mutation }: Props) => {
+  const userId = "636ac4a250bbc5afa6004a8c";
   const [title, setTitle] = useState<string>("");
-  const [total, setTotal] = useState<string>("0");
   const [description, setDescription] = useState<string>("");
+  const [items, setItems] = useState<BudgetItemType[]>([]);
   const [showBudgetItemModal, setShowBudgetItemModal] =
     useState<boolean>(false);
 
+  const handleItemAddition = (item: BudgetItemType) => {
+    setItems([...items, item]);
+  };
+
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    mutation.mutate({
+      userId,
+      title,
+      total: items.reduce((prev, curr) => prev + curr.amount, 0),
+      items: items.map((obj) => {
+        const { _id, ...others } = obj;
+        return { ...others };
+      }),
+      description,
+    });
     setShowMainModal(false);
   };
 
@@ -39,14 +61,15 @@ const ModalBudgetForm = ({ setShowMainModal, mutate }: Props) => {
           <div className="budget-items">
             <label htmlFor="">Item(s)</label>
             <div className="budget-items-container">
-              <div className="item">
-                <div className="item-title">Coke</div>
-                <div className="amount">2000</div>
-              </div>
-              <div className="item">
-                <div className="item-title">Coke</div>
-                <div className="amount">2000</div>
-              </div>
+              {items.map((item) => {
+                return (
+                  <div className="item" key={item._id}>
+                    <div className="item-title">{item.title}</div>
+                    <div className="amount">{item.amount}</div>
+                  </div>
+                );
+              })}
+
               <div
                 className="add-item"
                 onClick={() => setShowBudgetItemModal(!showBudgetItemModal)}
@@ -55,37 +78,6 @@ const ModalBudgetForm = ({ setShowMainModal, mutate }: Props) => {
               </div>
             </div>
           </div>
-          {/* <div className="category">
-            <label htmlFor="category-options-container">Category</label>
-            <div
-              className="category-selected"
-              onClick={() => setShowCategoryOptions(!showCategoryOptions)}
-            >
-              {category}
-            </div>
-            <div
-              className={`category-options-container show-${showCategoryOptions}`}
-            >
-              <div
-                className="category-options"
-                onClick={(e) => onCategoryChange(e)}
-              >
-                Option 1
-              </div>
-              <div
-                className="category-options"
-                onClick={(e) => onCategoryChange(e)}
-              >
-                Option 2
-              </div>
-              <div
-                className="category-options"
-                onClick={(e) => onCategoryChange(e)}
-              >
-                Option 3
-              </div>
-            </div>
-          </div> */}
           <div className="description">
             <label htmlFor="description">Description</label>
             <textarea
@@ -106,6 +98,7 @@ const ModalBudgetForm = ({ setShowMainModal, mutate }: Props) => {
           <ModalContainer />
           <ModalBudgetItemForm
             setShowBudgetItemModal={setShowBudgetItemModal}
+            handleItemAddition={handleItemAddition}
           />
         </div>
       ) : null}

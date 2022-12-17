@@ -4,14 +4,15 @@ import "./ModalBudgetItemForm.style.scss";
 
 type Props = {
   setShowBudgetItemModal: React.Dispatch<React.SetStateAction<boolean>>;
+  handleItemAddition: (item: BudgetItemType) => void;
 };
 
-interface BudgetItems {
+interface BudgetItemType {
   _id: string;
   title: string;
   amount: number;
-  balance: number;
-  category: string;
+  category: string | null;
+  description: string;
 }
 
 interface CategoryInterface {
@@ -20,7 +21,10 @@ interface CategoryInterface {
   categoryType: string;
 }
 
-const ModalBudgetItemForm = (props: Props) => {
+const ModalBudgetItemForm = ({
+  setShowBudgetItemModal,
+  handleItemAddition,
+}: Props) => {
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<string>("0");
   const [category, setCategory] = useState<CategoryInterface | null>(null);
@@ -34,7 +38,15 @@ const ModalBudgetItemForm = (props: Props) => {
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    props.setShowBudgetItemModal(false);
+    const tempCategoryId = category ? category._id : null;
+    handleItemAddition({
+      _id: Date.now().toString(),
+      title,
+      amount: Number(amount),
+      category: tempCategoryId,
+      description,
+    });
+    setShowBudgetItemModal(false);
   };
 
   const onCategoryChange = (
@@ -50,6 +62,7 @@ const ModalBudgetItemForm = (props: Props) => {
       <form>
         <h2>Budget Item</h2>
         <div className="form-body">
+          {/* title  */}
           <div className="title">
             <label htmlFor="title">Title</label>
             <input
@@ -58,6 +71,7 @@ const ModalBudgetItemForm = (props: Props) => {
               value={title}
             />
           </div>
+          {/* amount  */}
           <div className="amount">
             <label htmlFor="amount">amount</label>
             <input
@@ -66,6 +80,7 @@ const ModalBudgetItemForm = (props: Props) => {
               value={amount}
             />
           </div>
+          {/* category  */}
           <div className="category">
             <label htmlFor="category-options-container">Category</label>
             <div
@@ -99,6 +114,7 @@ const ModalBudgetItemForm = (props: Props) => {
               })}
             </div>
           </div>
+          {/* description  */}
           <div className="description">
             <label htmlFor="description">Description</label>
             <textarea
@@ -111,7 +127,7 @@ const ModalBudgetItemForm = (props: Props) => {
           </div>
         </div>
         <button type="submit" onClick={(e) => onSubmit(e)}>
-          Add Transaction
+          Add Item
         </button>
       </form>
     </div>

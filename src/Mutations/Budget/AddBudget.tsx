@@ -17,12 +17,12 @@ const AddBudget = async (
   items: ItemInterface[]
 ) => {
   try {
-    const res = await axios({
+    return axios({
       url: "",
       method: "POST",
       data: {
-        query: `mutation AddBudget($user: ID, $title: String, $total: Float, $description: String, $items:[BudgetItemInput], $modelType: String){
-                      addBudget(user: $user, title: $title, total: $total, description: $description, items: $items, modelType: $modelType) {
+        query: `mutation AddBudget($user: ID, $title: String, $total: Float, $description: String, $items:[BudgetItemInput]){
+                      addBudget(user: $user, title: $title, total: $total, description: $description, items: $items) {
                           _id
                           title
                           description
@@ -47,7 +47,6 @@ const AddBudget = async (
         },
       },
     });
-    return res.data.data.budget;
   } catch (err: any) {
     console.log(err.message);
   }

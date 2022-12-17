@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import quickActions from "./quickActionBarConfig";
 import QuickActionCard from "./Components/QuickActionCard";
@@ -20,43 +20,14 @@ import {
 } from "../../Mutations";
 import Modal from "../Modal";
 import Spinner from "../Spinners";
-import { UseMutateFunction } from "react-query";
+import { UseMutationResult } from "react-query";
 
 type Props = {};
-
-type Transaction = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: {
-    _id: string;
-    title: string;
-    categoryType: string;
-  };
-  budget: string;
-  description: string;
-  receiptImage: string[];
-  time: string;
-  createdAt: Date;
-};
-
-type Category = {
-  _id: string;
-  title: string;
-  categoryType: string;
-  description: string;
-};
 
 const QuickActionBar = (props: Props) => {
   const userId = "636ac4a250bbc5afa6004a8c";
   const [showMainModal, setShowMainModal] = useState<boolean>(false);
   const [selectedFormId, setSelectedFormId] = useState<number | null>(null);
-  const [showSpinner, setShowSpinner] = useState<boolean>(false);
-  const timerRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    return () => window.clearTimeout(timerRef.current || 0);
-  }, []);
 
   // queries
   const {
@@ -84,54 +55,17 @@ const QuickActionBar = (props: Props) => {
   } = FetchCategories(userId);
 
   // mutations
-  const mutationSavings = CreateSavings();
-  const mutationInflow = CreateInflow();
-  const mutationOutflow = CreateOutflow();
-  const mutationCategory = CreateCategory();
-  const mutationBudget = CreateBudget();
-
   const mutations: Record<
     number,
-    UseMutateFunction<any, unknown, any, unknown>
+    UseMutationResult<any, unknown, any, unknown>
   > = {
-    1: mutationSavings.mutate,
-    2: mutationInflow.mutate,
-    3: mutationOutflow.mutate,
-    4: mutationBudget.mutate,
-    5: mutationCategory.mutate,
-    6: mutationCategory.mutate,
+    1: CreateSavings(),
+    2: CreateInflow(),
+    3: CreateOutflow(),
+    4: CreateBudget(),
+    5: CreateCategory(),
+    6: CreateCategory(),
   };
-
-  let isLoading =
-    mutationSavings.isLoading ||
-    mutationInflow.isLoading ||
-    mutationOutflow.isLoading ||
-    mutationCategory.isLoading ||
-    mutationBudget.isLoading;
-  let isError =
-    mutationSavings.isError ||
-    mutationInflow.isError ||
-    mutationOutflow.isError ||
-    mutationCategory.isError ||
-    mutationBudget.isError;
-  let isSuccess =
-    mutationSavings.isSuccess ||
-    mutationInflow.isSuccess ||
-    mutationOutflow.isSuccess ||
-    mutationCategory.isSuccess ||
-    mutationBudget.isSuccess;
-
-  if (!showSpinner && isLoading) {
-    setShowSpinner(true);
-  }
-
-  if (isSuccess || isError) {
-    timerRef.current = window.setTimeout(() => {
-      setShowSpinner(false);
-      isSuccess = false;
-      isError = false;
-    }, 5000);
-  }
 
   const balance = useMemo(() => {
     return calculateBalance(savingsData, inflowsData, outflowsData);
@@ -194,18 +128,14 @@ const QuickActionBar = (props: Props) => {
         <Modal
           quickActionId={selectedFormId}
           setShowMainModal={setShowMainModal}
-          mutate={selectedFormId ? mutations[selectedFormId] : null}
+          mutation={selectedFormId ? mutations[selectedFormId] : null}
         />
       ) : null}
 
-      {showSpinner ? (
-        <Spinner
-          isLoading={isLoading}
-          isError={isError}
-          isSuccess={isSuccess}
-          message={quickActions[selectedFormId ? selectedFormId : 0]["title"]}
-        />
-      ) : null}
+      <Spinner
+        mutation={selectedFormId ? mutations[selectedFormId] : null}
+        message={quickActions[selectedFormId ? selectedFormId : 0]["title"]}
+      />
     </>
   );
 };

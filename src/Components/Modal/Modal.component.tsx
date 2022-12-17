@@ -7,47 +7,63 @@ import ModalSavingsForm from "./Components/ModalSavingsForm";
 
 import "./Modal.style.scss";
 import ModalBudgetForm from "./Components/ModalBudgetForm";
-import { UseMutateFunction } from "react-query";
+import { UseMutationResult } from "react-query";
 
 type Props = {
   quickActionId: number | null;
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
-  mutate: UseMutateFunction<any, unknown, any, unknown> | null;
+  mutation: UseMutationResult<any, unknown, any, unknown> | null;
 };
 
 interface GetFormArgs {
   quickActionId: number | null;
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
-  mutate: UseMutateFunction<any, unknown, any, unknown> | null;
+  mutation: UseMutationResult<any, unknown, any, unknown> | null;
 }
 
-const getForm = ({ quickActionId, setShowMainModal, mutate }: GetFormArgs) => {
-  if (!quickActionId || !mutate) {
+const getForm = ({
+  quickActionId,
+  setShowMainModal,
+  mutation,
+}: GetFormArgs) => {
+  if (!quickActionId || !mutation) {
     return null;
   }
   switch (quickActionId) {
     case 1:
       return (
-        <ModalSavingsForm setShowMainModal={setShowMainModal} mutate={mutate} />
+        <ModalSavingsForm
+          setShowMainModal={setShowMainModal}
+          mutation={mutation}
+        />
       );
     case 2:
       return (
-        <ModalInflowForm setShowMainModal={setShowMainModal} mutate={mutate} />
+        <ModalInflowForm
+          setShowMainModal={setShowMainModal}
+          mutation={mutation}
+        />
       );
     case 3:
       return (
-        <ModalOutflowForm setShowMainModal={setShowMainModal} mutate={mutate} />
+        <ModalOutflowForm
+          setShowMainModal={setShowMainModal}
+          mutation={mutation}
+        />
       );
     case 4:
       return (
-        <ModalBudgetForm setShowMainModal={setShowMainModal} mutate={mutate}/>
+        <ModalBudgetForm
+          setShowMainModal={setShowMainModal}
+          mutation={mutation}
+        />
       );
     case 5:
       return (
         <ModalCategoryForm
           categoryType="inflow"
           setShowMainModal={setShowMainModal}
-          mutate={mutate}
+          mutation={mutation}
         />
       );
     case 6:
@@ -55,7 +71,7 @@ const getForm = ({ quickActionId, setShowMainModal, mutate }: GetFormArgs) => {
         <ModalCategoryForm
           categoryType="outflow"
           setShowMainModal={setShowMainModal}
-          mutate={mutate}
+          mutation={mutation}
         />
       );
     default:
@@ -63,11 +79,11 @@ const getForm = ({ quickActionId, setShowMainModal, mutate }: GetFormArgs) => {
   }
 };
 
-const Modal = ({ quickActionId, setShowMainModal, mutate }: Props) => {
+const Modal = ({ quickActionId, setShowMainModal, mutation }: Props) => {
   return (
     <section id="modal">
       <ModalContainer />
-      {getForm({ quickActionId, setShowMainModal, mutate })}
+      {getForm({ quickActionId, setShowMainModal, mutation })}
     </section>
   );
 };

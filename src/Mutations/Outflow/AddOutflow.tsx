@@ -11,7 +11,7 @@ const AddOutflow = async (
   description: string
 ) => {
   try {
-    const res = await axios({
+    return axios({
       url: "",
       method: "POST",
       data: {
@@ -43,7 +43,6 @@ const AddOutflow = async (
         },
       },
     });
-    return res.data.data.outflow;
   } catch (err: any) {
     console.log(err.message);
   }
@@ -74,7 +73,7 @@ const CreateOutflow = () => {
       AddOutflow(userId, title, amount, budget, item, category, description),
     onSuccess: () => {
       queryClient.invalidateQueries("outflows");
-      queryClient.invalidateQueries("budgets")
+      queryClient.invalidateQueries("budgets");
     },
   });
 };

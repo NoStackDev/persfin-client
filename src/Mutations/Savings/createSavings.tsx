@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "react-query";
 
 const AddSavings = async (userId: string, amount: number) => {
   try {
-    const res = await axios({
+    return axios({
       url: "",
       method: "POST",
       data: {
@@ -24,7 +24,6 @@ const AddSavings = async (userId: string, amount: number) => {
         },
       },
     });
-    return res.data.data.savings;
   } catch (err: any) {
     console.log(err.message);
   }

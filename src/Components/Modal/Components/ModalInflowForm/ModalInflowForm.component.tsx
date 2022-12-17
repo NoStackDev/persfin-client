@@ -1,11 +1,11 @@
 import { useState } from "react";
 import "./ModalInflowForm.style.scss";
-import { UseMutateFunction } from "react-query";
+import { UseMutationResult } from "react-query";
 import { FetchCategories } from "../../../../Queries";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
-  mutate: UseMutateFunction<any, unknown, any, unknown>;
+  mutation: UseMutationResult<any, unknown, any, unknown>;
 };
 
 interface CategoryInterface {
@@ -14,7 +14,7 @@ interface CategoryInterface {
   categoryType: string;
 }
 
-const ModalInflowForm = ({ setShowMainModal, mutate }: Props) => {
+const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
   const [category, setCategory] = useState<CategoryInterface | null>(null);
@@ -28,7 +28,7 @@ const ModalInflowForm = ({ setShowMainModal, mutate }: Props) => {
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    mutate({ userId, title, amount, category: category?._id, description });
+    mutation.mutate({ userId, title, amount, category: category?._id, description });
     setShowMainModal(false);
   };
 
