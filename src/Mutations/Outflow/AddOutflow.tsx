@@ -15,8 +15,8 @@ const AddOutflow = async (
       url: "",
       method: "POST",
       data: {
-        query: `mutation AddOutflow($user: ID, $title: String, $amount: Float, $category: ID, $budget: ID, $item: ID, $description: String, $receiptImage: [String], $modelType: String) {
-                    addOutflow(user: $user, title: $title, amount: $amount, category: $category, budget: $budget, item: $item, description: $description, receiptImage: $receiptImage, modelType: $modelType) {
+        query: `mutation AddOutflow($user: ID, $title: String, $amount: Float, $category: ID, $budget: ID, $item: ID, $description: String, $receiptImage: [String]) {
+                    addOutflow(user: $user, title: $title, amount: $amount, category: $category, budget: $budget, item: $item, description: $description, receiptImage: $receiptImage) {
                         user {
                             _id
                             firstname

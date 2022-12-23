@@ -15,7 +15,7 @@ const AddInflow = async (
       data: {
         query: `
                 mutation AddInflow($user: ID, $title: String, $amount: Float, $category: ID, $description: String, $receiptImage: [String]) {
-                    addInflow(user: $user, title: $title, amount: $amount, category: $category, description: $description, receiptImage: $receiptImage, modelType: $modelType) {
+                    addInflow(user: $user, title: $title, amount: $amount, category: $category, description: $description, receiptImage: $receiptImage) {
                         user {
                             _id
                             firstname

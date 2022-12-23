@@ -5,9 +5,15 @@ import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.c
 import DistributionChart from "../../Components/Charts/PieChart/DistributionChart.component";
 
 import "./Overview.style.scss";
-import { FetchSavings, FetchInflows, FetchOutflows, FetchBudgets } from "../../Queries";
+import {
+  FetchSavings,
+  FetchInflows,
+  FetchOutflows,
+  FetchBudgets,
+} from "../../Queries";
 import collateData from "./helpers";
 import BudgetCard from "../Budget/Components/BudgetCard";
+import { DeleteBudget } from "../../Mutations";
 
 type Props = {};
 
@@ -81,13 +87,20 @@ const Overview = (props: Props) => {
     return collateData([inflowsData, outflowsData, savingsData]);
   }, [inflowsData, outflowsData, savingsData]);
 
+  // mutations
+  const deleteBudgetMutation = DeleteBudget();
+
   return (
     <main>
       <section id="inflow-outflow-chart">
         <InflowOutflowChart />
       </section>
       <section id="category-chart">
-        <CategoryChart dataset={[inflowsData, outflowsData]} showFixedDateFilter={true} category/>
+        <CategoryChart
+          dataset={[inflowsData, outflowsData]}
+          showFixedDateFilter={true}
+          category
+        />
       </section>
       <section id="recent-activity">
         <ActivityCard
@@ -96,11 +109,9 @@ const Overview = (props: Props) => {
         />
       </section>
       <section id="budgets">
-        {
-          budgetsData?.map((budget: BudgetInterface) => {
-            return <BudgetCard budget={budget} key={budget._id}/>
-          })
-        }
+        {budgetsData?.map((budget: BudgetInterface) => {
+          return <BudgetCard budget={budget} key={budget._id} deleteMutation={deleteBudgetMutation}/>;
+        })}
       </section>
     </main>
   );

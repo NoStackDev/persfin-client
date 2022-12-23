@@ -7,8 +7,8 @@ const AddSavings = async (userId: string, amount: number) => {
       url: "",
       method: "POST",
       data: {
-        query: `mutation AddSavings($user: ID, $amount: Float, $modelType: String){
-                    addSavings(user: $user, amount: $amount, modelType: $modelType){
+        query: `mutation AddSavings($user: ID, $amount: Float){
+                    addSavings(user: $user, amount: $amount){
                         user {
                             _id
                             firstname

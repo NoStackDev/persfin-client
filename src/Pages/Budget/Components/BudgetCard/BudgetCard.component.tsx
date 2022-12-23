@@ -1,4 +1,5 @@
 import React from "react";
+import { UseMutationResult } from "react-query";
 
 import "./BudgetCard.style.scss";
 
@@ -20,9 +21,10 @@ interface BudInterface {
 
 type Props = {
   budget: BudInterface;
+  deleteMutation: UseMutationResult<any, unknown, any, unknown>;
 };
 
-const BudgetCard = ({ budget }: Props) => {
+const BudgetCard = ({ budget, deleteMutation }: Props) => {
   return (
     <div className="budget-card">
       <div className="card-top">
@@ -30,7 +32,12 @@ const BudgetCard = ({ budget }: Props) => {
         <div className="card-top-right">
           <span className="material-icons copy">content_copy</span>
           <span className="material-icons edit">edit</span>
-          <span className="material-icons delete">delete</span>
+          <span
+            className="material-icons delete"
+            onClick={() => deleteMutation.mutate({ budget: budget._id })}
+          >
+            delete
+          </span>
         </div>
       </div>
       <div className="create-date">
