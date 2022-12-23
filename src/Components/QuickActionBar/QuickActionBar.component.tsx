@@ -7,6 +7,7 @@ import {
   FetchInflows,
   FetchOutflows,
   FetchCategories,
+  FetchBudgets,
 } from "../../Queries";
 import { calculateBalance, calculateSavings, countCategories } from "./helper";
 
@@ -54,6 +55,12 @@ const QuickActionBar = (props: Props) => {
     data: categoriesData,
   } = FetchCategories(userId);
 
+  const {
+    isLoading: isLoadingBudgetsData,
+    isSuccess: isSuccessBudgetsData,
+    data: budgetsData,
+  } = FetchBudgets(userId);
+
   // mutations
   const mutations: Record<
     number,
@@ -79,6 +86,7 @@ const QuickActionBar = (props: Props) => {
     return countCategories(categoriesData);
   }, [categoriesData]);
 
+
   const getAmount = (title: string) => {
     switch (title.toLowerCase().trim()) {
       case "balance":
@@ -93,6 +101,8 @@ const QuickActionBar = (props: Props) => {
         return inflowCategories;
       case "outflow categories":
         return outflowCategories;
+      case "budgets":
+        return budgetsData?.length
       default:
         return 0;
     }
@@ -134,7 +144,7 @@ const QuickActionBar = (props: Props) => {
 
       <Spinner
         mutation={selectedFormId ? mutations[selectedFormId] : null}
-        message={quickActions[selectedFormId ? selectedFormId : 0]["title"]}
+        message={"adding " + quickActions[selectedFormId ? selectedFormId : 0]["title"]}
       />
     </>
   );

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import ActivityCard from "../../Components/ActivityCard";
 import InflowOutflowChart from "../../Components/Charts/LineChart/InflowOutflowChart.component";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
-import DistributionChart from "../../Components/Charts/PieChart/DistributionChart.component";
+import Spinner from "../../Components/Spinners";
 
 import "./Overview.style.scss";
 import {
@@ -91,29 +91,41 @@ const Overview = (props: Props) => {
   const deleteBudgetMutation = DeleteBudget();
 
   return (
-    <main>
-      <section id="inflow-outflow-chart">
-        <InflowOutflowChart />
-      </section>
-      <section id="category-chart">
-        <CategoryChart
-          dataset={[inflowsData, outflowsData]}
-          showFixedDateFilter={true}
-          category
-        />
-      </section>
-      <section id="recent-activity">
-        <ActivityCard
-          cardTitle="Recent Activity"
-          activities={data.slice(0, 5)}
-        />
-      </section>
-      <section id="budgets">
-        {budgetsData?.map((budget: BudgetInterface) => {
-          return <BudgetCard budget={budget} key={budget._id} deleteMutation={deleteBudgetMutation}/>;
-        })}
-      </section>
-    </main>
+    <>
+      <main>
+        <section id="inflow-outflow-chart">
+          <InflowOutflowChart />
+        </section>
+        <section id="category-chart">
+          <CategoryChart
+            dataset={[inflowsData, outflowsData]}
+            showFixedDateFilter={true}
+            category
+          />
+        </section>
+        <section id="recent-activity">
+          <ActivityCard
+            cardTitle="Recent Activity"
+            activities={data.slice(0, 5)}
+          />
+        </section>
+        <section id="budgets">
+          {budgetsData?.map((budget: BudgetInterface) => {
+            return (
+              <BudgetCard
+                budget={budget}
+                key={budget._id}
+                deleteMutation={deleteBudgetMutation}
+              />
+            );
+          })}
+        </section>
+      </main>
+      <Spinner
+        mutation={deleteBudgetMutation}
+        message={"Deleting budget"}
+      />
+    </>
   );
 };
 

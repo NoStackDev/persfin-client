@@ -3,7 +3,7 @@ import { UseMutationResult } from "react-query";
 
 import "./BudgetCard.style.scss";
 
-interface BudInterface {
+interface BudgetInterface {
   _id: string;
   title: string;
   balance: number;
@@ -16,15 +16,17 @@ interface BudInterface {
     balance: number;
     category: string;
   }[];
+  completed: boolean;
   modelType: string;
 }
 
 type Props = {
-  budget: BudInterface;
+  budget: BudgetInterface;
   deleteMutation: UseMutationResult<any, unknown, any, unknown>;
 };
 
 const BudgetCard = ({ budget, deleteMutation }: Props) => {
+  console.log(budget.completed);
   return (
     <div className="budget-card">
       <div className="card-top">
@@ -40,8 +42,11 @@ const BudgetCard = ({ budget, deleteMutation }: Props) => {
           </span>
         </div>
       </div>
-      <div className="create-date">
-        created: {new Date(Number(budget.time)).toLocaleDateString()}
+      <div className="date-status">
+        <div className="create-date">
+          created: {new Date(Number(budget.time)).toLocaleDateString()}
+        </div>
+        <div className="status">{budget.completed? "completed": null}</div>
       </div>
       <div className="budget-items">
         <ul>

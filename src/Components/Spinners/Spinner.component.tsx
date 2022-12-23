@@ -22,12 +22,11 @@ const Spinner = ({ mutation, message }: Props) => {
     status = "loading";
     return (
       <div id="spinner-container" className={status}>
-        <span>adding {message?.trim().toLocaleLowerCase()}</span>
+        <span>{message?.trim().toLocaleLowerCase()}</span>
         <div id="spinner"></div>
       </div>
     );
   }
-  // mutation.reset();
   if (mutation.isError) {
     status = "error";
     timerRef.current = window.setTimeout(() => {

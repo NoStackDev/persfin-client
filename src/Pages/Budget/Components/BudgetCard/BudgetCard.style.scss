@@ -44,11 +44,21 @@
     }
   }
 
+  .date-status {
+    display: flex;
+    justify-content: space-between;
+    font-size: to-rem(16px);
+
+    .status {
+      font-weight: 600;
+    }
+  }
+
   .budget-items {
     ul {
-        display: flex;
-        flex-direction: column;
-        gap: to-rem(10px);
+      display: flex;
+      flex-direction: column;
+      gap: to-rem(10px);
 
       li {
         display: flex;
@@ -102,22 +112,22 @@
   }
 
   .progress {
-    position: relative; 
+    position: relative;
 
     .progress-total {
-        @include theme-aware('background', 'outflow-color');
-        width: 100%;
-        height: to-rem(5px);
-        border-radius: to-rem(12px);
+      @include theme-aware("background", "outflow-color");
+      width: 100%;
+      height: to-rem(5px);
+      border-radius: to-rem(12px);
     }
 
     .progress-current {
-        position: absolute;
-        @include theme-aware('background', 'inflow-color');
-        width: 70%;
-        height: to-rem(5px);
-        border-radius: to-rem(12px);
-        top: to-rem(0px);
+      position: absolute;
+      @include theme-aware("background", "inflow-color");
+      width: 70%;
+      height: to-rem(5px);
+      border-radius: to-rem(12px);
+      top: to-rem(0px);
     }
   }
 }
