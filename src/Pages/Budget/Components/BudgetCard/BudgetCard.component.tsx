@@ -26,7 +26,6 @@ type Props = {
 };
 
 const BudgetCard = ({ budget, deleteMutation }: Props) => {
-  console.log(budget.completed);
   return (
     <div className="budget-card">
       <div className="card-top">
@@ -46,7 +45,7 @@ const BudgetCard = ({ budget, deleteMutation }: Props) => {
         <div className="create-date">
           created: {new Date(Number(budget.time)).toLocaleDateString()}
         </div>
-        <div className="status">{budget.completed? "completed": null}</div>
+        <div className="status">{budget.completed ? "completed" : null}</div>
       </div>
       <div className="budget-items">
         <ul>

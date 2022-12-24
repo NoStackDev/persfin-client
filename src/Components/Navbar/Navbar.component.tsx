@@ -9,10 +9,12 @@ type Props = {};
 
 const Nav = (props: Props) => {
   const [navbarOpen, setNavbarOpen] = useState<boolean>(false);
+  const [selectedNav, setSelectedNav] = useState<number>(0);
 
-  const handleClick = () => {
-    console.log("clicked");
+  const handleNavClick = (navItemId: number) => {
+    setSelectedNav(navItemId);
   };
+
   return (
     <nav className={navbarOpen ? "open" : "closed"}>
       <div className="topNav">
@@ -34,8 +36,12 @@ const Nav = (props: Props) => {
         <ul>
           {navbarItems.map((navItem, index) => {
             return (
-              <Link to={navItem.link} key={index}>
-                <li>
+              <Link
+                to={navItem.link}
+                key={index}
+                onClick={() => handleNavClick(navItem.id)}
+              >
+                <li className={navItem.id === selectedNav ? "active" : ""}>
                   <span className="material-icons icon">
                     {navItem.itemIcon}
                   </span>
@@ -48,9 +54,7 @@ const Nav = (props: Props) => {
       </div>
       <div className="bottomNav">
         <span className="material-icons">exit_to_app</span>
-        <div className="logout" onClick={handleClick}>
-          Log out
-        </div>
+        <div className="logout">Log out</div>
       </div>
     </nav>
   );

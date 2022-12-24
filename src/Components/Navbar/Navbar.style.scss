@@ -20,22 +20,19 @@ nav {
   gap: to-rem(50px);
   transition: 0.5s;
 
-  // behaviour on open
-  &.open {
-    padding-block: to-rem(13px) to-rem(20px);
-    padding-inline: to-rem(20px);
-    width: to-rem(200px);
+  a {
+    @include theme-aware("color", "header-color");
+  }
 
-    .topNav {
-      .appLogo {
-        visibility: visible;
-      }
+  li {
+    padding-inline: to-rem(20px);
+    div {
+      visibility: hidden;
     }
   }
 
   @include breakpoint("m") {
     width: to-rem(70px);
-    padding-inline: to-rem(20px);
   }
 
   .topNav {
@@ -139,7 +136,7 @@ nav {
     ul {
       display: flex;
       flex-direction: column;
-      gap: to-rem(50px);
+      gap: to-rem(30px);
 
       li {
         display: grid;
@@ -147,8 +144,16 @@ nav {
         align-items: center;
         gap: to-rem(20px);
 
+        @include breakpoint("m") {
+          padding-block: to-rem(10px);
+          padding-inline: to-rem(20px);
+        }
+
+        &.active {
+          @include theme-aware("background", "bg-color");
+        }
+
         &:hover {
-          color: blue;
           cursor: pointer;
         }
       }
@@ -160,14 +165,45 @@ nav {
     display: flex;
     align-items: center;
     gap: to-rem(20px);
+    // margin-bottom: to-rem(20px);
 
     .logout {
-      min-width: max-content;
+      visibility: hidden;
+    }
+
+    @include breakpoint("m") {
+      padding-block: to-rem(10px);
+      padding-inline: to-rem(20px);
     }
 
     &:hover {
       color: blue;
       cursor: pointer;
+    }
+  }
+
+  // behaviour on open
+  &.open {
+    padding-block: to-rem(13px) to-rem(20px);
+    width: to-rem(200px);
+
+    .topNav {
+      .appLogo {
+        visibility: visible;
+      }
+      padding-inline: to-rem(20px);
+    }
+
+    li {
+      padding-inline: to-rem(20px);
+      div {
+        visibility: visible;
+      }
+    }
+
+    .logout {
+      word-break: keep-all;
+      visibility: visible;
     }
   }
 }

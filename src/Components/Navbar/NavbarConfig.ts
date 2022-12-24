@@ -1,4 +1,5 @@
 interface navItem {
+  id: number;
   itemName: string;
   itemIcon: string;
   link: string;
@@ -6,29 +7,34 @@ interface navItem {
 
 const navbarItems: Array<navItem> = [
   {
+    id: 0,
     itemName: "Overview",
-    itemIcon: 'dashboard',
-    link: '/'
+    itemIcon: "dashboard",
+    link: "/",
   },
   {
+    id: 1,
     itemName: "Inflow",
     itemIcon: "south",
-    link: 'inflow'
+    link: "inflow",
   },
   {
+    id: 2,
     itemName: "Outflow",
-    itemIcon: 'north',
-    link: 'outflow'
+    itemIcon: "north",
+    link: "outflow",
   },
   {
+    id: 3,
     itemName: "Budget",
     itemIcon: "pie_chart",
-    link: 'budget'
+    link: "budget",
   },
   {
+    id: 4,
     itemName: "Savings",
     itemIcon: "savings",
-    link: 'savings'
+    link: "savings",
   },
 ];
 
