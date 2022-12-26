@@ -165,7 +165,6 @@ nav {
     display: flex;
     align-items: center;
     gap: to-rem(20px);
-    // margin-bottom: to-rem(20px);
 
     .logout {
       visibility: hidden;
@@ -201,9 +200,12 @@ nav {
       }
     }
 
-    .logout {
-      word-break: keep-all;
-      visibility: visible;
+    .bottomNav {
+      padding-inline: to-rem(20px);
+      .logout {
+        word-break: keep-all;
+        visibility: visible;
+      }
     }
   }
 }
