@@ -22,6 +22,7 @@ type SavingsType = {
   amount: number;
   time: string;
   modelType: string;
+  createdAt: string;
 };
 
 type Props = {};

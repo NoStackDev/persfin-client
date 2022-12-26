@@ -17,46 +17,72 @@ import { DeleteBudget } from "../../Mutations";
 
 type Props = {};
 
-type Transaction = {
+type InflowType = {
   _id: string;
   title: string;
   amount: number;
-  category: {
-    _id: string;
-    title: string;
-    categoryType: string;
-  };
+  category: CategoryType;
+  description: string;
+  time: string;
+  createdAt: string;
+  modelType: string;
+};
+
+type OutflowType = {
+  _id: string;
+  title: string;
+  amount: number;
+  category: CategoryType;
   budget: string;
+  item: string;
   description: string;
   receiptImage: string[];
   time: string;
-  createdAt: Date;
+  createdAt: string;
   modelType: string;
 };
 
-interface BudgetInterface {
+type BudgetType = {
   _id: string;
   title: string;
-  balance: number;
   total: number;
+  balance: number;
+  status: string;
+  description: string;
+  items: BudgetItemType[];
   time: string;
-  items: {
-    _id: string;
-    title: string;
-    amount: number;
-    balance: number;
-    category: string;
-  }[];
-  modelType: string;
   completed: boolean;
-}
+  createdAt: string;
+  modelType: string;
+};
 
-type Savings = {
+type BudgetItemType = {
+  _id: string;
+  title: string;
+  amount: number;
+  category: string;
+  balance: number;
+  description: string;
+};
+
+type SavingsType = {
   _id: string;
   amount: number;
   time: string;
   modelType: string;
+  title?: string;
+  createdAt: string
 };
+
+type CategoryType = {
+  _id: string;
+  title: string;
+  categoryType: string;
+  description: string;
+  createdAt: string;
+};
+
+type DataObj = InflowType | OutflowType | BudgetType | SavingsType;
 
 const Overview = (props: Props) => {
   const userId = "636ac4a250bbc5afa6004a8c";
@@ -110,7 +136,7 @@ const Overview = (props: Props) => {
           />
         </section>
         <section id="budgets">
-          {budgetsData?.map((budget: BudgetInterface) => {
+          {budgetsData?.map((budget: BudgetType) => {
             return (
               <BudgetCard
                 budget={budget}

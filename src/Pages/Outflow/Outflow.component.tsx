@@ -47,7 +47,6 @@ const Outflow = (props: Props) => {
         <ActivityCard cardTitle="Outflow" activities={dateFiltered} />
       </section>
       <section id="distribution-chart-section">
-        {/* <DistributionChart /> */}
         <CategoryChart dataset={[outflowsData]} showFixedDateFilter />
       </section>
     </main>

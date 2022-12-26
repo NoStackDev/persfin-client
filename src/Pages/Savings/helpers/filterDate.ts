@@ -3,6 +3,7 @@ type Savings = {
   amount: number;
   time: string;
   modelType: string;
+  createdAt: string;
 };
 interface rangeInterface {
   min: Date;
