@@ -1,32 +1,4 @@
-type InflowType = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: CategoryType;
-  description: string;
-  time: string;
-  createdAt: string;
-  modelType: string;
-};
-
-type CategoryType = {
-  _id: string;
-  title: string;
-  categoryType: string;
-  description: string;
-  createdAt: string;
-};
-
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
+import { InflowType, TimeRangeInterface } from "../../../Types";
 
 const filterDate = (
   data: InflowType[] | null,

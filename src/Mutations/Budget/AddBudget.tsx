@@ -1,20 +1,14 @@
 import { useMutation } from "react-query";
 import axios from "axios";
 import { useQueryClient } from "react-query";
-
-interface ItemInterface {
-  title: string;
-  description: string;
-  category: string;
-  amount: number;
-}
+import { BudgetType, BudgetItemType } from "../../Types";
 
 const AddBudget = async (
   userId: string,
   title: string,
   description: string,
   total: number,
-  items: ItemInterface[]
+  items: BudgetItemType[]
 ) => {
   try {
     return axios({
@@ -52,18 +46,16 @@ const AddBudget = async (
   }
 };
 
-type Args = {
-  userId: string;
-  title: string;
-  total: number;
-  description: string;
-  items: ItemInterface[];
-};
-
 const CreateBudget = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ userId, title, description, total, items }: Args) =>
+    mutationFn: ({
+      userId,
+      title,
+      description,
+      total,
+      items,
+    }: BudgetType & { userId: string }) =>
       AddBudget(userId, title, description, total, items),
     onSuccess: () => {
       queryClient.invalidateQueries("budgets");

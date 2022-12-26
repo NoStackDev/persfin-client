@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import { SavingsType } from "../../Types";
 
 const AddSavings = async (userId: string, amount: number) => {
   try {
@@ -29,15 +30,12 @@ const AddSavings = async (userId: string, amount: number) => {
   }
 };
 
-type Args = {
-  userId: string;
-  amount: number;
-};
 
 const CreateSavings = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ userId, amount }: Args) => AddSavings(userId, amount),
+    mutationFn: ({ userId, amount }: SavingsType & { userId: string }) =>
+      AddSavings(userId, amount),
     onSuccess: () => {
       queryClient.invalidateQueries("savings");
     },

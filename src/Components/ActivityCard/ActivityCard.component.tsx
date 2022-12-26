@@ -1,70 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import "./ActivityCard.style.scss";
-type InflowType = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: CategoryType;
-  description: string;
-  time: string;
-  createdAt: string;
-  modelType: string;
-};
 
-type OutflowType = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: CategoryType;
-  budget: string;
-  item: string;
-  description: string;
-  receiptImage: string[];
-  time: string;
-  createdAt: string;
-  modelType: string;
-};
-
-type BudgetType = {
-  _id: string;
-  title: string;
-  total: number;
-  balance: number;
-  status: string;
-  description: string;
-  items: BudgetItemType[];
-  time: string;
-  completed: boolean;
-  createdAt: string;
-  modelType: string;
-};
-
-type BudgetItemType = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: string;
-  balance: number;
-  description: string;
-};
-
-type SavingsType = {
-  _id: string;
-  amount: number;
-  time: string;
-  modelType: string;
-  title?: string;
-  createdAt: string;
-};
-
-type CategoryType = {
-  _id: string;
-  title: string;
-  categoryType: string;
-  description: string;
-  createdAt: string;
-};
+import { InflowType, OutflowType, BudgetType, SavingsType } from "../../Types";
 
 type DataObj = InflowType | OutflowType | BudgetType | SavingsType;
 
@@ -88,10 +26,24 @@ const icons = (_type: string): JSX.Element => {
   }
 };
 
-const renderDateHeader = (time: string) => {
-  const activityTime = new Date(Number(time)).toLocaleString().split(",")[0];
+const renderDateHeader = (
+  activity: DataObj,
+  dateHeaders: Record<string, string>
+) => {
+  const activityTime = new Date(Number(activity.time))
+    .toLocaleString()
+    .split(",")[0];
+
+  if (dateHeaders[activityTime] !== activity._id) {
+    return null;
+  }
+
   if (new Date(Date.now()).toLocaleString().split(",")[0] === activityTime) {
-    return "Today";
+    return (
+      <tr className={"date-header"}>
+        <td>Today</td>
+      </tr>
+    );
   }
 
   if (
@@ -99,10 +51,18 @@ const renderDateHeader = (time: string) => {
       .toLocaleString()
       .split(",")[0] === activityTime
   ) {
-    return "Yesterday";
+    return (
+      <tr className={"date-header"}>
+        <td>Yesterday</td>
+      </tr>
+    );
   }
 
-  return activityTime;
+  return (
+    <tr className={"date-header"}>
+      <td>{activityTime}</td>
+    </tr>
+  );
 };
 
 const ActivityCard = ({ cardTitle, activities }: Props) => {
@@ -150,15 +110,7 @@ const ActivityCard = ({ cardTitle, activities }: Props) => {
                 if (activity)
                   return (
                     <React.Fragment key={index}>
-                      {dateHeaders[
-                        new Date(Number(activity.time))
-                          .toLocaleString()
-                          .split(",")[0]
-                      ] === activity._id ? (
-                        <tr className={"date-header"}>
-                          <td >{renderDateHeader(activity.time)}</td>
-                        </tr>
-                      ) : null}
+                      {renderDateHeader(activity, dateHeaders)}
                       <tr
                         className={"activity " + activity?.modelType}
                         key={activity._id}
@@ -168,7 +120,16 @@ const ActivityCard = ({ cardTitle, activities }: Props) => {
                           {activity?.modelType === "savings" ? (
                             <span className="title">savings</span>
                           ) : (
-                            <span className="title">{activity.title}</span>
+                            <span className="title">
+                              {
+                                (
+                                  activity as
+                                    | InflowType
+                                    | OutflowType
+                                    | BudgetType
+                                ).title
+                              }
+                            </span>
                           )}
                         </td>
                         <td className="type">{activity.modelType}</td>

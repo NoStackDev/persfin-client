@@ -2,44 +2,20 @@ import { useState } from "react";
 import { UseMutationResult } from "react-query";
 import { FetchBudgets, FetchCategories } from "../../../../Queries";
 import "./ModalOutflowForm.style.scss";
+import { BudgetType, BudgetItemType, CategoryType } from "../../../../Types";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
   mutation: UseMutationResult<any, unknown, any, unknown>;
 };
 
-interface BudgetInterface {
-  _id: string;
-  title: string;
-  balance: number;
-  total: number;
-  time: string;
-  items: BudgetItems[];
-  modelType: string;
-  completed: boolean;
-}
-
-interface BudgetItems {
-  _id: string;
-  title: string;
-  amount: number;
-  balance: number;
-  category: string;
-}
-
-interface CategoryInterface {
-  _id: string;
-  title: string;
-  categoryType: string;
-}
-
 const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
-  const [category, setCategory] = useState<CategoryInterface | null>(null);
-  const [budget, setBudget] = useState<BudgetInterface | null>(null);
-  const [budgetItems, setBudgetItems] = useState<BudgetItems[] | null>(null);
-  const [item, setItem] = useState<BudgetItems | null>(
+  const [category, setCategory] = useState<CategoryType | null>(null);
+  const [budget, setBudget] = useState<BudgetType | null>(null);
+  const [budgetItems, setBudgetItems] = useState<BudgetItemType[] | null>(null);
+  const [item, setItem] = useState<BudgetItemType | null>(
     budgetItems ? budgetItems[0] : null
   );
   const [description, setDescription] = useState<string>("");
@@ -77,7 +53,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
 
   const onBudgetChange = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    budget: BudgetInterface | null
+    budget: BudgetType | null
   ) => {
     setBudget(budget);
     setBudgetItems(budget?.items || null);
@@ -87,7 +63,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
 
   const onBudgetItemChange = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    item: BudgetItems | null
+    item: BudgetItemType | null
   ) => {
     setItem(item ? item : null);
     setShowBudgetItemsOptions(!showBudgetItemsOptions);
@@ -95,7 +71,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
 
   const onCategoryChange = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    category: CategoryInterface | null
+    category: CategoryType | null
   ) => {
     setCategory(category ? category : null);
     setShowCategoryOptions(!showCategoryOptions);
@@ -142,7 +118,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
                 {budget ? "Unbudgeted" : null}
               </div>
 
-              {budgetData.map((ele: BudgetInterface) => {
+              {budgetData.map((ele: BudgetType) => {
                 if (ele.completed === false && ele._id !== budget?._id)
                   return (
                     <div
@@ -179,7 +155,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
               <div
                 className={`budget-item-options-container show-${showBudgetItemsOptions}`}
               >
-                {budgetItems?.map((ele: BudgetItems) => {
+                {budgetItems?.map((ele: BudgetItemType) => {
                   if (ele._id !== item?._id)
                     return (
                       <div
@@ -222,7 +198,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
                   {category ? "Others" : null}
                 </div>
 
-                {categoryData.map((ele: CategoryInterface) => {
+                {categoryData.map((ele: CategoryType) => {
                   if (
                     ele.categoryType === "outflow" &&
                     ele._id !== category?._id

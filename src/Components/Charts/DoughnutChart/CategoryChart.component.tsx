@@ -1,81 +1,16 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useMemo, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
-import { FetchInflows, FetchOutflows } from "../../../Queries";
 import CategorySelector from "../../CategorySelector";
 import DateFilterFixed from "../../DateFiter/DateFilterFixed";
+
+import { InflowType, OutflowType, BudgetType, TimeRangeInterface,  } from "../../../Types";
 
 import "./CategoryChart.style.scss";
 import generateLabelsColorsAmount from "./helpers/generateLabelsColorsAmount";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-type InflowType = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: CategoryType;
-  description: string;
-  time: string;
-  createdAt: string;
-  modelType: string;
-};
-
-type OutflowType = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: CategoryType;
-  budget: string;
-  item: string;
-  description: string;
-  receiptImage: string[];
-  time: string;
-  createdAt: string;
-  modelType: string;
-};
-
-type BudgetType = {
-  _id: string;
-  title: string;
-  total: number;
-  balance: number;
-  status: string;
-  description: string;
-  items: BudgetItemType[];
-  time: string;
-  completed: boolean;
-  createdAt: string;
-  modelType: string;
-};
-
-type BudgetItemType = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: string;
-  balance: number;
-  description: string;
-};
-
-type CategoryType = {
-  _id: string;
-  title: string;
-  categoryType: string;
-  description: string;
-  createdAt: string;
-};
-
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
 
 const options = {
   responsive: true,
@@ -109,7 +44,7 @@ const CategoryChart = ({ dataset, showFixedDateFilter, heading, category }: Prop
 
   const labelsColorsAmount = useMemo(() => {
     return generateLabelsColorsAmount(dataset, filterRange, category);
-  }, [dataset, filterRange]);
+  }, [dataset, filterRange, category]);
 
   const selectedData = selectedCategory? labelsColorsAmount[selectedCategory]: null
 

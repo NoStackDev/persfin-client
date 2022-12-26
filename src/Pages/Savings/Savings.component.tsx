@@ -2,28 +2,11 @@ import "./Savings.style.scss";
 import FilterBar from "../../Components/FilterBar";
 import ActivityCard from "../../Components/ActivityCard";
 import DistributionChart from "../../Components/Charts/PieChart";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import filterDate from "./helpers/filterDate";
 import { FetchSavings } from "../../Queries";
 
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
-
-type SavingsType = {
-  _id: string;
-  amount: number;
-  time: string;
-  modelType: string;
-  createdAt: string;
-};
+import { TimeRangeInterface } from "../../Types";
 
 type Props = {};
 

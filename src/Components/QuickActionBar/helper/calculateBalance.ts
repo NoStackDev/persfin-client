@@ -1,29 +1,9 @@
-type Savings = {
-  _id: string;
-  amount: number;
-  time: string;
-};
-
-type Transaction = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: {
-    _id: string;
-    title: string;
-    categoryType: string;
-  };
-  budget: string;
-  description: string;
-  receiptImage: string[];
-  time: string;
-  createdAt: Date;
-};
+import { InflowType, OutflowType, SavingsType } from "../../../Types";
 
 export const calculateBalance = (
-  savings: Savings[] | null,
-  inflows: Transaction[] | null,
-  outflows: Transaction[] | null
+  savings: SavingsType[] | null,
+  inflows: InflowType[] | null,
+  outflows: OutflowType[] | null
 ) => {
   const savingsAmount =
     savings?.reduce((prevValue, currentSavingsObj) => {

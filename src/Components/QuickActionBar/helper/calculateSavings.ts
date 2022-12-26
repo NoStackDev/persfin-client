@@ -1,16 +1,11 @@
-type Savings = {
-    _id: string;
-    amount: number;
-    time: string;
-  };
-  
+import { SavingsType } from "../../../Types";
 
-const calculateSavings = (objArr: Savings[]|null): number => {
-    const total = objArr?.reduce((prevValue, currentObj) => {
-        return prevValue + currentObj.amount
-    },0)
+const calculateSavings = (objArr: SavingsType[] | null): number => {
+  const total = objArr?.reduce((prevValue, currentObj) => {
+    return prevValue + currentObj.amount;
+  }, 0);
 
-    return total? total: 0
-}
+  return total ? total : 0;
+};
 
-export default calculateSavings
+export default calculateSavings;

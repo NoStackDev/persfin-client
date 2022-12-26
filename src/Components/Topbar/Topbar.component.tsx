@@ -11,14 +11,6 @@ import {
 import "./Topbar.style.scss";
 
 type Props = {};
-type User = {
-  _id: string;
-  email: string;
-  firstname: string;
-  lastname: string;
-  othername: string;
-  profilePic: string;
-};
 
 const Topbar = (props: Props) => {
   const [date, setDate] = useState<string>(new Date(Date.now()).toDateString());

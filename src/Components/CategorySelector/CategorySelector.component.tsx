@@ -1,5 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from "react";
-import Category from "../../Mutations/Category";
+import React, { useEffect, useState } from "react";
 import "./CategorySelector.style.scss";
 
 type Props = {
@@ -24,8 +23,8 @@ const CategorySelector = ({ categories, setSelectedCategory }: Props) => {
       );
       setSelectedCategory(categories[0]);
     }
-  }, [categories]);
-  
+  }, [categories, setSelectedCategory, selectedOption]);
+
   return (
     <div
       className="category-selector"
@@ -36,7 +35,7 @@ const CategorySelector = ({ categories, setSelectedCategory }: Props) => {
       {showOptions ? (
         <div className="options-container">
           {categories?.map((category, index) => {
-            return category.toLowerCase() != selectedOption?.toLowerCase() ? (
+            return category.toLowerCase() !== selectedOption?.toLowerCase() ? (
               <div
                 className="options"
                 onClick={() => handleClick(category)}

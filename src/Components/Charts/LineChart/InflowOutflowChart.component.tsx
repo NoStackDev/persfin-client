@@ -17,16 +17,7 @@ import {
 import "./InflowOutflowChart.style.scss";
 import { FetchInflows, FetchOutflows } from "../../../Queries";
 
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
+import { TimeRangeInterface } from "../../../Types";
 
 ChartJS.register(
   CategoryScale,
@@ -38,16 +29,6 @@ ChartJS.register(
   Legend
 );
 
-type Transaction = {
-  title: string;
-  amount: number;
-  transactionType: string;
-  category: string;
-  budget: string;
-  description: string;
-  receiptImage: string[];
-  time: string;
-};
 
 interface datasetType {
   id: number;

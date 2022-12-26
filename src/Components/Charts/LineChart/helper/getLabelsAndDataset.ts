@@ -1,24 +1,4 @@
-type Transaction = {
-  title: string;
-  amount: number;
-  transactionType: string;
-  category: string;
-  budget: string;
-  description: string;
-  receiptImage: string[];
-  time: string;
-};
-
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
+import { InflowType, OutflowType, TimeRangeInterface } from "../../../../Types";
 
 const labelChoices = (filterRange: TimeRangeInterface | null) => {
   if (filterRange?.id === "thwk" || filterRange?.id === "lswk") {
@@ -36,7 +16,7 @@ const labelChoices = (filterRange: TimeRangeInterface | null) => {
 };
 
 const filterData = (
-  data: Transaction[] | null,
+  data: InflowType[] | OutflowType[] | null,
   filterRange: TimeRangeInterface
 ) => {
   if (!data) {
@@ -57,15 +37,15 @@ const filterData = (
 };
 
 const getLabelsAndDataset = (
-  dataset: Array<Transaction[] | null> | null,
+  dataset: Array<InflowType[] | OutflowType[] | null> | null,
   filterRange: TimeRangeInterface | null
 ) => {
   if (filterRange && dataset) {
     const labels = labelChoices(filterRange);
     const data: number[][] = [];
 
-    dataset.forEach((tranaction) => {
-      const filteredData = filterData(tranaction, filterRange);
+    dataset.forEach((transaction) => {
+      const filteredData = filterData(transaction, filterRange);
       const subData: number[] = [];
 
       labels.forEach((label) => {

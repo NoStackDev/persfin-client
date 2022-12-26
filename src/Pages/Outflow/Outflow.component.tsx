@@ -1,6 +1,5 @@
 import ActivityCard from "../../Components/ActivityCard";
 import FilterBar from "../../Components/FilterBar";
-import DistributionChart from "../../Components/Charts/PieChart/DistributionChart.component";
 
 import "./Outflow.style.scss";
 import { useMemo, useState } from "react";
@@ -8,16 +7,7 @@ import filterDate from "./helpers/filterDate";
 import { FetchOutflows } from "../../Queries";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
+import { TimeRangeInterface } from "../../Types";
 
 type Props = {};
 

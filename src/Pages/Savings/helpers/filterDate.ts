@@ -1,23 +1,7 @@
-type Savings = {
-  _id: string;
-  amount: number;
-  time: string;
-  modelType: string;
-  createdAt: string;
-};
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
+import { SavingsType, TimeRangeInterface } from "../../../Types";
 
 const filterDate = (
-  data: Savings[] | null,
+  data: SavingsType[] | null,
   filterRange: TimeRangeInterface | null
 ) => {
   if (!data) {

@@ -14,6 +14,7 @@ const getCategories = async (userId: string) => {
                         title
                         description
                         modelType
+                        time
                         createdAt
                     }
                 }`,

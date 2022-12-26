@@ -2,20 +2,11 @@ import React, { SetStateAction, useRef, useState } from "react";
 
 import "./DateFilterDynamic.style.scss";
 
+import { TimeRangeInterface } from "../../../Types";
+
 type Props = {
   setFilterRange: React.Dispatch<SetStateAction<TimeRangeInterface | null>>;
 };
-
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
 
 const DateFilterDynamic = ({ setFilterRange }: Props) => {
   const [start, setStart] = useState<string | null>(null);

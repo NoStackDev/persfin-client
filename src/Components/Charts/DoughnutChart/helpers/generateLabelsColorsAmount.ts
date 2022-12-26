@@ -1,71 +1,4 @@
-type InflowType = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: CategoryType;
-  description: string;
-  time: string;
-  createdAt: string;
-  modelType: string;
-  total?: number;
-};
-
-type OutflowType = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: CategoryType;
-  budget: string;
-  item: string;
-  description: string;
-  receiptImage: string[];
-  time: string;
-  createdAt: string;
-  modelType: string;
-  total?: number;
-};
-
-type BudgetType = {
-  _id: string;
-  title: string;
-  total: number;
-  balance: number;
-  status: string;
-  description: string;
-  items: BudgetItemType[];
-  time: string;
-  completed: boolean;
-  createdAt: string;
-  modelType: string;
-};
-
-type BudgetItemType = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: string;
-  balance: number;
-  description: string;
-};
-
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-type CategoryType = {
-  _id: string;
-  title: string;
-  categoryType: string;
-  description: string;
-  createdAt: string;
-};
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
+import { InflowType, OutflowType, BudgetType, TimeRangeInterface } from "../../../../Types";
 
 type ResultType = Record<string, SubResultInterface>;
 
@@ -92,9 +25,9 @@ const generateLabelsColorsAmount = (
       return filterData(arr, filterRange);
     });
     // loop over each array of arrays
-    filteredDataset?.map((arr) => {
+    filteredDataset?.forEach((arr) => {
       // loop over objects in arrays
-      arr?.map((obj: DataObj) => {
+      arr?.forEach((obj: DataObj) => {
         // throw error if modelType does not exist in object
         if (!obj.modelType) {
           throw new Error(

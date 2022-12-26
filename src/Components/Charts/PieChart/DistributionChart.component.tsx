@@ -7,6 +7,8 @@ import getLabelsColorsDataset from "./helpers/getLabelsColorsData";
 import "./DistributionChart.style.scss";
 import { FetchBudgets } from "../../../Queries";
 
+import { TimeRangeInterface } from "../../../Types";
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const options = {
@@ -27,36 +29,7 @@ const options = {
 
 type Props = {};
 
-type BudgetType = {
-  _id: string;
-  title: string;
-  total: number;
-  balance: number;
-  status: string;
-  description: string;
-  time: string;
-  items: BudgetItemsType[];
-};
 
-type BudgetItemsType = {
-  _id: string;
-  title: string;
-  amount: number;
-  balance: number;
-  category: string;
-  description: string;
-};
-
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
 
 const DistributionChart = (props: Props) => {
   const userId = "636ac4a250bbc5afa6004a8c";

@@ -1,25 +1,12 @@
 import { useState } from "react";
 import { FetchCategories } from "../../../../../Queries";
 import "./ModalBudgetItemForm.style.scss";
+import { BudgetItemType, CategoryType } from "../../../../../Types";
 
 type Props = {
   setShowBudgetItemModal: React.Dispatch<React.SetStateAction<boolean>>;
   handleItemAddition: (item: BudgetItemType) => void;
 };
-
-interface BudgetItemType {
-  _id: string;
-  title: string;
-  amount: number;
-  category: string | null;
-  description: string;
-}
-
-interface CategoryInterface {
-  _id: string;
-  title: string;
-  categoryType: string;
-}
 
 const ModalBudgetItemForm = ({
   setShowBudgetItemModal,
@@ -27,7 +14,7 @@ const ModalBudgetItemForm = ({
 }: Props) => {
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<string>("0");
-  const [category, setCategory] = useState<CategoryInterface | null>(null);
+  const [category, setCategory] = useState<CategoryType | null>(null);
   const [description, setDescription] = useState<string>("");
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
@@ -51,7 +38,7 @@ const ModalBudgetItemForm = ({
 
   const onCategoryChange = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    category: CategoryInterface | null
+    category: CategoryType | null
   ) => {
     setCategory(category ? category : null);
     setShowCategoryOptions(!showCategoryOptions);
@@ -99,7 +86,7 @@ const ModalBudgetItemForm = ({
                 {category ? "Others" : null}
               </div>
 
-              {categoryData.map((ele: CategoryInterface) => {
+              {categoryData.map((ele: CategoryType) => {
                 if (ele.categoryType === "outflow" && ele._id !== category?._id)
                   return (
                     <div

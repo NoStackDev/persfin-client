@@ -14,75 +14,9 @@ import {
 import collateData from "./helpers";
 import BudgetCard from "../Budget/Components/BudgetCard";
 import { DeleteBudget } from "../../Mutations";
+import { BudgetType } from "../../Types";
 
 type Props = {};
-
-type InflowType = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: CategoryType;
-  description: string;
-  time: string;
-  createdAt: string;
-  modelType: string;
-};
-
-type OutflowType = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: CategoryType;
-  budget: string;
-  item: string;
-  description: string;
-  receiptImage: string[];
-  time: string;
-  createdAt: string;
-  modelType: string;
-};
-
-type BudgetType = {
-  _id: string;
-  title: string;
-  total: number;
-  balance: number;
-  status: string;
-  description: string;
-  items: BudgetItemType[];
-  time: string;
-  completed: boolean;
-  createdAt: string;
-  modelType: string;
-};
-
-type BudgetItemType = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: string;
-  balance: number;
-  description: string;
-};
-
-type SavingsType = {
-  _id: string;
-  amount: number;
-  time: string;
-  modelType: string;
-  title?: string;
-  createdAt: string
-};
-
-type CategoryType = {
-  _id: string;
-  title: string;
-  categoryType: string;
-  description: string;
-  createdAt: string;
-};
-
-type DataObj = InflowType | OutflowType | BudgetType | SavingsType;
 
 const Overview = (props: Props) => {
   const userId = "636ac4a250bbc5afa6004a8c";
@@ -147,10 +81,7 @@ const Overview = (props: Props) => {
           })}
         </section>
       </main>
-      <Spinner
-        mutation={deleteBudgetMutation}
-        message={"Deleting budget"}
-      />
+      <Spinner mutation={deleteBudgetMutation} message={"Deleting budget"} />
     </>
   );
 };

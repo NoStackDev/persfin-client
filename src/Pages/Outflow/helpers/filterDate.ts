@@ -1,36 +1,4 @@
-type OutflowType = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: CategoryType;
-  budget: string;
-  item: string;
-  description: string;
-  receiptImage: string[];
-  time: string;
-  createdAt: string;
-  modelType: string;
-};
-
-type CategoryType = {
-  _id: string;
-  title: string;
-  categoryType: string;
-  description: string;
-  createdAt: string;
-};
-
-
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
+import { OutflowType, TimeRangeInterface } from "../../../Types";
 
 const filterDate = (
   data: OutflowType[] | null,

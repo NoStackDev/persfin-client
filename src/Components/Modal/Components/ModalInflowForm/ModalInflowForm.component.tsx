@@ -2,22 +2,17 @@ import { useState } from "react";
 import "./ModalInflowForm.style.scss";
 import { UseMutationResult } from "react-query";
 import { FetchCategories } from "../../../../Queries";
+import { CategoryType } from "../../../../Types";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
   mutation: UseMutationResult<any, unknown, any, unknown>;
 };
 
-interface CategoryInterface {
-  _id: string;
-  title: string;
-  categoryType: string;
-}
-
 const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
-  const [category, setCategory] = useState<CategoryInterface | null>(null);
+  const [category, setCategory] = useState<CategoryType | null>(null);
   const [description, setDescription] = useState<string>("");
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
@@ -28,13 +23,19 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    mutation.mutate({ userId, title, amount, category: category?._id, description });
+    mutation.mutate({
+      userId,
+      title,
+      amount,
+      category: category?._id,
+      description,
+    });
     setShowMainModal(false);
   };
 
   const onCategoryChange = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    category: CategoryInterface | null
+    category: CategoryType | null
   ) => {
     setCategory(category ? category : null);
     setShowCategoryOptions(!showCategoryOptions);
@@ -89,7 +90,7 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
                 {category ? "Others" : null}
               </div>
 
-              {categoryData.map((ele: CategoryInterface) => {
+              {categoryData.map((ele: CategoryType) => {
                 if (ele.categoryType === "inflow" && ele._id !== category?._id)
                   return (
                     <div

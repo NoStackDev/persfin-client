@@ -1,13 +1,4 @@
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
+import { TimeRangeInterface } from "../../../Types";
 
 const timeRange: TimeRangeInterface[] = [
   {

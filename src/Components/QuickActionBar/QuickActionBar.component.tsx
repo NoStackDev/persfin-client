@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import quickActions from "./quickActionBarConfig";
 import QuickActionCard from "./Components/QuickActionCard";
@@ -86,7 +86,6 @@ const QuickActionBar = (props: Props) => {
     return countCategories(categoriesData);
   }, [categoriesData]);
 
-
   const getAmount = (title: string) => {
     switch (title.toLowerCase().trim()) {
       case "balance":
@@ -102,7 +101,7 @@ const QuickActionBar = (props: Props) => {
       case "outflow categories":
         return outflowCategories;
       case "budgets":
-        return budgetsData?.length
+        return budgetsData?.length;
       default:
         return 0;
     }
@@ -144,7 +143,9 @@ const QuickActionBar = (props: Props) => {
 
       <Spinner
         mutation={selectedFormId ? mutations[selectedFormId] : null}
-        message={"adding " + quickActions[selectedFormId ? selectedFormId : 0]["title"]}
+        message={
+          "adding " + quickActions[selectedFormId ? selectedFormId : 0]["title"]
+        }
       />
     </>
   );

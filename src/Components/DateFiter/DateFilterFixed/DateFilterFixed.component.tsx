@@ -3,20 +3,11 @@ import timeRange from "./dateFilterFixedConfig";
 
 import "./DateFilterFixed.style.scss";
 
+import { TimeRangeInterface } from "../../../Types";
+
 type SetFilterRange = {
   setFilterRange: React.Dispatch<SetStateAction<TimeRangeInterface | null>>;
 };
-
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
 
 const DateFilterFixed = ({setFilterRange}: SetFilterRange) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);

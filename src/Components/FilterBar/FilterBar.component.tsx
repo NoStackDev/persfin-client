@@ -1,22 +1,12 @@
 import { SetStateAction } from "react";
 import DateFilterDynamic from "../DateFiter/DateFilterDynamic";
 import "./FilterBar.style.scss";
+import { TimeRangeInterface } from "../../Types";
 
 type Props = {
   showTags?: boolean;
   setFilterRange: React.Dispatch<SetStateAction<TimeRangeInterface | null>>;
 };
-
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
 
 const FilterBar = ({ showTags = false, setFilterRange }: Props) => {
   return (

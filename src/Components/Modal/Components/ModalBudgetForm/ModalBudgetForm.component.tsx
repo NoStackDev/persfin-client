@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import ModalContainer from "../ModalContainer";
 import ModalBudgetItemForm from "./Components/ModalBudgetItemForm.component";
-import { UseMutateFunction, UseMutationResult } from "react-query";
+import { UseMutationResult } from "react-query";
 import "./ModalBudgetForm.style.scss";
 
-type BudgetItemType = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: string | null;
-  description: string;
-};
+import { BudgetItemType } from "../../../../Types";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;

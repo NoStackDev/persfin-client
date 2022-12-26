@@ -1,33 +1,4 @@
-type BudgetType = {
-  _id: string;
-  title: string;
-  total: number;
-  balance: number;
-  status: string;
-  description: string;
-  time: string;
-  items: BudgetItemsType[];
-};
-
-type BudgetItemsType = {
-  _id: string;
-  title: string;
-  amount: number;
-  balance: number;
-  category: string;
-  description: string;
-};
-
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
+import { BudgetType, TimeRangeInterface } from "../../../../Types";
 
 const filterData = (
   data: BudgetType[] | null,

@@ -1,23 +1,13 @@
 import ActivityCard from "../../Components/ActivityCard";
 import FilterBar from "../../Components/FilterBar";
-import DistributionChart from "../../Components/Charts/PieChart/DistributionChart.component";
 
 import "./Inflow.style.scss";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { FetchInflows } from "../../Queries";
 import filterDate from "./helpers/filterDate";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
+import { TimeRangeInterface } from "../../Types";
 
 
 type Props = {};

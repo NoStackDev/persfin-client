@@ -2,26 +2,10 @@ import React from "react";
 import { UseMutationResult } from "react-query";
 
 import "./BudgetCard.style.scss";
-
-interface BudgetInterface {
-  _id: string;
-  title: string;
-  balance: number;
-  total: number;
-  time: string;
-  items: {
-    _id: string;
-    title?: string;
-    amount: number;
-    balance: number;
-    category: string;
-  }[];
-  completed: boolean;
-  modelType: string;
-}
+import { BudgetType } from "../../../../Types";
 
 type Props = {
-  budget: BudgetInterface;
+  budget: BudgetType;
   deleteMutation: UseMutationResult<any, unknown, any, unknown>;
 };
 

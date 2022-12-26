@@ -1,25 +1,13 @@
 import FilterBar from "../../Components/FilterBar";
 import BudgetCard from "./Components/BudgetCard";
-import DistributionChart from "../../Components/Charts/PieChart/DistributionChart.component";
-
 import "./Budget.style.scss";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { FetchBudgets } from "../../Queries";
 import filterDate from "./helpers/filterDate";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 import Spinner from "../../Components/Spinners";
 import { DeleteBudget } from "../../Mutations";
-
-interface rangeInterface {
-  min: Date;
-  max: Date;
-}
-
-interface TimeRangeInterface {
-  id: string;
-  title: string;
-  range(): rangeInterface;
-}
+import { TimeRangeInterface } from "../../Types";
 
 type Props = {};
 

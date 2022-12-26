@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import { CategoryType } from "../../Types";
 
 const AddCategory = async (
   userId: string,
@@ -34,17 +35,15 @@ const AddCategory = async (
   }
 };
 
-type Args = {
-  userId: string;
-  title: string;
-  description: string;
-  categoryType: string;
-};
-
 const CreateCategory = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ userId, title, description, categoryType }: Args) =>
+    mutationFn: ({
+      userId,
+      title,
+      description,
+      categoryType,
+    }: CategoryType & { userId: string }) =>
       AddCategory(userId, title, categoryType, description),
     onSuccess: () => {
       queryClient.invalidateQueries("categories");
