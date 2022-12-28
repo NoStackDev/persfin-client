@@ -16,9 +16,6 @@ type Props = {
 const ActivityCard = ({ cardTitle, activities }: Props) => {
   const [activitiesPerPage] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageActivities, setPageActivities] = useState<
-    (DataObj | null)[] | null
-  >(null);
 
   const totalPageNumber = activities
     ? Math.ceil(activities.length / activitiesPerPage)
