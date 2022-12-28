@@ -70,8 +70,6 @@ const QuickActionBar = (props: Props) => {
     2: CreateInflow(),
     3: CreateOutflow(),
     4: CreateBudget(),
-    5: CreateCategory(),
-    6: CreateCategory(),
   };
 
   const balance = useMemo(() => {
@@ -96,10 +94,6 @@ const QuickActionBar = (props: Props) => {
         return inflowsData;
       case "outflow":
         return outflowsData;
-      case "inflow categories":
-        return inflowCategories;
-      case "outflow categories":
-        return outflowCategories;
       case "budgets":
         return budgetsData?.length;
       default:

@@ -66,7 +66,7 @@ const Overview = (props: Props) => {
         <section id="recent-activity">
           <ActivityCard
             cardTitle="Recent Activity"
-            activities={data.slice(0, 5)}
+            activities={data.slice(0, 100)}
           />
         </section>
         <section id="budgets">

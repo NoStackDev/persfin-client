@@ -54,24 +54,24 @@ const quickActions: quickActionInterface[] = [
     btnText: "Create Budget",
     hasFixedDateFilter: false,
   },
-  {
-    id: 5,
-    icon: "category",
-    title: "Inflow Categories",
-    showCurrency: false,
-    hasBtn: true,
-    btnText: "Add Category",
-    hasFixedDateFilter: false,
-  },
-  {
-    id: 6,
-    icon: "category",
-    title: "Outflow Categories",
-    showCurrency: false,
-    hasBtn: true,
-    btnText: "Add Category",
-    hasFixedDateFilter: false,
-  },
+  // {
+  //   id: 5,
+  //   icon: "category",
+  //   title: "Inflow Categories",
+  //   showCurrency: false,
+  //   hasBtn: true,
+  //   btnText: "Add Category",
+  //   hasFixedDateFilter: false,
+  // },
+  // {
+  //   id: 6,
+  //   icon: "category",
+  //   title: "Outflow Categories",
+  //   showCurrency: false,
+  //   hasBtn: true,
+  //   btnText: "Add Category",
+  //   hasFixedDateFilter: false,
+  // },
 ];
 
 export default quickActions;

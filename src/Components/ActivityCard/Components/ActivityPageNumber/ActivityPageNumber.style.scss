@@ -1,0 +1,26 @@
+@import "../../../../Assets/Styles/mixins";
+@import "../../../../Assets/Styles/themes";
+@import "../../../../Assets/Styles/functions";
+@import "../../../../Assets/Styles/variables";
+
+.page-numbers {
+  display: flex;
+  justify-content: center;
+  gap: to-rem(20px);
+  flex-wrap: wrap;
+
+  .page-number {
+    @include theme-aware("background", "bg-color");
+    padding: to-rem(2px) to-rem(10px);
+    border-radius: to-rem(5px);
+
+    &.active {
+        @include theme-aware('background', 'header-color');
+        color: #fff;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+  }
+}

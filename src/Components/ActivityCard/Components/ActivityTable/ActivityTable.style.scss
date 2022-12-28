@@ -1,0 +1,69 @@
+@import "../../../../Assets/Styles/mixins";
+@import "../../../../Assets/Styles/themes";
+@import "../../../../Assets/Styles/functions";
+@import "../../../../Assets/Styles/variables";
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  tbody {
+    tr {
+      td {
+        padding-block: to-rem(10px);
+      }
+    }
+
+    .date-header {
+      border-bottom: none;
+
+      td {
+        padding-top: to-rem(30px);
+      }
+    }
+  }
+
+  .activity {
+    .icon-title-wrapper {
+      display: flex;
+      gap: to-rem(20px);
+
+      .material-icons {
+        font-size: $default-fontsize;
+      }
+    }
+
+    .amount {
+      white-space: nowrap;
+      .material-icons {
+        font-size: $default-fontsize;
+      }
+    }
+
+    .type,
+    .date,
+    .time {
+      display: none;
+
+      @include breakpoint("sm") {
+        display: table-cell;
+      }
+    }
+
+    &.budget {
+      @include theme-aware("color", "budget-color");
+    }
+
+    &.savings {
+      @include theme-aware("color", "savings-color");
+    }
+
+    &.inflow {
+      @include theme-aware("color", "inflow-color");
+    }
+
+    &.outflow {
+      @include theme-aware("color", "outflow-color");
+    }
+  }
+}
