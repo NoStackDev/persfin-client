@@ -1,8 +1,10 @@
-import { useState } from "react";
 import ModalContainer from "./Components/ModalContainer";
 import ModalInflowForm from "./Components/ModalInflowForm";
 import ModalOutflowForm from "./Components/ModalOutflowForm";
-import ModalCategoryForm from "./Components/ModalCategoryForm";
+import {
+  CreateCategoryForm,
+  ManageCategoryForm,
+} from "./Components/ModalCategoryForm";
 import ModalSavingsForm from "./Components/ModalSavingsForm";
 
 import "./Modal.style.scss";
@@ -58,17 +60,25 @@ const getForm = ({
           mutation={mutation}
         />
       );
-    case 5:
+    case 6:
       return (
-        <ModalCategoryForm
+        <CreateCategoryForm
           categoryType="inflow"
           setShowMainModal={setShowMainModal}
           mutation={mutation}
         />
       );
-    case 6:
+    case 7:
       return (
-        <ModalCategoryForm
+        <ManageCategoryForm
+          categoryType="inflow"
+          setShowMainModal={setShowMainModal}
+          mutation={mutation}
+        />
+      );
+    case 8:
+      return (
+        <CreateCategoryForm
           categoryType="outflow"
           setShowMainModal={setShowMainModal}
           mutation={mutation}

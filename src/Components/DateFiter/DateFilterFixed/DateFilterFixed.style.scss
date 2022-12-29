@@ -3,39 +3,38 @@
 @import "../../../Assets/Styles/themes";
 
 .date-filter-fixed {
-    position: relative;
-    font-size: to-rem(12px);
-    z-index: 5;
+  position: relative;
+  font-size: to-rem(12px);
 
-    &:hover {
-        cursor: pointer;
+  &:hover {
+    cursor: pointer;
+  }
+
+  .selected-option {
+    padding-block: to-rem(5px);
+    padding-inline: to-rem(12px);
+    @include theme-aware("background", "bg-color");
+  }
+
+  .filter-option-container {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: to-rem(5px);
+    padding-block: to-rem(5px);
+    @include theme-aware("background", "bg-color");
+
+    .filter-option {
+      width: 100%;
+      text-align: center;
+
+      &:hover {
+        transform: scale(1.05);
+        @include theme-aware("background", "text-color");
+        @include theme-aware("color", "bg-color");
+      }
     }
-
-    .selected-option {
-        padding-block: to-rem(5px);
-        padding-inline: to-rem(12px);
-        @include theme-aware("background", "bg-color");
-    }
-
-    .filter-option-container {
-        position: absolute;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: to-rem(5px);
-        padding-block: to-rem(5px);
-        @include theme-aware("background", "bg-color");
-
-        .filter-option {
-            width: 100%;
-            text-align: center;
-
-            &:hover {
-                transform: scale(1.05);
-                @include theme-aware("background", "text-color");
-                @include theme-aware("color", "bg-color");
-            }
-        }
-    }
+  }
 }

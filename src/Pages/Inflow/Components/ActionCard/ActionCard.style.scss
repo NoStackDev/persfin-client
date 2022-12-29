@@ -1,0 +1,46 @@
+@import "../../../../Assets/Styles/functions";
+@import "../../../../Assets/Styles/mixins";
+@import "../../../../Assets/Styles/themes";
+
+.action-card {
+  padding: to-rem(20px);
+  display: flex;
+  flex-direction: column;
+  gap: to-rem(20px);
+  @include theme-aware("background", "card-bg-color");
+  border-radius: to-rem(12px);
+
+  h2 {
+    @include theme-aware("color", "header-color");
+    font-size: to-rem(24px);
+    font-weight: 600;
+  }
+
+  h3 {
+    word-break: break-all;
+    @include theme-aware("color", "text-2-color");
+    font-size: to-rem(20px);
+    align-self: center;
+  }
+
+  button {
+    font-weight: 600;
+    color: #fff;
+    padding: to-rem(10px) to-rem(5px);
+    border-radius: to-rem(12px);
+    border: none;
+
+    &:nth-of-type(1) {
+      @include theme-aware("background", "primary-color");
+    }
+
+    &:nth-of-type(2) {
+      @include theme-aware("background", "savings-color");
+    }
+
+    &:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+  }
+}

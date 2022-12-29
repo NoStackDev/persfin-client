@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { UseMutationResult } from "react-query";
-import "./ModalCategoryForm.style.scss";
+import "./CreateCategoryForm.style.scss";
 
 type Props = {
   categoryType: string;
@@ -8,7 +8,7 @@ type Props = {
   mutation: UseMutationResult<any, unknown, any, unknown>;
 };
 
-const ModalCategoryForm = ({
+const CreateCategoryForm = ({
   categoryType,
   setShowMainModal,
   mutation,
@@ -25,7 +25,7 @@ const ModalCategoryForm = ({
   };
 
   return (
-    <div id="modal-category-form">
+    <div id="modal-create-category-form">
       <form>
         <h2>Category</h2>
         <div className="form-body">
@@ -60,4 +60,4 @@ const ModalCategoryForm = ({
   );
 };
 
-export default ModalCategoryForm;
+export default CreateCategoryForm;

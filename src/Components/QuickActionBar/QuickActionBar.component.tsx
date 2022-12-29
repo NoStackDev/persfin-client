@@ -6,21 +6,19 @@ import {
   FetchSavings,
   FetchInflows,
   FetchOutflows,
-  FetchCategories,
   FetchBudgets,
 } from "../../Queries";
-import { calculateBalance, calculateSavings, countCategories } from "./helper";
+import { calculateBalance, calculateSavings } from "./helper";
 
 import "./QuickActionBar.style.scss";
 import {
   CreateBudget,
-  CreateCategory,
   CreateInflow,
   CreateOutflow,
   CreateSavings,
 } from "../../Mutations";
 import Modal from "../Modal";
-import Spinner from "../Spinners";
+import Spinner from "../Spinner";
 import { UseMutationResult } from "react-query";
 
 type Props = {};
@@ -50,12 +48,6 @@ const QuickActionBar = (props: Props) => {
   } = FetchOutflows(userId);
 
   const {
-    isLoading: isLoadingCategoriesData,
-    isSuccess: isSuccessCategoriesData,
-    data: categoriesData,
-  } = FetchCategories(userId);
-
-  const {
     isLoading: isLoadingBudgetsData,
     isSuccess: isSuccessBudgetsData,
     data: budgetsData,
@@ -79,10 +71,6 @@ const QuickActionBar = (props: Props) => {
   const savingsTotal = useMemo(() => {
     return calculateSavings(savingsData);
   }, [savingsData]);
-
-  const { inflowCategories, outflowCategories } = useMemo(() => {
-    return countCategories(categoriesData);
-  }, [categoriesData]);
 
   const getAmount = (title: string) => {
     switch (title.toLowerCase().trim()) {

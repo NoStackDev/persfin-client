@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import ActivityCard from "../../Components/ActivityCard";
 import InflowOutflowChart from "../../Components/Charts/LineChart/InflowOutflowChart.component";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
-import Spinner from "../../Components/Spinners";
+import Spinner from "../../Components/Spinner";
 
 import "./Overview.style.scss";
 import {

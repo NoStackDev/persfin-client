@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { FetchBudgets } from "../../Queries";
 import filterDate from "./helpers/filterDate";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
-import Spinner from "../../Components/Spinners";
+import Spinner from "../../Components/Spinner";
 import { DeleteBudget } from "../../Mutations";
 import { TimeRangeInterface } from "../../Types";
 

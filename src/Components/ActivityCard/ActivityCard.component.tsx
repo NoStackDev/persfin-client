@@ -14,7 +14,7 @@ type Props = {
 };
 
 const ActivityCard = ({ cardTitle, activities }: Props) => {
-  const [activitiesPerPage] = useState<number>(10);
+  const [activitiesPerPage] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const totalPageNumber = activities

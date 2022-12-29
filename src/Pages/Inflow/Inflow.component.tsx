@@ -3,12 +3,13 @@ import FilterBar from "../../Components/FilterBar";
 
 import "./Inflow.style.scss";
 import { useMemo, useState } from "react";
-import { FetchInflows } from "../../Queries";
+import { FetchCategories, FetchInflows } from "../../Queries";
 import filterDate from "./helpers/filterDate";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
 import { TimeRangeInterface } from "../../Types";
-
+import ActionCard from "./Components/ActionCard";
+import { countCategories } from "./Components/ActionCard/helper";
 
 type Props = {};
 
@@ -25,6 +26,16 @@ const Inflow = (props: Props) => {
     data: inflowsData,
   } = FetchInflows(userId);
 
+  const {
+    isLoading: isLoadingCategoriesData,
+    isSuccess: isSuccessCategoriesData,
+    data: categoriesData,
+  } = FetchCategories(userId);
+
+  const { inflowCategories } = useMemo(() => {
+    return countCategories(categoriesData);
+  }, [categoriesData]);
+
   const dateFiltered = useMemo(() => {
     return filterDate(inflowsData, filterRange);
   }, [inflowsData, filterRange]);
@@ -38,8 +49,8 @@ const Inflow = (props: Props) => {
         <ActivityCard cardTitle="Inflow" activities={dateFiltered} />
       </section>
       <section id="distribution-chart-section">
-        {/* <DistributionChart /> */}
-        <CategoryChart dataset={[dateFiltered]} showFixedDateFilter/>
+        <ActionCard categoriesNum={inflowCategories} />
+        <CategoryChart dataset={[dateFiltered]} showFixedDateFilter />
       </section>
     </main>
   );
