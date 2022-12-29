@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { SavingsType } from "../../Types";
+import { SavingsType } from "../../TypeDefs";
 
 const AddSavings = async (userId: string, amount: number) => {
   try {

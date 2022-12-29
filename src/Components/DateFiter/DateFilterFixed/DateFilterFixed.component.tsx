@@ -3,7 +3,7 @@ import timeRange from "./dateFilterFixedConfig";
 
 import "./DateFilterFixed.style.scss";
 
-import { TimeRangeInterface } from "../../../Types";
+import { TimeRangeInterface } from "../../../TypeDefs";
 
 type SetFilterRange = {
   setFilterRange: React.Dispatch<SetStateAction<TimeRangeInterface | null>>;

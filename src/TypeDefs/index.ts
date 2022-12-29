@@ -6,4 +6,4 @@ export type {
   SavingsType,
   CategoryType,
   TimeRangeInterface,
-} from "./Types";
+} from "./TypeDefs";

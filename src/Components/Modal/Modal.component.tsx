@@ -10,23 +10,27 @@ import ModalSavingsForm from "./Components/ModalSavingsForm";
 import "./Modal.style.scss";
 import ModalBudgetForm from "./Components/ModalBudgetForm";
 import { UseMutationResult } from "react-query";
+import { BudgetType, CategoryType } from "../../TypeDefs";
 
 type Props = {
   quickActionId: number | null;
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
   mutation: UseMutationResult<any, unknown, any, unknown> | null;
+  prefillData?: CategoryType | BudgetType | null;
 };
 
 interface GetFormArgs {
   quickActionId: number | null;
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
   mutation: UseMutationResult<any, unknown, any, unknown> | null;
+  prefillData?: CategoryType | BudgetType | null;
 }
 
 const getForm = ({
   quickActionId,
   setShowMainModal,
   mutation,
+  prefillData,
 }: GetFormArgs) => {
   if (!quickActionId || !mutation) {
     return null;
@@ -66,6 +70,7 @@ const getForm = ({
           categoryType="inflow"
           setShowMainModal={setShowMainModal}
           mutation={mutation}
+          prefillData={prefillData}
         />
       );
     case 7:
@@ -89,11 +94,16 @@ const getForm = ({
   }
 };
 
-const Modal = ({ quickActionId, setShowMainModal, mutation }: Props) => {
+const Modal = ({
+  quickActionId,
+  setShowMainModal,
+  mutation,
+  prefillData,
+}: Props) => {
   return (
     <section id="modal">
       <ModalContainer />
-      {getForm({ quickActionId, setShowMainModal, mutation })}
+      {getForm({ quickActionId, setShowMainModal, mutation, prefillData })}
     </section>
   );
 };

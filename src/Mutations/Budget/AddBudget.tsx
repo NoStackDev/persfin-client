@@ -1,7 +1,7 @@
 import { useMutation } from "react-query";
 import axios from "axios";
 import { useQueryClient } from "react-query";
-import { BudgetType, BudgetItemType } from "../../Types";
+import { BudgetType, BudgetItemType } from "../../TypeDefs";
 
 const AddBudget = async (
   userId: string,

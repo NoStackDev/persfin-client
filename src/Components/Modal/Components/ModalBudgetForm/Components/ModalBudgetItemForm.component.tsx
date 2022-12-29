@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FetchCategories } from "../../../../../Queries";
 import "./ModalBudgetItemForm.style.scss";
-import { BudgetItemType, CategoryType } from "../../../../../Types";
+import { BudgetItemType, CategoryType } from "../../../../../TypeDefs";
 
 type Props = {
   setShowBudgetItemModal: React.Dispatch<React.SetStateAction<boolean>>;

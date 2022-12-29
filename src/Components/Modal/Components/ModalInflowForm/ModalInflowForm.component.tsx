@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./ModalInflowForm.style.scss";
 import { UseMutationResult } from "react-query";
 import { FetchCategories } from "../../../../Queries";
-import { CategoryType } from "../../../../Types";
+import { CategoryType } from "../../../../TypeDefs";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;

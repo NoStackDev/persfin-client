@@ -1,4 +1,4 @@
-import { InflowType, OutflowType, BudgetType, TimeRangeInterface } from "../../../../Types";
+import { InflowType, OutflowType, BudgetType, TimeRangeInterface } from "../../../../TypeDefs";
 
 type ResultType = Record<string, SubResultInterface>;
 

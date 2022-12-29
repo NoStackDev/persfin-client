@@ -3,7 +3,7 @@ import {
   OutflowType,
   BudgetType,
   SavingsType,
-} from "../../../Types";
+} from "../../../TypeDefs";
 
 type DataObj = InflowType[] | OutflowType[] | BudgetType[] | SavingsType[];
 

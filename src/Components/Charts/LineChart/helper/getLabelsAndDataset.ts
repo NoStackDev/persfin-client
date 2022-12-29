@@ -1,4 +1,4 @@
-import { InflowType, OutflowType, TimeRangeInterface } from "../../../../Types";
+import { InflowType, OutflowType, TimeRangeInterface } from "../../../../TypeDefs";
 
 const labelChoices = (filterRange: TimeRangeInterface | null) => {
   if (filterRange?.id === "thwk" || filterRange?.id === "lswk") {

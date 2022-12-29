@@ -7,7 +7,7 @@ import filterDate from "./helpers/filterDate";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 import Spinner from "../../Components/Spinner";
 import { DeleteBudget } from "../../Mutations";
-import { TimeRangeInterface } from "../../Types";
+import { TimeRangeInterface } from "../../TypeDefs";
 
 type Props = {};
 

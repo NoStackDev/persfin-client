@@ -1,4 +1,4 @@
-import { SavingsType } from "../../../Types";
+import { SavingsType } from "../../../TypeDefs";
 
 const calculateSavings = (objArr: SavingsType[] | null): number => {
   const total = objArr?.reduce((prevValue, currentObj) => {

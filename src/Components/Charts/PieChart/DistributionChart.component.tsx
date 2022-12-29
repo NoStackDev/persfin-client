@@ -7,7 +7,7 @@ import getLabelsColorsDataset from "./helpers/getLabelsColorsData";
 import "./DistributionChart.style.scss";
 import { FetchBudgets } from "../../../Queries";
 
-import { TimeRangeInterface } from "../../../Types";
+import { TimeRangeInterface } from "../../../TypeDefs";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 

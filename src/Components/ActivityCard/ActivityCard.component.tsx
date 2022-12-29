@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import "./ActivityCard.style.scss";
 
-import { InflowType, OutflowType, BudgetType, SavingsType } from "../../Types";
+import { InflowType, OutflowType, BudgetType, SavingsType } from "../../TypeDefs";
 import ActivityTable from "./Components/ActivityTable";
 import ActivityPageNumber from "./Components/ActivityPageNumber";
 

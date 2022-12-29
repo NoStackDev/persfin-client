@@ -14,7 +14,7 @@ import {
 import collateData from "./helpers";
 import BudgetCard from "../Budget/Components/BudgetCard";
 import { DeleteBudget } from "../../Mutations";
-import { BudgetType } from "../../Types";
+import { BudgetType } from "../../TypeDefs";
 
 type Props = {};
 

@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import filterDate from "./helpers/filterDate";
 import { FetchSavings } from "../../Queries";
 
-import { TimeRangeInterface } from "../../Types";
+import { TimeRangeInterface } from "../../TypeDefs";
 
 type Props = {};
 

@@ -2,7 +2,7 @@ import React, { SetStateAction, useRef, useState } from "react";
 
 import "./DateFilterDynamic.style.scss";
 
-import { TimeRangeInterface } from "../../../Types";
+import { TimeRangeInterface } from "../../../TypeDefs";
 
 type Props = {
   setFilterRange: React.Dispatch<SetStateAction<TimeRangeInterface | null>>;

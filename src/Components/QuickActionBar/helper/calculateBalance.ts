@@ -1,4 +1,4 @@
-import { InflowType, OutflowType, SavingsType } from "../../../Types";
+import { InflowType, OutflowType, SavingsType } from "../../../TypeDefs";
 
 export const calculateBalance = (
   savings: SavingsType[] | null,

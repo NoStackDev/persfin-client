@@ -2,7 +2,7 @@ import { useState } from "react";
 import { UseMutationResult } from "react-query";
 import { FetchBudgets, FetchCategories } from "../../../../Queries";
 import "./ModalOutflowForm.style.scss";
-import { BudgetType, BudgetItemType, CategoryType } from "../../../../Types";
+import { BudgetType, BudgetItemType, CategoryType } from "../../../../TypeDefs";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;

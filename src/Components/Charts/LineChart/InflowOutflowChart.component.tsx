@@ -17,7 +17,7 @@ import {
 import "./InflowOutflowChart.style.scss";
 import { FetchInflows, FetchOutflows } from "../../../Queries";
 
-import { TimeRangeInterface } from "../../../Types";
+import { TimeRangeInterface } from "../../../TypeDefs";
 
 ChartJS.register(
   CategoryScale,

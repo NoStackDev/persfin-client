@@ -1,25 +1,37 @@
 import { useState } from "react";
 import { UseMutationResult } from "react-query";
+import { BudgetType, CategoryType } from "../../../../../../TypeDefs";
 import "./CreateCategoryForm.style.scss";
 
 type Props = {
   categoryType: string;
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
   mutation: UseMutationResult<any, unknown, any, unknown>;
+  prefillData?: CategoryType | BudgetType | null;
 };
 
 const CreateCategoryForm = ({
   categoryType,
   setShowMainModal,
   mutation,
+  prefillData,
 }: Props) => {
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const [title, setTitle] = useState<string>(prefillData?.title || "");
+  const [description, setDescription] = useState<string>(
+    prefillData?.description || ""
+  );
 
   const userId = "636ac4a250bbc5afa6004a8c";
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+
+    if (prefillData) {
+      mutation.mutate({ categoryId: prefillData._id, title, description });
+      setShowMainModal(false);
+      return;
+    }
+
     mutation.mutate({ userId, title, categoryType, description });
     setShowMainModal(false);
   };
@@ -53,7 +65,7 @@ const CreateCategoryForm = ({
           </div>
         </div>
         <button type="submit" onClick={(e) => onSubmit(e)}>
-          Add Category
+          {prefillData? "Edit Category": "Add Category"}
         </button>
       </form>
     </div>

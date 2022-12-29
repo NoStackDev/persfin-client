@@ -2,7 +2,7 @@ import React from "react";
 import { UseMutationResult } from "react-query";
 
 import "./BudgetCard.style.scss";
-import { BudgetType } from "../../../../Types";
+import { BudgetType } from "../../../../TypeDefs";
 
 type Props = {
   budget: BudgetType;

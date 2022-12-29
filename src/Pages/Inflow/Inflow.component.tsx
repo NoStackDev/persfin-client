@@ -7,7 +7,7 @@ import { FetchCategories, FetchInflows } from "../../Queries";
 import filterDate from "./helpers/filterDate";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
-import { TimeRangeInterface } from "../../Types";
+import { TimeRangeInterface } from "../../TypeDefs";
 import ActionCard from "./Components/ActionCard";
 import { countCategories } from "./Components/ActionCard/helper";
 

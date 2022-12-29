@@ -1,4 +1,4 @@
-import { BudgetType, TimeRangeInterface } from "../../../../Types";
+import { BudgetType, TimeRangeInterface } from "../../../../TypeDefs";
 
 const filterData = (
   data: BudgetType[] | null,

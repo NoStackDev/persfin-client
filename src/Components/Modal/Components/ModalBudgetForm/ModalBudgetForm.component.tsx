@@ -4,7 +4,7 @@ import ModalBudgetItemForm from "./Components/ModalBudgetItemForm.component";
 import { UseMutationResult } from "react-query";
 import "./ModalBudgetForm.style.scss";
 
-import { BudgetItemType } from "../../../../Types";
+import { BudgetItemType } from "../../../../TypeDefs";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;

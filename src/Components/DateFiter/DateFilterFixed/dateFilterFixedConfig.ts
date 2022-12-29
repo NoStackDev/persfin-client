@@ -1,4 +1,4 @@
-import { TimeRangeInterface } from "../../../Types";
+import { TimeRangeInterface } from "../../../TypeDefs";
 
 const timeRange: TimeRangeInterface[] = [
   {

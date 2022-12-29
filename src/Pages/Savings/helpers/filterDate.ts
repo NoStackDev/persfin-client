@@ -1,4 +1,4 @@
-import { SavingsType, TimeRangeInterface } from "../../../Types";
+import { SavingsType, TimeRangeInterface } from "../../../TypeDefs";
 
 const filterDate = (
   data: SavingsType[] | null,

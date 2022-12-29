@@ -1,11 +1,9 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { CategoryType } from "../../TypeDefs";
 
-const AddCategory = async (
-  userId: string,
+const EditCategory = async (
+  categoryId: string,
   title: string,
-  categoryType: string,
   description: string
 ) => {
   try {
@@ -13,8 +11,8 @@ const AddCategory = async (
       url: "",
       method: "POST",
       data: {
-        query: `mutation AddCategory($user: ID, $title: String, $categoryType: String, $description: String) {
-                    addCategory(user: $user, title: $title, categoryType: $categoryType, description: $description) {
+        query: `mutation UpdateCategory($categoryId: ID, $title: String, $description: String) {
+                    updateCategory(categoryId: $categoryId, title: $title, description: $description) {
                         
                           _id
                           categoryType
@@ -23,10 +21,9 @@ const AddCategory = async (
                     }
                 }`,
         variables: {
-          user: userId,
+          categoryId,
           title,
           description,
-          categoryType,
         },
       },
     });
@@ -35,20 +32,22 @@ const AddCategory = async (
   }
 };
 
-const CreateCategory = () => {
+const UpdateCategory = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
-      userId,
+      categoryId,
       title,
       description,
-      categoryType,
-    }: CategoryType & { userId: string }) =>
-      AddCategory(userId, title, categoryType, description),
+    }: {
+      categoryId: string;
+      title: string;
+      description: string;
+    }) => EditCategory(categoryId, title, description),
     onSuccess: () => {
       queryClient.invalidateQueries("categories");
     },
   });
 };
 
-export default CreateCategory;
+export default UpdateCategory;

@@ -1,4 +1,4 @@
-import { OutflowType, TimeRangeInterface } from "../../../Types";
+import { OutflowType, TimeRangeInterface } from "../../../TypeDefs";
 
 const filterDate = (
   data: OutflowType[] | null,

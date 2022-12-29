@@ -7,7 +7,7 @@ import filterDate from "./helpers/filterDate";
 import { FetchOutflows } from "../../Queries";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
-import { TimeRangeInterface } from "../../Types";
+import { TimeRangeInterface } from "../../TypeDefs";
 
 type Props = {};
 

@@ -4,7 +4,7 @@ import { Doughnut } from "react-chartjs-2";
 import CategorySelector from "../../CategorySelector";
 import DateFilterFixed from "../../DateFiter/DateFilterFixed";
 
-import { InflowType, OutflowType, BudgetType, TimeRangeInterface,  } from "../../../Types";
+import { InflowType, OutflowType, BudgetType, TimeRangeInterface,  } from "../../../TypeDefs";
 
 import "./CategoryChart.style.scss";
 import generateLabelsColorsAmount from "./helpers/generateLabelsColorsAmount";

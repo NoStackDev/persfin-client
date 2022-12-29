@@ -1,7 +1,7 @@
 import { SetStateAction } from "react";
 import DateFilterDynamic from "../DateFiter/DateFilterDynamic";
 import "./FilterBar.style.scss";
-import { TimeRangeInterface } from "../../Types";
+import { TimeRangeInterface } from "../../TypeDefs";
 
 type Props = {
   showTags?: boolean;

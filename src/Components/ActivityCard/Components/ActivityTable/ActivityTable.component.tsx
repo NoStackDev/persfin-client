@@ -4,7 +4,7 @@ import {
   OutflowType,
   BudgetType,
   SavingsType,
-} from "../../../../Types";
+} from "../../../../TypeDefs";
 
 import "./ActivityTable.style.scss";
 
