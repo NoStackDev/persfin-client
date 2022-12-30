@@ -6,8 +6,9 @@ import { FetchBudgets } from "../../Queries";
 import filterDate from "./helpers/filterDate";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 import Spinner from "../../Components/Spinner";
-import { DeleteBudget } from "../../Mutations";
-import { TimeRangeInterface } from "../../TypeDefs";
+import { DeleteBudget, UpdateBudget } from "../../Mutations";
+import { BudgetType, TimeRangeInterface } from "../../TypeDefs";
+import Modal from "../../Components/Modal";
 
 type Props = {};
 
@@ -17,6 +18,8 @@ const Budget = (props: Props) => {
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
+  const [showMainModal, setShowMainModal] = useState<boolean>(false);
+  const [selecedBudget, setSelectedBudget] = useState<BudgetType | null>(null);
 
   const {
     isLoading: isLoadingBudgetsData,
@@ -30,6 +33,7 @@ const Budget = (props: Props) => {
 
   // mutations
   const deleteBudgetMutation = DeleteBudget();
+  const updateBudgetMutation = UpdateBudget();
 
   return (
     <>
@@ -41,17 +45,31 @@ const Budget = (props: Props) => {
           {dateFiltered?.map((budget) => {
             return (
               <div key={budget._id}>
-                <BudgetCard budget={budget} deleteMutation={deleteBudgetMutation}/>
+                <BudgetCard
+                  budget={budget}
+                  deleteMutation={deleteBudgetMutation}
+                  updateMutation={updateBudgetMutation}
+                  setShowMainModal={setShowMainModal}
+                  setSelectedBudget={setSelectedBudget}
+                />
               </div>
             );
           })}
         </section>
         <section id="distribution-chart-section">
-          {/* <DistributionChart /> */}
           <CategoryChart dataset={[dateFiltered]} showFixedDateFilter />
         </section>
       </main>
-      <Spinner mutation={deleteBudgetMutation} message={"deleted"} />
+      {showMainModal ? (
+        <Modal
+          quickActionId={4}
+          setShowMainModal={setShowMainModal}
+          mutation={updateBudgetMutation}
+          prefillData={selecedBudget}
+        />
+      ) : null}
+      <Spinner mutation={updateBudgetMutation} message={"updating budget"} />
+      <Spinner mutation={deleteBudgetMutation} message={"deleting budget"} />
     </>
   );
 };

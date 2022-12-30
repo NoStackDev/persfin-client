@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { UseMutationResult } from "react-query";
-import Modal from "../../../../Components/Modal";
-import Spinner from "../../../../Components/Spinner";
-import { CreateCategory } from "../../../../Mutations";
+import Modal from "../../Components/Modal";
+import Spinner from "../../Components/Spinner";
+import { CreateCategory } from "../../Mutations";
 
 import "./ActionCard.style.scss";
 
 type Props = {
+  title: string;
   categoriesNum: number;
+  categoryType: string
 };
 
-const ActionCard = ({ categoriesNum }: Props) => {
+const ActionCard = ({title, categoriesNum , categoryType}: Props) => {
   const [selectedFormId, setSelectedFormId] = useState<number | null>(null);
   const [showMainModal, setShowMainModal] = useState<boolean>(false);
 
@@ -31,7 +33,7 @@ const ActionCard = ({ categoriesNum }: Props) => {
   return (
     <>
       <div className="action-card">
-        <h2 className="title">Inflow Categories</h2>
+        <h2 className="title">{title}</h2>
         <h3 className="number">{categoriesNum}</h3>
         <button className="manage-categories" onClick={() => handleClick(7)}>
           Manage Categories
@@ -45,6 +47,7 @@ const ActionCard = ({ categoriesNum }: Props) => {
           quickActionId={selectedFormId}
           setShowMainModal={setShowMainModal}
           mutation={selectedFormId ? mutations[selectedFormId] : null}
+          categoryType={categoryType}
         />
       ) : null}
       <Spinner

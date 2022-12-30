@@ -51,7 +51,7 @@ const CreateCategoryForm = ({
           </div>
           <div className="category-type">
             <label htmlFor="">Category Type</label>
-            <input type="text" value={categoryType} readOnly />
+            <input type="text" value={categoryType||(prefillData as CategoryType)?.categoryType} readOnly />
           </div>
           <div className="description">
             <label htmlFor="description">Description</label>

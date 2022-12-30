@@ -8,8 +8,8 @@ import filterDate from "./helpers/filterDate";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
 import { TimeRangeInterface } from "../../TypeDefs";
-import ActionCard from "./Components/ActionCard";
-import { countCategories } from "./Components/ActionCard/helper";
+import ActionCard from "../../Components/ActionCard";
+import { countCategories } from "./helpers";
 
 type Props = {};
 
@@ -49,7 +49,11 @@ const Inflow = (props: Props) => {
         <ActivityCard cardTitle="Inflow" activities={dateFiltered} />
       </section>
       <section id="distribution-chart-section">
-        <ActionCard categoriesNum={inflowCategories} />
+        <ActionCard
+          title="Inflow Categories"
+          categoriesNum={inflowCategories}
+          categoryType="inflow"
+        />
         <CategoryChart dataset={[dateFiltered]} showFixedDateFilter />
       </section>
     </main>

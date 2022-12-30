@@ -10,7 +10,38 @@ import Modal from "../../../../Modal.component";
 type Props = {
   categoryType: string;
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
-  mutation: UseMutationResult<any, unknown, any, unknown>;
+};
+
+const renderCategoryItem = (
+  categoryType: string,
+  category: CategoryType,
+  handleEditClick: (categoryId: string) => void,
+  handleDeleteClick: (categoryId: string) => void
+) => {
+  if (categoryType !== category.categoryType) {
+    return null;
+  }
+  return (
+    <div key={category._id} className="category">
+      <div>
+        <span>{category.title}</span>
+      </div>
+      <div>
+        <span
+          className="material-icons edit"
+          onClick={() => handleEditClick(category._id)}
+        >
+          edit
+        </span>
+        <span
+          className="material-icons delete"
+          onClick={() => handleDeleteClick(category._id)}
+        >
+          delete
+        </span>
+      </div>
+    </div>
+  );
 };
 
 const ManageCategoryForm = ({ categoryType }: Props) => {
@@ -53,31 +84,15 @@ const ManageCategoryForm = ({ categoryType }: Props) => {
           <h2>Manage Category</h2>
           <div className="form-body">
             <div className="category-type">
-              {/* <label htmlFor="">Category Type</label> */}
               <input type="text" value={categoryType} readOnly />
             </div>
             <div className="categories-container">
               {categoriesData.map((category: CategoryType) => {
-                return (
-                  <div key={category._id} className="category">
-                    <div>
-                      <span>{category.title}</span>
-                    </div>
-                    <div>
-                      <span
-                        className="material-icons edit"
-                        onClick={() => handleEditClick(category._id)}
-                      >
-                        edit
-                      </span>
-                      <span
-                        className="material-icons delete"
-                        onClick={() => handleDeleteClick(category._id)}
-                      >
-                        delete
-                      </span>
-                    </div>
-                  </div>
+                return renderCategoryItem(
+                  categoryType,
+                  category,
+                  handleEditClick,
+                  handleDeleteClick
                 );
               })}
             </div>

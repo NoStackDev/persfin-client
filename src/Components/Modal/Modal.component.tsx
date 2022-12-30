@@ -15,23 +15,19 @@ import { BudgetType, CategoryType } from "../../TypeDefs";
 type Props = {
   quickActionId: number | null;
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
-  mutation: UseMutationResult<any, unknown, any, unknown> | null;
+  mutation?: UseMutationResult<any, unknown, any, unknown> | null;
   prefillData?: CategoryType | BudgetType | null;
+  categoryType?: string
 };
 
-interface GetFormArgs {
-  quickActionId: number | null;
-  setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
-  mutation: UseMutationResult<any, unknown, any, unknown> | null;
-  prefillData?: CategoryType | BudgetType | null;
-}
 
 const getForm = ({
   quickActionId,
   setShowMainModal,
   mutation,
   prefillData,
-}: GetFormArgs) => {
+  categoryType
+}: Props) => {
   if (!quickActionId || !mutation) {
     return null;
   }
@@ -62,12 +58,13 @@ const getForm = ({
         <ModalBudgetForm
           setShowMainModal={setShowMainModal}
           mutation={mutation}
+          prefillData={prefillData}
         />
       );
     case 6:
       return (
         <CreateCategoryForm
-          categoryType="inflow"
+          categoryType={categoryType || ''}
           setShowMainModal={setShowMainModal}
           mutation={mutation}
           prefillData={prefillData}
@@ -76,17 +73,8 @@ const getForm = ({
     case 7:
       return (
         <ManageCategoryForm
-          categoryType="inflow"
+          categoryType={categoryType || ''}
           setShowMainModal={setShowMainModal}
-          mutation={mutation}
-        />
-      );
-    case 8:
-      return (
-        <CreateCategoryForm
-          categoryType="outflow"
-          setShowMainModal={setShowMainModal}
-          mutation={mutation}
         />
       );
     default:
@@ -99,11 +87,12 @@ const Modal = ({
   setShowMainModal,
   mutation,
   prefillData,
+  categoryType
 }: Props) => {
   return (
     <section id="modal">
       <ModalContainer />
-      {getForm({ quickActionId, setShowMainModal, mutation, prefillData })}
+      {getForm({ quickActionId, setShowMainModal, mutation, prefillData, categoryType })}
     </section>
   );
 };

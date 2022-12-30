@@ -1,4 +1,4 @@
-import { CategoryType } from "../../../../../TypeDefs";
+import { CategoryType } from "../../../TypeDefs";
 
 const countCategories = (objArr: CategoryType[] | null) => {
   const categoriesObj = {

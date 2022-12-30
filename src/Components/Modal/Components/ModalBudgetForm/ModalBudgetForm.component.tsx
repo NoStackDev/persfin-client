@@ -4,18 +4,27 @@ import ModalBudgetItemForm from "./Components/ModalBudgetItemForm.component";
 import { UseMutationResult } from "react-query";
 import "./ModalBudgetForm.style.scss";
 
-import { BudgetItemType } from "../../../../TypeDefs";
+import { BudgetItemType, BudgetType, CategoryType } from "../../../../TypeDefs";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
   mutation: UseMutationResult<any, unknown, any, unknown>;
+  prefillData?: BudgetType | CategoryType | null;
 };
 
-const ModalBudgetForm = ({ setShowMainModal, mutation }: Props) => {
+const ModalBudgetForm = ({
+  setShowMainModal,
+  mutation,
+  prefillData,
+}: Props) => {
   const userId = "636ac4a250bbc5afa6004a8c";
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [items, setItems] = useState<BudgetItemType[]>([]);
+  const [title, setTitle] = useState<string>(prefillData?.title || "");
+  const [description, setDescription] = useState<string>(
+    prefillData?.description || ""
+  );
+  const [items, setItems] = useState<BudgetItemType[]>(
+    prefillData ? (prefillData as BudgetType).items : []
+  );
   const [showBudgetItemModal, setShowBudgetItemModal] =
     useState<boolean>(false);
 
@@ -25,6 +34,42 @@ const ModalBudgetForm = ({ setShowMainModal, mutation }: Props) => {
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+
+    if (prefillData) {
+      mutation.mutate({
+        budgetId: prefillData._id,
+        title,
+        total: items.reduce((prev, curr) => prev + curr.amount, 0),
+        balance: items.reduce((prev, curr) => {
+          const prefillDataItem = (prefillData as BudgetType).items.find(
+            (obj) => obj._id === curr._id
+          );
+          return (
+            prev +
+            curr.amount -
+            (prefillDataItem?.amount || 0) +
+            (prefillDataItem?.balance || 0)
+          );
+        }, 0),
+        description,
+        items: items.map((item) => {
+          const prefillDataItem = (prefillData as BudgetType).items.find(
+            (obj) => obj._id === item._id
+          );
+          const {_id, ...others} = item 
+          return {
+            ...others,
+            balance:
+              item.amount -
+              (prefillDataItem?.amount || 0) +
+              (prefillDataItem?.balance || 0),
+          };
+        }),
+      });
+      setShowMainModal(false);
+      return;
+    }
+
     mutation.mutate({
       userId,
       title,
@@ -84,7 +129,7 @@ const ModalBudgetForm = ({ setShowMainModal, mutation }: Props) => {
           </div>
         </div>
         <button type="submit" onClick={(e) => onSubmit(e)}>
-          Add Budget
+          {prefillData? "Update" : "Add Budget"}
         </button>
       </form>
       {showBudgetItemModal ? (

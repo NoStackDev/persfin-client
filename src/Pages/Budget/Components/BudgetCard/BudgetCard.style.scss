@@ -24,14 +24,9 @@
       display: flex;
       gap: to-rem(10px);
 
-      .copy:hover,
       .edit:hover,
       .delete:hover {
         cursor: pointer;
-      }
-
-      .copy {
-        @include theme-aware("color", "inflow-color");
       }
 
       .edit {

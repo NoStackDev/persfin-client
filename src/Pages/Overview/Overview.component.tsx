@@ -13,12 +13,16 @@ import {
 } from "../../Queries";
 import collateData from "./helpers";
 import BudgetCard from "../Budget/Components/BudgetCard";
-import { DeleteBudget } from "../../Mutations";
+import { DeleteBudget, UpdateBudget } from "../../Mutations";
 import { BudgetType } from "../../TypeDefs";
+import Modal from "../../Components/Modal";
 
 type Props = {};
 
 const Overview = (props: Props) => {
+  const [showMainModal, setShowMainModal] = useState<boolean>(false);
+  const [selecedBudget, setSelectedBudget] = useState<BudgetType | null>(null);
+
   const userId = "636ac4a250bbc5afa6004a8c";
   const {
     isLoading: isLoadingInflowsData,
@@ -49,6 +53,7 @@ const Overview = (props: Props) => {
 
   // mutations
   const deleteBudgetMutation = DeleteBudget();
+  const updateBudgetMutation = UpdateBudget();
 
   return (
     <>
@@ -76,12 +81,24 @@ const Overview = (props: Props) => {
                 budget={budget}
                 key={budget._id}
                 deleteMutation={deleteBudgetMutation}
+                updateMutation={updateBudgetMutation}
+                setShowMainModal={setShowMainModal}
+                setSelectedBudget={setSelectedBudget}
               />
             );
           })}
         </section>
       </main>
-      <Spinner mutation={deleteBudgetMutation} message={"Deleting budget"} />
+      {showMainModal ? (
+        <Modal
+          quickActionId={4}
+          setShowMainModal={setShowMainModal}
+          mutation={updateBudgetMutation}
+          prefillData={selecedBudget}
+        />
+      ) : null}{" "}
+      <Spinner mutation={updateBudgetMutation} message={"updating budget"} />
+      <Spinner mutation={deleteBudgetMutation} message={"deleting budget"} />
     </>
   );
 };

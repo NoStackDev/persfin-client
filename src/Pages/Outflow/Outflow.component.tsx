@@ -4,10 +4,12 @@ import FilterBar from "../../Components/FilterBar";
 import "./Outflow.style.scss";
 import { useMemo, useState } from "react";
 import filterDate from "./helpers/filterDate";
-import { FetchOutflows } from "../../Queries";
+import { FetchCategories, FetchOutflows } from "../../Queries";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
 import { TimeRangeInterface } from "../../TypeDefs";
+import { countCategories } from "./helpers"
+import ActionCard from "../../Components/ActionCard";
 
 type Props = {};
 
@@ -24,6 +26,16 @@ const Outflow = (props: Props) => {
     data: outflowsData,
   } = FetchOutflows(userId);
 
+  const {
+    isLoading: isLoadingCategoriesData,
+    isSuccess: isSuccessCategoriesData,
+    data: categoriesData,
+  } = FetchCategories(userId);
+
+  const { outflowCategories } = useMemo(() => {
+    return countCategories(categoriesData);
+  }, [categoriesData]);
+
   const dateFiltered = useMemo(() => {
     return filterDate(outflowsData, filterRange);
   }, [outflowsData, filterRange]);
@@ -37,6 +49,11 @@ const Outflow = (props: Props) => {
         <ActivityCard cardTitle="Outflow" activities={dateFiltered} />
       </section>
       <section id="distribution-chart-section">
+        <ActionCard
+          title="Outflow Categories"
+          categoriesNum={outflowCategories}
+          categoryType="outflow"
+        />
         <CategoryChart dataset={[outflowsData]} showFixedDateFilter />
       </section>
     </main>
