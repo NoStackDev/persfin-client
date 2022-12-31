@@ -14,6 +14,7 @@ const Savings = (props: Props) => {
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
+  const [textFilter, setTextFilter] = useState<string>("");
 
   const userId = "636ac4a250bbc5afa6004a8c";
 
@@ -30,7 +31,10 @@ const Savings = (props: Props) => {
   return (
     <main>
       <section className="filter-bar-section">
-        <FilterBar setFilterRange={setFilterRange} />
+        <FilterBar
+          setTextFilter={setTextFilter}
+          setFilterRange={setFilterRange}
+        />
       </section>
       <section id="savings-activity-section">
         <ActivityCard cardTitle="Savings" activities={dateFiltered} />

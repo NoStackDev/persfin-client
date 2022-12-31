@@ -43,6 +43,7 @@
 
           &:focus {
             border: none;
+            outline: none;
           }
         }
       }
@@ -53,10 +54,14 @@
         gap: to-rem(20px);
 
         .completed,
-        .pending {
-          @include theme-aware("background", "bg-color");
+        .pending,
+        .all {
           padding: to-rem(2px) to-rem(10px);
           border-radius: to-rem(12px);
+
+          &.active {
+            @include theme-aware("background", "bg-color");
+          }
 
           &:hover {
             cursor: pointer;
