@@ -25,11 +25,37 @@ const ModalBudgetForm = ({
   const [items, setItems] = useState<BudgetItemType[]>(
     prefillData ? (prefillData as BudgetType).items : []
   );
+  const [editItem, setEditItem] = useState<BudgetItemType | null>(null);
   const [showBudgetItemModal, setShowBudgetItemModal] =
     useState<boolean>(false);
 
   const handleItemAddition = (item: BudgetItemType) => {
+    if (editItem) {
+      setItems(
+        items.map((obj) => {
+          if (obj._id === item._id) {
+            obj.title = item.title;
+            obj.amount = item.amount;
+            obj.category = item.category;
+            obj.description = item.description;
+            return obj;
+          }
+          return obj;
+        })
+      );
+      setEditItem(null);
+      return;
+    }
     setItems([...items, item]);
+  };
+
+  const handleItemDelete = (itemId: string | undefined) => {
+    setItems(items.filter((itemObj) => itemObj._id !== itemId));
+  };
+
+  const handleItemEdit = (item: BudgetItemType) => {
+    setEditItem(item);
+    setShowBudgetItemModal(!showBudgetItemModal);
   };
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -56,7 +82,7 @@ const ModalBudgetForm = ({
           const prefillDataItem = (prefillData as BudgetType).items.find(
             (obj) => obj._id === item._id
           );
-          const {_id, ...others} = item 
+          const { _id, ...others } = item;
           return {
             ...others,
             balance:
@@ -103,8 +129,19 @@ const ModalBudgetForm = ({
               {items.map((item) => {
                 return (
                   <div className="item" key={item._id}>
-                    <div className="item-title">{item.title}</div>
-                    <div className="amount">{item.amount}</div>
+                    <span
+                      className="material-icons"
+                      onClick={() => handleItemDelete(item._id)}
+                    >
+                      remove
+                    </span>
+                    <div
+                      className="title-amount"
+                      onClick={() => handleItemEdit(item)}
+                    >
+                      <div className="item-title">{item.title}</div>
+                      <div className="amount">{item.amount}</div>
+                    </div>
                   </div>
                 );
               })}
@@ -129,7 +166,7 @@ const ModalBudgetForm = ({
           </div>
         </div>
         <button type="submit" onClick={(e) => onSubmit(e)}>
-          {prefillData? "Update" : "Add Budget"}
+          {prefillData ? "Update" : "Add Budget"}
         </button>
       </form>
       {showBudgetItemModal ? (
@@ -138,6 +175,7 @@ const ModalBudgetForm = ({
           <ModalBudgetItemForm
             setShowBudgetItemModal={setShowBudgetItemModal}
             handleItemAddition={handleItemAddition}
+            prefillItemData={editItem}
           />
         </div>
       ) : null}

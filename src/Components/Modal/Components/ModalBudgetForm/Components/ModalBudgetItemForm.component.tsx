@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FetchCategories } from "../../../../../Queries";
 import "./ModalBudgetItemForm.style.scss";
 import { BudgetItemType, CategoryType } from "../../../../../TypeDefs";
@@ -6,16 +6,24 @@ import { BudgetItemType, CategoryType } from "../../../../../TypeDefs";
 type Props = {
   setShowBudgetItemModal: React.Dispatch<React.SetStateAction<boolean>>;
   handleItemAddition: (item: BudgetItemType) => void;
+  prefillItemData: BudgetItemType | null;
 };
 
 const ModalBudgetItemForm = ({
   setShowBudgetItemModal,
   handleItemAddition,
+  prefillItemData,
 }: Props) => {
-  const [title, setTitle] = useState<string>("");
-  const [amount, setAmount] = useState<string>("0");
-  const [category, setCategory] = useState<CategoryType | null>(null);
-  const [description, setDescription] = useState<string>("");
+  const [title, setTitle] = useState<string>(prefillItemData?.title || "");
+  const [amount, setAmount] = useState<string>(
+    prefillItemData?.amount.toString() || "0"
+  );
+  const [category, setCategory] = useState<CategoryType | null | undefined>(
+    null
+  );
+  const [description, setDescription] = useState<string>(
+    prefillItemData?.description || ""
+  );
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
 
@@ -23,11 +31,21 @@ const ModalBudgetItemForm = ({
 
   const { data: categoryData } = FetchCategories(userId);
 
+  useEffect(() => {
+    if (prefillItemData && categoryData) {
+      setCategory(
+        (categoryData as CategoryType[]).find(
+          (obj) => obj._id === prefillItemData.category
+        )
+      );
+    }
+  }, [categoryData, prefillItemData]);
+
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     const tempCategoryId = category ? category._id : null;
     handleItemAddition({
-      _id: Date.now().toString(),
+      _id: prefillItemData?._id || Date.now().toString(),
       title,
       amount: Number(amount),
       category: tempCategoryId,
@@ -114,7 +132,7 @@ const ModalBudgetItemForm = ({
           </div>
         </div>
         <button type="submit" onClick={(e) => onSubmit(e)}>
-          Add Item
+          {prefillItemData ? "Update" : "Add Item"}
         </button>
       </form>
     </div>

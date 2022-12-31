@@ -85,16 +85,45 @@
           padding-inline: to-rem(10px);
           padding-block: to-rem(10px);
           @include theme-aware("color", "text-color");
+          display: flex;
+          flex-direction: column;
+          gap: to-rem(10px);
 
           .item {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            gap: to-rem(10px);
+
+            span {
+              @include theme-aware("background", "card-bg-color");
+              font-size: to-rem(16px);
+              width: fit-content;
+              height: fit-content;
+
+              &:hover {
+                cursor: pointer;
+                color: #fff;
+              }
+            }
+
+            .title-amount {
+              width: 100%;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+
+              &:hover {
+                cursor: pointer;
+                color: #fff;
+              }
+            }
           }
           .add-item {
             text-align: center;
 
             &:hover {
               cursor: pointer;
+              color: #fff;
             }
           }
         }
