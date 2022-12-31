@@ -76,7 +76,7 @@ nav {
         top: to-rem(30px);
 
         &.open {
-          right: to-rem(20px);
+          right: to-rem(10px);
         }
       }
 
@@ -205,6 +205,21 @@ nav {
       .logout {
         word-break: keep-all;
         visibility: visible;
+      }
+    }
+
+    // filter
+    &::before {
+      content: "";
+      width: 100vw;
+      height: 120vh;
+      position: absolute;
+      top: -10%;
+      left: 100%;
+      backdrop-filter: blur(2px);
+
+      @include breakpoint("m") {
+        content: unset;
       }
     }
   }
