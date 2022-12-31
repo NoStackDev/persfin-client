@@ -69,7 +69,7 @@ const ManageCategoryForm = ({ categoryType }: Props) => {
     const category = categoriesData.find(
       (obj: CategoryType) => obj._id === categoryId
     );
-    setSelectedCategory(category);
+    setSelectedCategory({...category});
     setShowMainModal(true);
   };
 

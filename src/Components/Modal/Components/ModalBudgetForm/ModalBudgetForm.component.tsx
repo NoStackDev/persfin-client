@@ -17,7 +17,6 @@ const ModalBudgetForm = ({
   mutation,
   prefillData,
 }: Props) => {
-  const userId = "636ac4a250bbc5afa6004a8c";
   const [title, setTitle] = useState<string>(prefillData?.title || "");
   const [description, setDescription] = useState<string>(
     prefillData?.description || ""
@@ -29,6 +28,8 @@ const ModalBudgetForm = ({
   const [showBudgetItemModal, setShowBudgetItemModal] =
     useState<boolean>(false);
 
+  const userId = "636ac4a250bbc5afa6004a8c";
+
   const handleItemAddition = (item: BudgetItemType) => {
     if (editItem) {
       setItems(
@@ -36,8 +37,10 @@ const ModalBudgetForm = ({
           if (obj._id === item._id) {
             obj.title = item.title;
             obj.amount = item.amount;
+            obj.balance = item.amount - editItem.amount + editItem.balance;
             obj.category = item.category;
             obj.description = item.description;
+
             return obj;
           }
           return obj;
@@ -137,7 +140,7 @@ const ModalBudgetForm = ({
                     </span>
                     <div
                       className="title-amount"
-                      onClick={() => handleItemEdit(item)}
+                      onClick={() => handleItemEdit({ ...item })}
                     >
                       <div className="item-title">{item.title}</div>
                       <div className="amount">{item.amount}</div>

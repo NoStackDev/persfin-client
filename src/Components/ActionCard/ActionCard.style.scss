@@ -9,6 +9,7 @@
   gap: to-rem(20px);
   @include theme-aware("background", "card-bg-color");
   border-radius: to-rem(12px);
+  min-width: to-rem(340px);
 
   h2 {
     @include theme-aware("color", "header-color");

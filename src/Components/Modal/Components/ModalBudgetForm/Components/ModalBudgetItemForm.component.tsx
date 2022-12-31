@@ -48,6 +48,7 @@ const ModalBudgetItemForm = ({
       _id: prefillItemData?._id || Date.now().toString(),
       title,
       amount: Number(amount),
+      balance: prefillItemData?.balance || Number(amount),
       category: tempCategoryId,
       description,
     });

@@ -11,6 +11,7 @@ main {
     flex-direction: column;
     gap: to-rem(20px);
     overflow-y: scroll;
+    min-width: to-rem(340px);
   }
 
   @include breakpoint("l") {

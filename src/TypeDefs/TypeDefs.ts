@@ -42,7 +42,7 @@ export type BudgetItemType = {
   title: string;
   amount: number;
   category: string|null;
-  balance?: number;
+  balance: number;
   description: string;
 };
 
