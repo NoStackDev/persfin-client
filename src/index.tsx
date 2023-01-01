@@ -3,11 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import App from "./App";
-import Budget from "./Pages/Budget";
-import Inflow from "./Pages/Inflow";
-import Outflow from "./Pages/Outflow";
-import Overview from "./Pages/Overview";
-import Savings from "./Pages/Savings";
+import { Budget, Inflow, Outflow, Overview, Savings } from "./Pages";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +11,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "",
+        path: "/",
         element: <Overview />,
       },
       {

@@ -27,9 +27,13 @@
     .icon-title-wrapper {
       display: flex;
       gap: to-rem(20px);
+      align-items: center;
 
       .material-icons {
-        font-size: $default-fontsize;
+        font-size: to-rem(14px);
+        @include theme-aware("background", "bg-color");
+        padding: to-rem(5px);
+        border-radius: 50%;
       }
     }
 

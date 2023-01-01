@@ -6,6 +6,7 @@ import QuickActionBar from "./Components/QuickActionBar";
 
 import "./Assets/Styles/main.scss";
 import { Outlet } from "react-router-dom";
+import { Login } from "./Pages";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,12 +22,13 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="app">
-        <Navbar />
+        <Login/>
+        {/* <Navbar />
         <Topbar />
         <div className="wrapper">
           <QuickActionBar />
           <Outlet />
-        </div>
+        </div> */}
       </div>
     </QueryClientProvider>
   );
