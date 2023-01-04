@@ -1,0 +1,95 @@
+@import "../../Assets/Styles/mixins";
+@import "../../Assets/Styles/functions";
+@import "../../Assets/Styles/themes";
+
+#login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+
+  .login-card {
+    display: flex;
+    flex-direction: column;
+    gap: to-rem(70px);
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: to-rem(50px);
+
+      .form-set {
+        position: relative;
+
+        input {
+          font-size: to-rem(18px);
+          padding: to-rem(10px);
+          background: none;
+          border-top: none;
+          border-left: none;
+          border-right: none;
+          border-bottom-width: to-rem(1px);
+          width: 100%;
+        }
+
+        label {
+          position: absolute;
+          top: to-rem(5px);
+          left: to-rem(10px);
+          font-size: to-rem(18px);
+
+          &.active {
+            animation-name: moveUp;
+            animation-duration: 0.5s;
+            animation-fill-mode: forwards;
+          }
+
+          &.inactive {
+            animation-name: moveDown;
+            animation-duration: 0.5s;
+            animation-fill-mode: forwards;
+            animation-direction: reverse;
+          }
+        }
+      }
+
+      button {
+        width: 100%;
+        padding: to-rem(10px);
+        border-radius: to-rem(12px);
+        font-size: to-rem(18px);
+      }
+    }
+        &>div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+  }
+}
+
+@keyframes moveUp {
+  from {
+    transform: translate(initial, initial);
+  }
+
+  to {
+    transform: translate(to-rem(-5px), -150%);
+  }
+}
+
+@keyframes moveDown {
+  from {
+    transform: translate(initial, initial);
+  }
+
+  to {
+    transform: translate(to-rem(-5px), -150%);
+  }
+}
