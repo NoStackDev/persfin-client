@@ -13,27 +13,48 @@ const Login = (props: Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [signUp, setSignUp] = useState(false);
 
   const handleInputOnBlur = (inputId: number) => {
-    switch (inputId) {
-      case 0:
-        if (email.length === 0) {
-          setInputState({ ...inputState, email: false });
-        }
-        break;
-      case 1:
-        if (password.length === 0) {
-          setInputState({ ...inputState, password: false });
-        }
-        break;
-      case 2:
-        if (confirmPassword.length === 0) {
-          setInputState({ ...inputState, confirmPassword: false });
-        }
-        break;
-      default:
-        return;
+    // switch (inputId) {
+    //   case 0:
+    //     if (email.length === 0) {
+    //       setInputState({ ...inputState, email: false });
+    //     }
+    //     break;
+    //   case 1:
+    //     if (password.length === 0) {
+    //       setInputState({ ...inputState, password: false });
+    //     }
+    //     break;
+    //   case 2:
+    //     if (confirmPassword.length === 0) {
+    //       setInputState({ ...inputState, confirmPassword: false });
+    //     }
+    //     break;
+    //   default:
+    //     return;
+    // }
+    setInputState({
+        email: email.trim().length>0,
+        password: password.trim().length>0,
+        confirmPassword: confirmPassword.trim().length>0
+    })
+  };
+
+  const handleAutofill = (eventEnd=false) => {
+    if (!eventEnd){
+        setInputState({ ...inputState, email: true, password: true });
     }
+    if (email.trim().length===0) {
+        setInputState({ ...inputState, email: false, password: false });
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log("email: ", email);
+    console.log("password: ", password);
   };
 
   return (
@@ -44,6 +65,8 @@ const Login = (props: Props) => {
           <div className="form-set">
             <input
               type="email"
+              onAnimationStart={() => handleAutofill()}
+              onAnimationEnd={()=> handleAutofill(true)}
               onFocus={() => setInputState({ ...inputState, email: true })}
               onBlur={() => handleInputOnBlur(0)}
               onChange={(e) => setEmail(e.target.value.trim())}
@@ -71,14 +94,42 @@ const Login = (props: Props) => {
               Password
             </label>
           </div>
-          <button type="submit">Login</button>
+          {signUp ? (
+            <div className="form-set">
+              <input
+                type="password"
+                onFocus={() =>
+                  setInputState({ ...inputState, confirmPassword: true })
+                }
+                onBlur={() => handleInputOnBlur(2)}
+                onChange={(e) => setConfirmPassword(e.target.value.trim())}
+                value={confirmPassword}
+              />
+              <label
+                htmlFor=""
+                className={inputState.confirmPassword ? "active" : "inactive"}
+              >
+                Confirm Password
+              </label>
+            </div>
+          ) : null}
+
+          <button type="submit" onClick={(e) => handleSubmit(e)}>
+            Login
+          </button>
         </form>
-        <div>
-          <span>Don't have an account?</span>
-          <span>
-            <a href="">Sign Up</a>
-          </span>
-        </div>
+
+        {signUp ? (
+          <div>
+            <span>Already have an account?</span>
+            <span onClick={() => setSignUp(!signUp)}>Sign in</span>
+          </div>
+        ) : (
+          <div>
+            <span>Don't have an account?</span>
+            <span onClick={() => setSignUp(!signUp)}>Sign up</span>
+          </div>
+        )}
       </div>
     </div>
   );
