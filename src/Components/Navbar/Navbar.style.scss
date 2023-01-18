@@ -161,23 +161,25 @@ nav {
   }
 
   .bottomNav {
-    overflow-x: hidden;
-    display: flex;
-    align-items: center;
-    gap: to-rem(20px);
+    div {
+      overflow-x: hidden;
+      display: flex;
+      align-items: center;
+      gap: to-rem(20px);
 
-    .logout {
-      visibility: hidden;
-    }
+      .logout {
+        visibility: hidden;
+      }
 
-    @include breakpoint("m") {
-      padding-block: to-rem(10px);
-      padding-inline: to-rem(20px);
-    }
+      @include breakpoint("m") {
+        padding-block: to-rem(10px);
+        padding-inline: to-rem(20px);
+      }
 
-    &:hover {
-      color: blue;
-      cursor: pointer;
+      &:hover {
+        color: blue;
+        cursor: pointer;
+      }
     }
   }
 

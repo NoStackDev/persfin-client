@@ -1,3 +1,4 @@
+import { Record as pbRecord } from "pocketbase";
 import React, { useEffect, useState } from "react";
 import {
   InflowType,
@@ -8,19 +9,22 @@ import {
 
 import "./ActivityTable.style.scss";
 
-type DataObj = InflowType | OutflowType | BudgetType | SavingsType;
+type DataObj = InflowType | OutflowType | BudgetType | SavingsType | pbRecord;
 
 type Props = {
-  activities: (DataObj | null)[] | null;
+  activities: (DataObj | undefined)[] | null;
 };
 
 const icons = (_type: string): JSX.Element => {
+  if (!_type) {
+    return <></>
+  }
   switch (_type.toLowerCase()) {
-    case "budget":
+    case "budgets":
       return <span className="material-icons">pie_chart</span>;
-    case "inflow":
+    case "inflows":
       return <span className="material-icons">south</span>;
-    case "outflow":
+    case "outflows":
       return <span className="material-icons">north</span>;
     case "savings":
       return <span className="material-icons">savings</span>;
@@ -34,11 +38,11 @@ const renderDateHeader = (
   activity: DataObj,
   dateHeaders: Record<string, string>
 ) => {
-  const activityTime = new Date(Number(activity.time))
+  const activityTime = new Date(Number(activity.created))
     .toLocaleString()
     .split(",")[0];
 
-  if (dateHeaders[activityTime] !== activity._id) {
+  if (dateHeaders[activityTime] !== activity.id) {
     return null;
   }
 
@@ -75,10 +79,10 @@ const renderIconTitle = (activity: DataObj | null) => {
     return null;
   }
 
-  if (activity.modelType === "savings") {
+  if (activity["@collectionName"] === "savings") {
     return (
       <td className="icon-title-wrapper">
-        {icons(activity.modelType)}
+        {icons(activity["@collectionName"])}
         <span className="title">savings</span>
       </td>
     );
@@ -86,7 +90,7 @@ const renderIconTitle = (activity: DataObj | null) => {
 
   return (
     <td className="icon-title-wrapper">
-      {icons(activity.modelType)}
+      {icons(activity["@collectionName"])}
       <span className="title">
         {(activity as InflowType | OutflowType | BudgetType).title}
       </span>
@@ -94,17 +98,17 @@ const renderIconTitle = (activity: DataObj | null) => {
   );
 };
 
-// handle time render
+// handle created render
 const renderTime = (activity: DataObj | null) => {
   if (!activity) {
     return null;
   }
 
   return (
-    <td className="time">
-      {new Date(Number(activity.time)).toLocaleTimeString()}
+    <td className="created">
+      {new Date(Number(activity.created)).toLocaleTimeString()}
       {Number(
-        new Date(Number(activity.time)).toLocaleTimeString().split(":")[0]
+        new Date(Number(activity.created)).toLocaleTimeString().split(":")[0]
       ) >= 12 ? (
         <>PM</>
       ) : (
@@ -120,7 +124,7 @@ const renderAmount = (activity: DataObj | null) => {
     return null;
   }
 
-  if (activity.modelType === "budget") {
+  if (activity["@collectionName"] === "budgets") {
     return (
       <td className="amount">
         <span className="material-icons">attach_money</span>
@@ -153,13 +157,13 @@ const ActivityTable = ({ activities }: Props) => {
         if (
           activity &&
           !tempDateHeaders[
-            new Date(Number(activity.time)).toLocaleString().split(",")[0]
+            new Date(Number(activity.created)).toLocaleString().split(",")[0]
           ]
         ) {
-          const activityDate = new Date(Number(activity.time))
+          const activityDate = new Date(Number(activity.created))
             .toLocaleString()
             .split(",")[0];
-          tempDateHeaders[activityDate] = activity._id;
+          tempDateHeaders[activityDate] = activity.id;
         }
       });
       setDateHeaders({ ...tempDateHeaders });
@@ -173,7 +177,7 @@ const ActivityTable = ({ activities }: Props) => {
           <th></th>
           <th className="type"></th>
           <th className="date"></th>
-          <th className="time"></th>
+          <th className="created"></th>
           <th></th>
         </tr>
       </thead>
@@ -184,13 +188,13 @@ const ActivityTable = ({ activities }: Props) => {
               <React.Fragment key={index}>
                 {renderDateHeader(activity, dateHeaders)}
                 <tr
-                  className={"activity " + activity?.modelType}
-                  key={activity._id}
+                  className={"activity " + activity?.["@collectionName"]}
+                  key={activity.id}
                 >
                   {renderIconTitle(activity)}
-                  <td className="type">{activity.modelType}</td>
+                  <td className="type">{activity["@collectionName"]}</td>
                   <td className="date">
-                    {new Date(Number(activity.time)).toLocaleDateString()}
+                    {new Date(Number(activity.created)).toLocaleDateString()}
                   </td>
                   {renderTime(activity)}
                   {renderAmount(activity)}

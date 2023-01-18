@@ -43,7 +43,7 @@
           border-bottom-width: to-rem(1px);
           width: 100%;
           @include theme-aware("color", "text-2-color");
-          z-index: 50;
+          z-index: 2;
 
           &:-webkit-autofill {
             animation-name: onAutoFillStart;
@@ -63,7 +63,7 @@
           top: to-rem(5px);
           left: to-rem(10px);
           font-size: to-rem(18px);
-          z-index: 3;
+          z-index: 1;
 
           &.active {
             animation-name: moveUp;
@@ -88,11 +88,20 @@
         margin-top: to-rem(50px);
       }
     }
+
     & > div {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+
+      span:nth-last-of-type(1) {
+        @include theme-aware("color", "text-2-color");
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
     }
   }
 }

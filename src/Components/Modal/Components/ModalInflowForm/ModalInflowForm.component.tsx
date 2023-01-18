@@ -1,8 +1,9 @@
 import { useState } from "react";
 import "./ModalInflowForm.style.scss";
 import { UseMutationResult } from "react-query";
-import { FetchCategories } from "../../../../Queries";
+import { FetchInflowCategories } from "../../../../Queries";
 import { CategoryType } from "../../../../TypeDefs";
+import { Record } from "pocketbase";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,32 +13,26 @@ type Props = {
 const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
-  const [category, setCategory] = useState<CategoryType | null>(null);
+  const [category, setCategory] = useState<CategoryType | Record | null>(null);
   const [description, setDescription] = useState<string>("");
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
 
-  const userId = "636ac4a250bbc5afa6004a8c";
-
-  const { data: categoryData } = FetchCategories(userId);
+  const { data: categoryData } = FetchInflowCategories();
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     mutation.mutate({
-      userId,
       title,
       amount,
-      category: category?._id,
+      category: category?.id,
       description,
     });
     setShowMainModal(false);
   };
 
-  const onCategoryChange = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    category: CategoryType | null
-  ) => {
-    setCategory(category ? category : null);
+  const onCategoryChange = (category: CategoryType | Record | null) => {
+    setCategory(category);
     setShowCategoryOptions(!showCategoryOptions);
   };
 
@@ -85,23 +80,21 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
             >
               <div
                 className="category-options"
-                onClick={(e) => onCategoryChange(e, null)}
+                onClick={() => onCategoryChange(category)}
               >
                 {category ? "Others" : null}
               </div>
 
-              {categoryData.map((ele: CategoryType) => {
-                if (ele.categoryType === "inflow" && ele._id !== category?._id)
-                  return (
-                    <div
-                      className="category-options"
-                      onClick={(e) => onCategoryChange(e, ele)}
-                      key={ele._id}
-                    >
-                      {ele.title}
-                    </div>
-                  );
-                return null;
+              {categoryData?.map((ele) => {
+                return (
+                  <div
+                    className="category-options"
+                    onClick={(e) => onCategoryChange(ele)}
+                    key={ele.id}
+                  >
+                    {ele.title}
+                  </div>
+                );
               })}
             </div>
           </div>

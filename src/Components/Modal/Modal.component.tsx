@@ -11,22 +11,22 @@ import "./Modal.style.scss";
 import ModalBudgetForm from "./Components/ModalBudgetForm";
 import { UseMutationResult } from "react-query";
 import { BudgetType, CategoryType } from "../../TypeDefs";
+import { Record } from "pocketbase";
 
 type Props = {
   quickActionId: number | null;
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
   mutation?: UseMutationResult<any, unknown, any, unknown> | null;
-  prefillData?: CategoryType | BudgetType | null;
-  categoryType?: string
+  prefillData?: CategoryType | BudgetType | Record | null;
+  categoryType?: string;
 };
-
 
 const getForm = ({
   quickActionId,
   setShowMainModal,
   mutation,
   prefillData,
-  categoryType
+  categoryType,
 }: Props) => {
   if (!quickActionId || !mutation) {
     return null;
@@ -64,7 +64,7 @@ const getForm = ({
     case 6:
       return (
         <CreateCategoryForm
-          categoryType={categoryType || ''}
+          categoryType={categoryType || ""}
           setShowMainModal={setShowMainModal}
           mutation={mutation}
           prefillData={prefillData}
@@ -73,7 +73,7 @@ const getForm = ({
     case 7:
       return (
         <ManageCategoryForm
-          categoryType={categoryType || ''}
+          categoryType={categoryType || ""}
           setShowMainModal={setShowMainModal}
         />
       );
@@ -87,12 +87,18 @@ const Modal = ({
   setShowMainModal,
   mutation,
   prefillData,
-  categoryType
+  categoryType,
 }: Props) => {
   return (
     <section id="modal">
       <ModalContainer />
-      {getForm({ quickActionId, setShowMainModal, mutation, prefillData, categoryType })}
+      {getForm({
+        quickActionId,
+        setShowMainModal,
+        mutation,
+        prefillData,
+        categoryType,
+      })}
     </section>
   );
 };

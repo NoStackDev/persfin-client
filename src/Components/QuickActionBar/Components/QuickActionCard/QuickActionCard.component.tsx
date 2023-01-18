@@ -3,13 +3,20 @@ import React, { useEffect, useMemo, useState } from "react";
 import DateFilterFixed from "../../../DateFiter/DateFilterFixed";
 import "./QuickActionCard.style.scss";
 import calculateFilteredAmount from "./helper";
+import {
+  BudgetType,
+  InflowType,
+  OutflowType,
+  SavingsType,
+} from "../../../../TypeDefs";
+import { Record } from "pocketbase";
 
 type Props = {
   id: number;
   icon: string;
   title: string;
   showCurrency: boolean;
-  amount: number | Transaction[] | null;
+  amount: number | DataObj[] | undefined;
   hasBtn: boolean;
   btnText: string | null;
   setSelectedFormId: React.Dispatch<React.SetStateAction<number | null>>;
@@ -17,21 +24,7 @@ type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-type Transaction = {
-  _id: string;
-  title: string;
-  amount: number;
-  category: {
-    _id: string;
-    title: string;
-    categoryType: string;
-  };
-  budget: string;
-  description: string;
-  receiptImage: string[];
-  time: string;
-  createdAt: Date;
-};
+type DataObj = InflowType | BudgetType | SavingsType | OutflowType | Record;
 
 interface rangeInterface {
   min: Date;
@@ -59,7 +52,7 @@ const QuickActionCard = ({
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
-  const [filteredDataArr, setFilteredDataArr] = useState<Transaction[] | null>(
+  const [filteredDataArr, setFilteredDataArr] = useState<DataObj[] | null>(
     null
   );
 
@@ -74,8 +67,8 @@ const QuickActionCard = ({
         const range = filterRange?.range();
 
         return (
-          range.min <= new Date(Number(ele.time)) &&
-          new Date(Number(ele.time)) <=
+          range.min <= new Date(ele.created) &&
+          new Date(ele.created) <=
             new Date(
               range.max.getTime() +
                 (1000 * 60 * 60 * 22 + 1000 * 60 * 59 + 1000 * 59)

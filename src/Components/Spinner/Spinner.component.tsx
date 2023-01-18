@@ -8,10 +8,10 @@ type Props = {
 };
 
 const Spinner = ({ mutation, message }: Props) => {
-  const timerRef = useRef<number | null>(null);
+  const createdrRef = useRef<number | null>(null);
 
   useEffect(() => {
-    return () => window.clearTimeout(timerRef.current || 0);
+    return () => window.clearTimeout(createdrRef.current || 0);
   }, []);
 
   if (!mutation) {
@@ -29,7 +29,7 @@ const Spinner = ({ mutation, message }: Props) => {
   }
   if (mutation.isError) {
     status = "error";
-    timerRef.current = window.setTimeout(() => {
+    createdrRef.current = window.setTimeout(() => {
       mutation?.reset();
     }, 5000);
     return (
@@ -41,7 +41,7 @@ const Spinner = ({ mutation, message }: Props) => {
   }
   if (mutation.isSuccess) {
     status = "success";
-    timerRef.current = window.setTimeout(() => {
+    createdrRef.current = window.setTimeout(() => {
       mutation?.reset();
     }, 5000);
     return (

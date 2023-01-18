@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {
   FetchBudgets,
-  FetchCategories,
   FetchInflows,
   FetchOutflows,
   FetchSavings,
-  FetchUser,
+  FetchInflowCategories,
+  FetchOutflowCategories,
 } from "../../Queries";
 
 import "./Topbar.style.scss";
@@ -14,18 +14,13 @@ type Props = {};
 
 const Topbar = (props: Props) => {
   const [date, setDate] = useState<string>(new Date(Date.now()).toDateString());
-  const userId = "636ac4a250bbc5afa6004a8c";
-  const {
-    isLoading: isLoadingUserData,
-    isSuccess: isSuccessUserData,
-    data: userData,
-  } = FetchUser(userId);
 
-  FetchSavings(userId);
-  FetchInflows(userId);
-  FetchOutflows(userId);
-  FetchCategories(userId);
-  FetchBudgets(userId);
+  FetchSavings();
+  FetchInflows();
+  FetchOutflows();
+  FetchBudgets();
+  FetchInflowCategories();
+  FetchOutflowCategories();
 
   useEffect(() => {
     const interval = setInterval(() => {

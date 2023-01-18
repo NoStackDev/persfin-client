@@ -1,4 +1,9 @@
-import { InflowType, OutflowType, TimeRangeInterface } from "../../../../TypeDefs";
+import { Record } from "pocketbase";
+import {
+  InflowType,
+  OutflowType,
+  TimeRangeInterface,
+} from "../../../../TypeDefs";
 
 const labelChoices = (filterRange: TimeRangeInterface | null) => {
   if (filterRange?.id === "thwk" || filterRange?.id === "lswk") {
@@ -16,7 +21,7 @@ const labelChoices = (filterRange: TimeRangeInterface | null) => {
 };
 
 const filterData = (
-  data: InflowType[] | OutflowType[] | null,
+  data: (InflowType | Record)[] | (OutflowType | Record)[] | undefined,
   filterRange: TimeRangeInterface
 ) => {
   if (!data) {
@@ -25,8 +30,8 @@ const filterData = (
   const range = filterRange.range();
   const filteredData = data.filter((obj) => {
     return (
-      range.min <= new Date(Number(obj.time)) &&
-      new Date(Number(obj.time)) <=
+      range.min <= new Date(obj.created) &&
+      new Date(obj.created) <=
         new Date(
           range.max.getTime() +
             (1000 * 60 * 60 * 22 + 1000 * 60 * 59 + 1000 * 59)
@@ -37,7 +42,9 @@ const filterData = (
 };
 
 const getLabelsAndDataset = (
-  dataset: Array<InflowType[] | OutflowType[] | null> | null,
+  dataset: Array<
+    (InflowType | Record)[] | (OutflowType | Record)[] | undefined
+  >,
   filterRange: TimeRangeInterface | null
 ) => {
   if (filterRange && dataset) {
@@ -51,7 +58,7 @@ const getLabelsAndDataset = (
       labels.forEach((label) => {
         const total = filteredData?.reduce((prevValue, currenObj) => {
           if (
-            new Date(Number(currenObj.time))
+            new Date(currenObj.created)
               .toDateString()
               .split(" ")
               .includes(label)

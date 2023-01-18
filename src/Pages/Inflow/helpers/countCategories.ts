@@ -6,18 +6,18 @@ const countCategories = (objArr: CategoryType[] | null) => {
     outflowCategories: 0,
   };
 
-  objArr?.reduce((prevValue, currentObj) => {
-    switch (currentObj.categoryType.toLowerCase().trim()) {
-      case "inflow":
-        categoriesObj.inflowCategories += 1;
-        return prevValue;
-      case "outflow":
-        categoriesObj.outflowCategories += 1;
-        return prevValue;
-      default:
-        return prevValue;
-    }
-  }, categoriesObj);
+  // objArr?.reduce((prevValue, currentObj) => {
+  //   switch (currentObj.categoryType.toLowerCase().trim()) {
+  //     case "inflow":
+  //       categoriesObj.inflowCategories += 1;
+  //       return prevValue;
+  //     case "outflow":
+  //       categoriesObj.outflowCategories += 1;
+  //       return prevValue;
+  //     default:
+  //       return prevValue;
+  //   }
+  // }, categoriesObj);
   return categoriesObj;
 };
 

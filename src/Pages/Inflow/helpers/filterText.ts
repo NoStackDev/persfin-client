@@ -1,6 +1,7 @@
+import { Record } from "pocketbase";
 import { InflowType } from "../../../TypeDefs";
 
-const filterText = (data: InflowType[] | null, textFilter: string) => {
+const filterText = (data: (InflowType|Record)[] | null, textFilter: string) => {
   if (textFilter.trim() === "" || !data) {
     return data;
   }

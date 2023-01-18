@@ -9,7 +9,7 @@ const EditBudget = async (
   balance: number,
   description: string,
   items: {
-    _id: string;
+    id: string;
     title: string;
     amount: number;
     balance: number;
@@ -24,13 +24,13 @@ const EditBudget = async (
       data: {
         query: `mutation UpdateBudget($budgetId: ID, $title: String, $total: Float, $balance: Float, $description: String, $items:[BudgetItemInput]){
                         updateBudget(budgetId: $budgetId, title: $title, total: $total, balance: $balance, description: $description, items: $items) {
-                            _id
+                            id
                             title
                             description
                             total
                             balance
                             items {
-                                _id
+                                id
                                 title
                                 description
                                 amount
@@ -71,7 +71,7 @@ const UpdateBudget = () => {
       balance: number;
       description: string;
       items: {
-        _id: string;
+        id: string;
         title: string;
         amount: number;
         balance: number;

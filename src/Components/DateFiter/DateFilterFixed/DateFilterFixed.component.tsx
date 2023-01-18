@@ -1,5 +1,5 @@
 import React, { SetStateAction, useEffect, useState } from "react";
-import timeRange from "./dateFilterFixedConfig";
+import createdRange from "./dateFilterFixedConfig";
 
 import "./DateFilterFixed.style.scss";
 
@@ -12,16 +12,16 @@ type SetFilterRange = {
 const DateFilterFixed = ({setFilterRange}: SetFilterRange) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<TimeRangeInterface>(
-    timeRange[0]
+    createdRange[0]
   );
 
   useEffect(() => {
-    setFilterRange(timeRange[0]);
+    setFilterRange(createdRange[0]);
   }, [setFilterRange]);
 
-  const handleClick = (timeRangeObj: TimeRangeInterface) => {
-    setSelectedOption(timeRangeObj);
-    setFilterRange(timeRangeObj);
+  const handleClick = (createdRangeObj: TimeRangeInterface) => {
+    setSelectedOption(createdRangeObj);
+    setFilterRange(createdRangeObj);
   };
 
   return (
@@ -32,14 +32,14 @@ const DateFilterFixed = ({setFilterRange}: SetFilterRange) => {
       <div className="selected-option">{selectedOption.title}</div>
       {showOptions ? (
         <div className="filter-option-container">
-          {timeRange.map((timeObj) => {
-            return selectedOption.id === timeObj.id ? null : (
+          {createdRange.map((createdObj) => {
+            return selectedOption.id === createdObj.id ? null : (
               <div
-                onClick={() => handleClick(timeObj)}
-                key={timeObj.id}
+                onClick={() => handleClick(createdObj)}
+                key={createdObj.id}
                 className="filter-option"
               >
-                {timeObj.title}
+                {createdObj.title}
               </div>
             );
           })}

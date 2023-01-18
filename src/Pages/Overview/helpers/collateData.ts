@@ -1,3 +1,4 @@
+import { Record } from "pocketbase";
 import {
   InflowType,
   OutflowType,
@@ -5,12 +6,16 @@ import {
   SavingsType,
 } from "../../../TypeDefs";
 
-type DataObj = InflowType[] | OutflowType[] | BudgetType[] | SavingsType[];
+type DataObj =
+  | (InflowType | Record)[]
+  | (OutflowType | Record)[]
+  | (BudgetType | Record)[]
+  | (SavingsType | Record)[];
 
-const collateData = (data: Array<DataObj | null>) => {
+const collateData = (data: Array<DataObj | undefined>) => {
   const modedData = data.flat();
   modedData.sort((a, b) => {
-    return Number(b?.time) - Number(a?.time);
+    return Number(b?.created) - Number(a?.created);
   });
   return modedData;
 };

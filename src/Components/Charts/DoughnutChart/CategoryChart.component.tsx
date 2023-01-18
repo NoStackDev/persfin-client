@@ -4,13 +4,18 @@ import { Doughnut } from "react-chartjs-2";
 import CategorySelector from "../../CategorySelector";
 import DateFilterFixed from "../../DateFiter/DateFilterFixed";
 
-import { InflowType, OutflowType, BudgetType, TimeRangeInterface,  } from "../../../TypeDefs";
+import {
+  InflowType,
+  OutflowType,
+  BudgetType,
+  TimeRangeInterface,
+} from "../../../TypeDefs";
 
 import "./CategoryChart.style.scss";
 import generateLabelsColorsAmount from "./helpers/generateLabelsColorsAmount";
+import { Record } from "pocketbase";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-
 
 const options = {
   responsive: true,
@@ -29,14 +34,23 @@ const options = {
 };
 
 type Props = {
-  dataset: Array<InflowType[] | OutflowType[] | BudgetType[]|null>;
+  dataset: Array<
+    | (InflowType | Record)[]
+    | (OutflowType | Record)[]
+    | (BudgetType | Record)[]
+    | undefined
+  >;
   showFixedDateFilter: boolean;
   heading?: string;
-  category?: boolean
+  category?: boolean;
 };
 
-const CategoryChart = ({ dataset, showFixedDateFilter, heading, category }: Props) => {
-
+const CategoryChart = ({
+  dataset,
+  showFixedDateFilter,
+  heading,
+  category,
+}: Props) => {
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
@@ -46,17 +60,18 @@ const CategoryChart = ({ dataset, showFixedDateFilter, heading, category }: Prop
     return generateLabelsColorsAmount(dataset, filterRange, category);
   }, [dataset, filterRange, category]);
 
-  const selectedData = selectedCategory? labelsColorsAmount[selectedCategory]: null
+  const selectedData = selectedCategory
+    ? labelsColorsAmount[selectedCategory]
+    : null;
 
   const data = {
-    labels:
-      selectedData? selectedData.labels: [],
+    labels: selectedData ? selectedData.labels : [],
     datasets: [
       {
         label: "",
-        data: selectedData? selectedData.amount : [],
-        backgroundColor: selectedData? selectedData.colors : [],
-        borderColor: selectedData? selectedData.colors : [],
+        data: selectedData ? selectedData.amount : [],
+        backgroundColor: selectedData ? selectedData.colors : [],
+        borderColor: selectedData ? selectedData.colors : [],
         borderWidth: 0,
         cutout: "85%",
       },
@@ -68,7 +83,10 @@ const CategoryChart = ({ dataset, showFixedDateFilter, heading, category }: Prop
       <div className="card">
         <div className="top">
           <DateFilterFixed setFilterRange={setFilterRange} />
-          <CategorySelector categories={Object.keys(labelsColorsAmount)} setSelectedCategory={setSelectedCategory} />
+          <CategorySelector
+            categories={Object.keys(labelsColorsAmount)}
+            setSelectedCategory={setSelectedCategory}
+          />
         </div>
         <div className="legend-doughnut">
           <div className="legend-bar">
@@ -83,9 +101,7 @@ const CategoryChart = ({ dataset, showFixedDateFilter, heading, category }: Prop
               );
             })}
           </div>
-          {selectedData ? (
-            <Doughnut data={data} options={options} />
-          ) : null}
+          {selectedData ? <Doughnut data={data} options={options} /> : null}
         </div>
       </div>
     </div>

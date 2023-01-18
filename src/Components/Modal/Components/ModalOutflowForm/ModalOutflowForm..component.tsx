@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { UseMutationResult } from "react-query";
-import { FetchBudgets, FetchCategories } from "../../../../Queries";
+import { FetchBudgets, FetchOutflowCategories } from "../../../../Queries";
 import "./ModalOutflowForm.style.scss";
 import { BudgetType, BudgetItemType, CategoryType } from "../../../../TypeDefs";
+import { Record } from "pocketbase";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,8 +13,8 @@ type Props = {
 const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
-  const [category, setCategory] = useState<CategoryType | null>(null);
-  const [budget, setBudget] = useState<BudgetType | null>(null);
+  const [category, setCategory] = useState<CategoryType | Record | null>(null);
+  const [budget, setBudget] = useState<BudgetType | Record | null>(null);
   const [budgetItems, setBudgetItems] = useState<BudgetItemType[] | null>(null);
   const [item, setItem] = useState<BudgetItemType | null>(
     budgetItems ? budgetItems[0] : null
@@ -25,20 +26,17 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
 
-  const userId = "636ac4a250bbc5afa6004a8c";
-
-  const { data: categoryData } = FetchCategories(userId);
-  const { data: budgetData } = FetchBudgets(userId);
+  const { data: categoryData } = FetchOutflowCategories();
+  const { data: budgetData } = FetchBudgets();
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     mutation.mutate({
-      userId,
       title,
-      amount,
-      budget: budget?._id,
-      item: item?._id,
-      category: category?._id,
+      amount, 
+      budget: budget?.id,
+      item: item?.id,
+      category: category?.id,
       description,
     });
     setShowMainModal(false);
@@ -51,29 +49,20 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
     setAmount(Number(e.target.value));
   };
 
-  const onBudgetChange = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    budget: BudgetType | null
-  ) => {
+  const onBudgetChange = (budget: BudgetType | Record | null) => {
     setBudget(budget);
     setBudgetItems(budget?.items || null);
     setItem(budget ? budget.items[0] : null);
     setShowBudgetOptions(!showBudgetOptions);
   };
 
-  const onBudgetItemChange = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    item: BudgetItemType | null
-  ) => {
+  const onBudgetItemChange = (item: BudgetItemType | null) => {
     setItem(item ? item : null);
     setShowBudgetItemsOptions(!showBudgetItemsOptions);
   };
 
-  const onCategoryChange = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    category: CategoryType | null
-  ) => {
-    setCategory(category ? category : null);
+  const onCategoryChange = (category: CategoryType | Record | null) => {
+    setCategory(category);
     setShowCategoryOptions(!showCategoryOptions);
   };
 
@@ -113,18 +102,18 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
             >
               <div
                 className="budget-options"
-                onClick={(e) => onBudgetChange(e, null)}
+                onClick={() => onBudgetChange(null)}
               >
                 {budget ? "Unbudgeted" : null}
               </div>
 
-              {budgetData.map((ele: BudgetType) => {
-                if (ele.completed === false && ele._id !== budget?._id)
+              {budgetData?.map((ele) => {
+                if (ele.exhausted === false && ele.id !== budget?.id)
                   return (
                     <div
                       className="budget-options"
-                      onClick={(e) => onBudgetChange(e, ele)}
-                      key={ele._id}
+                      onClick={() => onBudgetChange(ele)}
+                      key={ele.id}
                     >
                       {ele.title}
                     </div>
@@ -156,12 +145,12 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
                 className={`budget-item-options-container show-${showBudgetItemsOptions}`}
               >
                 {budgetItems?.map((ele: BudgetItemType) => {
-                  if (ele._id !== item?._id)
+                  if (ele.id !== item?.id)
                     return (
                       <div
                         className="budget-item-options"
-                        onClick={(e) => onBudgetItemChange(e, ele)}
-                        key={ele._id}
+                        onClick={() => onBudgetItemChange(ele)}
+                        key={ele.id}
                       >
                         {ele.title}
                       </div>
@@ -193,26 +182,21 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
               >
                 <div
                   className="category-options"
-                  onClick={(e) => onCategoryChange(e, null)}
+                  onClick={() => onCategoryChange(null)}
                 >
                   {category ? "Others" : null}
                 </div>
 
-                {categoryData.map((ele: CategoryType) => {
-                  if (
-                    ele.categoryType === "outflow" &&
-                    ele._id !== category?._id
-                  )
-                    return (
-                      <div
-                        className="category-options"
-                        onClick={(e) => onCategoryChange(e, ele)}
-                        key={ele._id}
-                      >
-                        {ele.title}
-                      </div>
-                    );
-                  return null;
+                {categoryData?.map((ele) => {
+                  return (
+                    <div
+                      className="category-options"
+                      onClick={() => onCategoryChange(ele)}
+                      key={ele.id}
+                    >
+                      {ele.title}
+                    </div>
+                  );
                 })}
               </div>
             </div>

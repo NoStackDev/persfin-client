@@ -1,11 +1,20 @@
 import React, { useState } from "react";
-import { FetchCategories } from "../../../../../../Queries";
+import {
+  FetchInflowCategories,
+  FetchOutflowCategories,
+} from "../../../../../../Queries";
 import { CategoryType } from "../../../../../../TypeDefs";
-import { UseMutationResult } from "react-query";
+import { UseMutationResult, UseQueryResult } from "react-query";
 import "./ManageCategoryForm.style.scss";
-import { DeleteCategory, UpdateCategory } from "../../../../../../Mutations";
+import {
+  DeleteInflowCategory,
+  DeleteOutflowCategory,
+  UpdateInflowCategory,
+  UpdateOutflowCategory,
+} from "../../../../../../Mutations";
 import Spinner from "../../../../../Spinner";
 import Modal from "../../../../Modal.component";
+import { Record as pbRecord } from "pocketbase";
 
 type Props = {
   categoryType: string;
@@ -13,29 +22,25 @@ type Props = {
 };
 
 const renderCategoryItem = (
-  categoryType: string,
-  category: CategoryType,
-  handleEditClick: (categoryId: string) => void,
-  handleDeleteClick: (categoryId: string) => void
+  category: CategoryType | pbRecord,
+  handleEditClick: (category: CategoryType | pbRecord) => void,
+  handleDeleteClick: (category: CategoryType | pbRecord) => void
 ) => {
-  if (categoryType !== category.categoryType) {
-    return null;
-  }
   return (
-    <div key={category._id} className="category">
+    <div key={category.id} className="category">
       <div>
         <span>{category.title}</span>
       </div>
       <div>
         <span
           className="material-icons edit"
-          onClick={() => handleEditClick(category._id)}
+          onClick={() => handleEditClick(category)}
         >
           edit
         </span>
         <span
           className="material-icons delete"
-          onClick={() => handleDeleteClick(category._id)}
+          onClick={() => handleDeleteClick(category)}
         >
           delete
         </span>
@@ -45,36 +50,43 @@ const renderCategoryItem = (
 };
 
 const ManageCategoryForm = ({ categoryType }: Props) => {
-  const [selectedCategory, setSelectedCategory] = useState<CategoryType | null>(
-    null
-  );
+  const [selectedCategory, setSelectedCategory] = useState<
+    CategoryType | pbRecord | null
+  >(null);
   const [showMainModal, setShowMainModal] = useState<boolean>(false);
-  const userId = "636ac4a250bbc5afa6004a8c";
 
   // queries
-  const {
-    isLoading: isLoadingCategoriesData,
-    isSuccess: isSuccessCategoriesData,
-    data: categoriesData,
-  } = FetchCategories(userId);
+  const CategoryQuery: Record<
+    string,
+    UseQueryResult<(CategoryType | pbRecord)[], unknown>
+  > = {
+    inflowCategories: FetchInflowCategories(),
+    outflowCategories: FetchOutflowCategories(),
+  };
 
   // mutation
-  const deleteMutation = DeleteCategory();
-  const updateMutation = UpdateCategory();
+  const deleteMutation: Record<
+    string,
+    UseMutationResult<any, unknown, any, unknown>
+  > = {
+    inflowCategories: DeleteInflowCategory(),
+    outflowCategories: DeleteOutflowCategory(),
+  };
+  const updateMutation: Record<
+    string,
+    UseMutationResult<any, unknown, any, unknown>
+  > = {
+    inflowCategories: UpdateInflowCategory(),
+    outflowCategories: UpdateOutflowCategory(),
+  };
 
-  const handleEditClick = (categoryId: string) => {
-    if (!categoriesData) {
-      return;
-    }
-    const category = categoriesData.find(
-      (obj: CategoryType) => obj._id === categoryId
-    );
-    setSelectedCategory({...category});
+  const handleEditClick = (category: CategoryType | pbRecord) => {
+    setSelectedCategory(category);
     setShowMainModal(true);
   };
 
-  const handleDeleteClick = (categoryId: string) => {
-    deleteMutation.mutate({ category: categoryId });
+  const handleDeleteClick = (category: CategoryType | pbRecord) => {
+    deleteMutation[categoryType].mutate({ categoryId: category.id });
   };
 
   return (
@@ -87,9 +99,8 @@ const ManageCategoryForm = ({ categoryType }: Props) => {
               <input type="text" value={categoryType} readOnly />
             </div>
             <div className="categories-container">
-              {categoriesData.map((category: CategoryType) => {
+              {CategoryQuery[categoryType].data?.map((category) => {
                 return renderCategoryItem(
-                  categoryType,
                   category,
                   handleEditClick,
                   handleDeleteClick
@@ -103,12 +114,18 @@ const ManageCategoryForm = ({ categoryType }: Props) => {
         <Modal
           quickActionId={6}
           setShowMainModal={setShowMainModal}
-          mutation={updateMutation}
+          mutation={updateMutation[categoryType]}
           prefillData={selectedCategory}
         />
       ) : null}
-      <Spinner mutation={updateMutation} message={"updating category"} />
-      <Spinner mutation={deleteMutation} message={"deleting category"} />
+      <Spinner
+        mutation={updateMutation[categoryType]}
+        message={"updating category"}
+      />
+      <Spinner
+        mutation={deleteMutation[categoryType]}
+        message={"deleting category"}
+      />
     </>
   );
 };

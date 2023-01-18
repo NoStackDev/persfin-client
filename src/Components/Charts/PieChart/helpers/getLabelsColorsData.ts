@@ -1,17 +1,18 @@
+import { Record as pbRecord } from "pocketbase";
 import { BudgetType, TimeRangeInterface } from "../../../../TypeDefs";
 
 const filterData = (
-  data: BudgetType[] | null,
+  data: (BudgetType | pbRecord)[],
   filterRange: TimeRangeInterface
 ) => {
-  if (!data) {
-    return null;
-  }
+  // if (!data) {
+  //   return null;
+  // }
   const range = filterRange.range();
   const filteredData = data.filter((obj) => {
     return (
-      range.min <= new Date(Number(obj.time)) &&
-      new Date(Number(obj.time)) <=
+      range.min <= new Date(obj.created) &&
+      new Date(obj.created) <=
         new Date(
           range.max.getTime() +
             (1000 * 60 * 60 * 22 + 1000 * 60 * 59 + 1000 * 59)
@@ -25,7 +26,7 @@ interface TotalBalance {
   balance: number;
   total: number;
 }
-const generateLabelsAmount = (data: BudgetType[] | null) => {
+const generateLabelsAmount = (data: (BudgetType | pbRecord)[] | undefined) => {
   if (data) {
     const labelAmount: Record<string, TotalBalance> = {};
     data.forEach((budget) => {
@@ -82,7 +83,7 @@ interface ResultInterface {
 }
 
 const getLabelsColorsDataset = (
-  dataset: BudgetType[] | null,
+  dataset: (BudgetType | pbRecord)[] | undefined,
   filterRange: TimeRangeInterface | null
 ) => {
   const data: ResultInterface = {

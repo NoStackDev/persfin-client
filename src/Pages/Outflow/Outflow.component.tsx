@@ -3,18 +3,16 @@ import FilterBar from "../../Components/FilterBar";
 
 import "./Outflow.style.scss";
 import { useMemo, useState } from "react";
-import { FetchCategories, FetchOutflows } from "../../Queries";
+import { FetchOutflowCategories, FetchOutflows } from "../../Queries";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
 import { TimeRangeInterface } from "../../TypeDefs";
-import { countCategories, filterDate, filterText } from "./helpers";
+import { filterDate, filterText } from "./helpers";
 import ActionCard from "../../Components/ActionCard";
 
 type Props = {};
 
 const Outflow = (props: Props) => {
-  const userId = "636ac4a250bbc5afa6004a8c";
-
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
@@ -24,17 +22,17 @@ const Outflow = (props: Props) => {
     isLoading: isLoadingOutflowsData,
     isSuccess: isSuccessOutflowsData,
     data: outflowsData,
-  } = FetchOutflows(userId);
+  } = FetchOutflows();
 
   const {
     isLoading: isLoadingCategoriesData,
     isSuccess: isSuccessCategoriesData,
-    data: categoriesData,
-  } = FetchCategories(userId);
+    data: categoryData,
+  } = FetchOutflowCategories();
 
-  const { outflowCategories } = useMemo(() => {
-    return countCategories(categoriesData);
-  }, [categoriesData]);
+  const outflowCategoryNum = useMemo(() => {
+    return categoryData ? categoryData.length + 1 : 1;
+  }, [categoryData]);
 
   const dateFiltered = useMemo(() => {
     return filterDate(outflowsData, filterRange);
@@ -58,7 +56,7 @@ const Outflow = (props: Props) => {
       <section id="distribution-chart-section">
         <ActionCard
           title="Outflow Categories"
-          categoriesNum={outflowCategories}
+          categoriesNum={outflowCategoryNum}
           categoryType="outflow"
         />
         <CategoryChart dataset={[outflowsData]} showFixedDateFilter />

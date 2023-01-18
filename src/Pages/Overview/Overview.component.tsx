@@ -16,36 +16,38 @@ import BudgetCard from "../Budget/Components/BudgetCard";
 import { DeleteBudget, UpdateBudget } from "../../Mutations";
 import { BudgetType } from "../../TypeDefs";
 import Modal from "../../Components/Modal";
+import { Record } from "pocketbase";
 
 type Props = {};
 
 const Overview = (props: Props) => {
   const [showMainModal, setShowMainModal] = useState<boolean>(false);
-  const [selecedBudget, setSelectedBudget] = useState<BudgetType | null>(null);
+  const [selecedBudget, setSelectedBudget] = useState<
+    (BudgetType | Record) | null
+  >(null);
 
-  const userId = "636ac4a250bbc5afa6004a8c";
   const {
     isLoading: isLoadingInflowsData,
     isSuccess: isSuccessInflowsData,
     data: inflowsData,
-  } = FetchInflows(userId);
+  } = FetchInflows();
   const {
     isLoading: isLoadingOutflowsData,
     isSuccess: isSuccessOutflowsData,
     data: outflowsData,
-  } = FetchOutflows(userId);
+  } = FetchOutflows();
 
   const {
     isLoading: isLoadingSavingsData,
     isSuccess: isSuccessSavingsData,
     data: savingsData,
-  } = FetchSavings(userId);
+  } = FetchSavings();
 
   const {
     isLoading: isLoadingBudgetsData,
     isSuccess: isSuccessBudgetsData,
     data: budgetsData,
-  } = FetchBudgets(userId);
+  } = FetchBudgets();
 
   const data = useMemo(() => {
     return collateData([inflowsData, outflowsData, savingsData]);
@@ -75,11 +77,11 @@ const Overview = (props: Props) => {
           />
         </section>
         <section id="budgets">
-          {budgetsData?.map((budget: BudgetType) => {
+          {budgetsData?.map((budget) => {
             return (
               <BudgetCard
                 budget={budget}
-                key={budget._id}
+                key={budget.id}
                 deleteMutation={deleteBudgetMutation}
                 updateMutation={updateBudgetMutation}
                 setShowMainModal={setShowMainModal}

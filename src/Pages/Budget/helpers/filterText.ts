@@ -1,6 +1,10 @@
+import { Record } from "pocketbase";
 import { BudgetType } from "../../../TypeDefs";
 
-const filterText = (data: BudgetType[] | null, textFilter: string) => {
+const filterText = (
+  data: (BudgetType | Record)[] | null,
+  textFilter: string
+) => {
   if (textFilter.trim() === "" || !data) {
     return data;
   }

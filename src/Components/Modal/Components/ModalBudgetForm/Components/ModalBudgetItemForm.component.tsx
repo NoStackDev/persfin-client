@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import { FetchCategories } from "../../../../../Queries";
+import {
+  FetchCategories,
+  FetchOutflowCategories,
+} from "../../../../../Queries";
 import "./ModalBudgetItemForm.style.scss";
 import { BudgetItemType, CategoryType } from "../../../../../TypeDefs";
+import { Record } from "pocketbase";
 
 type Props = {
   setShowBudgetItemModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,8 +22,8 @@ const ModalBudgetItemForm = ({
   const [amount, setAmount] = useState<string>(
     prefillItemData?.amount.toString() || "0"
   );
-  const [category, setCategory] = useState<CategoryType | null | undefined>(
-    null
+  const [category, setCategory] = useState<CategoryType | Record | undefined>(
+    undefined
   );
   const [description, setDescription] = useState<string>(
     prefillItemData?.description || ""
@@ -27,25 +31,19 @@ const ModalBudgetItemForm = ({
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
 
-  const userId = "636ac4a250bbc5afa6004a8c";
-
-  const { data: categoryData } = FetchCategories(userId);
+  const { data: categoryData } = FetchOutflowCategories();
 
   useEffect(() => {
     if (prefillItemData && categoryData) {
-      setCategory(
-        (categoryData as CategoryType[]).find(
-          (obj) => obj._id === prefillItemData.category
-        )
-      );
+      setCategory(categoryData.find((obj) => obj.id === prefillItemData.id));
     }
   }, [categoryData, prefillItemData]);
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    const tempCategoryId = category ? category._id : null;
+    const tempCategoryId = category ? category.id : null;
     handleItemAddition({
-      _id: prefillItemData?._id || Date.now().toString(),
+      id: prefillItemData?.id || Date.now().toString(),
       title,
       amount: Number(amount),
       balance: prefillItemData?.balance || Number(amount),
@@ -55,11 +53,8 @@ const ModalBudgetItemForm = ({
     setShowBudgetItemModal(false);
   };
 
-  const onCategoryChange = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    category: CategoryType | null
-  ) => {
-    setCategory(category ? category : null);
+  const onCategoryChange = (category: CategoryType | Record | undefined) => {
+    setCategory(category);
     setShowCategoryOptions(!showCategoryOptions);
   };
 
@@ -100,23 +95,21 @@ const ModalBudgetItemForm = ({
             >
               <div
                 className="category-options"
-                onClick={(e) => onCategoryChange(e, null)}
+                onClick={() => onCategoryChange(undefined)}
               >
                 {category ? "Others" : null}
               </div>
 
-              {categoryData.map((ele: CategoryType) => {
-                if (ele.categoryType === "outflow" && ele._id !== category?._id)
-                  return (
-                    <div
-                      className="category-options"
-                      onClick={(e) => onCategoryChange(e, ele)}
-                      key={ele._id}
-                    >
-                      {ele.title}
-                    </div>
-                  );
-                return null;
+              {categoryData?.map((ele) => {
+                return (
+                  <div
+                    className="category-options"
+                    onClick={() => onCategoryChange(ele)}
+                    key={ele.id}
+                  >
+                    {ele.title}
+                  </div>
+                );
               })}
             </div>
           </div>

@@ -1,6 +1,9 @@
+import { Record } from "pocketbase";
 import { SavingsType } from "../../../TypeDefs";
 
-const calculateSavings = (objArr: SavingsType[] | null): number => {
+const calculateSavings = (
+  objArr: (SavingsType | Record)[] | undefined
+): number => {
   const total = objArr?.reduce((prevValue, currentObj) => {
     return prevValue + currentObj.amount;
   }, 0);

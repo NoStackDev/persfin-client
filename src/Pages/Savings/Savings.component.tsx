@@ -16,13 +16,11 @@ const Savings = (props: Props) => {
   );
   const [textFilter, setTextFilter] = useState<string>("");
 
-  const userId = "636ac4a250bbc5afa6004a8c";
-
   const {
     isLoading: isLoadingSavingsData,
     isSuccess: isSuccessSavingsData,
     data: savingsData,
-  } = FetchSavings(userId);
+  } = FetchSavings();
 
   const dateFiltered = useMemo(() => {
     return filterDate(savingsData, filterRange);

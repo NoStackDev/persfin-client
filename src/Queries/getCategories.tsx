@@ -9,13 +9,13 @@ const getCategories = async (userId: string) => {
       data: {
         query: `query GetCategories($user: ID) {
                     categories(user: $user) {
-                        _id
+                        id
                         categoryType
                         title
                         description
                         modelType
-                        time
-                        createdAt
+                        created
+                        created
                     }
                 }`,
         variables: {

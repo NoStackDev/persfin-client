@@ -10,13 +10,13 @@ const RemoveBudget = async (budget: string) => {
       data: {
         query: `mutation RemoveBudget($budget: ID){
                     deleteBudget(budget: $budget) {
-                        _id
+                        id
                         title
                         description
                         total
                         balance
                         items {
-                            _id
+                            id
                             title
                             description
                             amount

@@ -1,28 +1,26 @@
+import { Record } from "pocketbase";
+import {
+  InflowType,
+  BudgetType,
+  SavingsType,
+  OutflowType,
+} from "../../../../../TypeDefs";
 
-type Transaction = {
-    _id: string;
-    title: string;
-    amount: number;
-    category: {
-      _id: string;
-      title: string;
-      categoryType: string;
-    };
-    budget: string;
-    description: string;
-    receiptImage: string[];
-    time: string;
-    createdAt: Date;
-  };
+type DataObj = InflowType | BudgetType | SavingsType | OutflowType | Record;
 
-  const calculateFilteredAmount = (objArr: Transaction[]|null) => {
-    if (objArr && objArr.length > 0) {
-            const total = objArr.reduce((prevValue, currentObj)=> {
-              return prevValue + currentObj.amount
-            }, 0)
-            return total
-          }
-    else return 0
-  }
+const calculateFilteredAmount = (objArr: DataObj[] | null) => {
+  if (objArr && objArr.length > 0) {
+    const total = objArr.reduce((prevValue, currentObj) => {
+      if (currentObj["@collectionName"] === "budgets") {
+        return prevValue + (currentObj as BudgetType).total;
+      }
+      return (
+        prevValue +
+        (currentObj as InflowType | OutflowType | SavingsType).amount
+      );
+    }, 0);
+    return total;
+  } else return 0;
+};
 
-  export default calculateFilteredAmount
+export default calculateFilteredAmount;

@@ -1,3 +1,4 @@
+import { Record } from "pocketbase";
 import { useState } from "react";
 import { UseMutationResult } from "react-query";
 import { BudgetType, CategoryType } from "../../../../../../TypeDefs";
@@ -7,7 +8,7 @@ type Props = {
   categoryType: string;
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
   mutation: UseMutationResult<any, unknown, any, unknown>;
-  prefillData?: CategoryType | BudgetType | null;
+  prefillData?: CategoryType | BudgetType | Record | null;
 };
 
 const CreateCategoryForm = ({
@@ -21,18 +22,16 @@ const CreateCategoryForm = ({
     prefillData?.description || ""
   );
 
-  const userId = "636ac4a250bbc5afa6004a8c";
-
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
     if (prefillData) {
-      mutation.mutate({ categoryId: prefillData._id, title, description });
+      mutation.mutate({ categoryId: prefillData.id, title, description });
       setShowMainModal(false);
       return;
     }
 
-    mutation.mutate({ userId, title, categoryType, description });
+    mutation.mutate({ title, description });
     setShowMainModal(false);
   };
 
@@ -51,7 +50,11 @@ const CreateCategoryForm = ({
           </div>
           <div className="category-type">
             <label htmlFor="">Category Type</label>
-            <input type="text" value={categoryType||(prefillData as CategoryType)?.categoryType} readOnly />
+            <input
+              type="text"
+              value={categoryType.includes("inflow") ? "inflow" : "outflow"}
+              readOnly
+            />
           </div>
           <div className="description">
             <label htmlFor="description">Description</label>
@@ -65,7 +68,7 @@ const CreateCategoryForm = ({
           </div>
         </div>
         <button type="submit" onClick={(e) => onSubmit(e)}>
-          {prefillData? "Edit Category": "Add Category"}
+          {prefillData ? "Edit Category" : "Add Category"}
         </button>
       </form>
     </div>

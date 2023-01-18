@@ -47,7 +47,6 @@ interface dataType {
 type Props = {};
 
 const InflowOutflowChart = (props: Props) => {
-  const userId = "636ac4a250bbc5afa6004a8c";
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
@@ -56,12 +55,12 @@ const InflowOutflowChart = (props: Props) => {
     isLoading: isLoadingInflowsData,
     isSuccess: isSuccessInflowsData,
     data: inflowsData,
-  } = FetchInflows(userId);
+  } = FetchInflows();
   const {
     isLoading: isLoadingOutflowsData,
     isSuccess: isSuccessOutflowsData,
     data: outflowsData,
-  } = FetchOutflows(userId);
+  } = FetchOutflows();
 
   const { labels: labelsArr, data: dataArr } = useMemo(() => {
     return getLabelsAndDataset([inflowsData, outflowsData], filterRange);

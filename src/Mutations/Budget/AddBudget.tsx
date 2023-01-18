@@ -17,13 +17,13 @@ const AddBudget = async (
       data: {
         query: `mutation AddBudget($user: ID, $title: String, $total: Float, $description: String, $items:[BudgetItemInput]){
                       addBudget(user: $user, title: $title, total: $total, description: $description, items: $items) {
-                          _id
+                          id
                           title
                           description
                           total
                           balance
                           items {
-                              _id
+                              id
                               title
                               description
                               amount

@@ -2,15 +2,21 @@ import React, { useEffect, useState } from "react";
 
 import "./ActivityCard.style.scss";
 
-import { InflowType, OutflowType, BudgetType, SavingsType } from "../../TypeDefs";
+import {
+  InflowType,
+  OutflowType,
+  BudgetType,
+  SavingsType,
+} from "../../TypeDefs";
 import ActivityTable from "./Components/ActivityTable";
 import ActivityPageNumber from "./Components/ActivityPageNumber";
+import { Record } from "pocketbase";
 
-type DataObj = InflowType | OutflowType | BudgetType | SavingsType;
+type DataObj = InflowType | OutflowType | BudgetType | SavingsType | Record;
 
 type Props = {
   cardTitle: string;
-  activities: Array<DataObj | null> | null;
+  activities: Array<DataObj | undefined> | null;
 };
 
 const ActivityCard = ({ cardTitle, activities }: Props) => {
@@ -21,10 +27,12 @@ const ActivityCard = ({ cardTitle, activities }: Props) => {
     ? Math.ceil(activities.length / activitiesPerPage)
     : 1;
 
-  const firstIndex = (currentPage - 1) * activitiesPerPage 
-  const lastIndex = firstIndex + activitiesPerPage
+  const firstIndex = (currentPage - 1) * activitiesPerPage;
+  const lastIndex = firstIndex + activitiesPerPage;
 
-  const activitiesPaginated = activities? activities.slice(firstIndex, lastIndex) : null
+  const activitiesPaginated = activities
+    ? activities.slice(firstIndex, lastIndex)
+    : null;
 
   return (
     <div className="activity-container">
@@ -35,7 +43,10 @@ const ActivityCard = ({ cardTitle, activities }: Props) => {
         <div className="activities">
           <ActivityTable activities={activitiesPaginated} />
         </div>
-        <ActivityPageNumber totalPageNumber={totalPageNumber} setCurrentPage={setCurrentPage} />
+        <ActivityPageNumber
+          totalPageNumber={totalPageNumber}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
     </div>
   );

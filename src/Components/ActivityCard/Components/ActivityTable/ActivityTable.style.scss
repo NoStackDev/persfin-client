@@ -46,7 +46,7 @@
 
     .type,
     .date,
-    .time {
+    .created {
       display: none;
 
       @include breakpoint("sm") {
@@ -54,7 +54,7 @@
       }
     }
 
-    &.budget {
+    &.budgets {
       @include theme-aware("color", "budget-color");
     }
 
@@ -62,11 +62,11 @@
       @include theme-aware("color", "savings-color");
     }
 
-    &.inflow {
+    &.inflows {
       @include theme-aware("color", "inflow-color");
     }
 
-    &.outflow {
+    &.outflows {
       @include theme-aware("color", "outflow-color");
     }
   }

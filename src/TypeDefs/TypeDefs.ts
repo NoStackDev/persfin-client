@@ -1,67 +1,56 @@
-export type InflowType = {
-  _id: string;
+interface PockectBaseType {
+  id: string;
+  created: string;
+  updated: string;
+  "@collectionId": string;
+  "@collectionName": string;
+  "@expand": {};
+}
+
+export interface InflowType extends PockectBaseType {
   title: string;
   amount: number;
   category: CategoryType;
   description: string;
-  time: string;
-  createdAt: string;
-  modelType: string;
-};
+}
 
-export type OutflowType = {
-  _id: string;
+export interface OutflowType extends PockectBaseType {
   title: string;
   amount: number;
   category: CategoryType;
   budget: string;
   item: string;
   description: string;
-  receiptImage: string[];
-  time: string;
-  createdAt: string;
-  modelType: string;
-};
+}
 
-export type BudgetType = {
-  _id: string;
+export interface BudgetType extends PockectBaseType {
   title: string;
   total: number;
   balance: number;
   status: string;
   description: string;
   items: BudgetItemType[];
-  time: string;
-  completed: boolean;
-  createdAt: string;
-  modelType: string;
-};
+  exhausted: boolean;
+}
 
 export type BudgetItemType = {
-  _id?: string;
+  id: string;
   title: string;
   amount: number;
-  category: string|null;
+  category: string | null;
   balance: number;
   description: string;
 };
 
-export type SavingsType = {
-    _id: string;
-    amount: number;
-    time: string;
-    modelType: string;
-    createdAt: string;
-  };
+export interface SavingsType extends PockectBaseType {
+  amount: number;
+  modelType: string;
+}
 
-export type CategoryType = {
-  _id: string;
+export interface CategoryType extends PockectBaseType {
   title: string;
-  categoryType: string;
   description: string;
-  time: string;
-  createdAt: string;
-};
+}
 
 export interface rangeInterface {
   min: Date;

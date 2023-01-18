@@ -1,7 +1,8 @@
+import { Record } from "pocketbase";
 import { OutflowType, TimeRangeInterface } from "../../../TypeDefs";
 
 const filterDate = (
-  data: OutflowType[] | null,
+  data: (OutflowType | Record)[] | undefined,
   filterRange: TimeRangeInterface | null
 ) => {
   if (!data) {
@@ -10,7 +11,7 @@ const filterDate = (
 
   if (!filterRange) {
     data.sort((a, b) => {
-      return Number(b?.time) - Number(a?.time);
+      return Number(b?.created) - Number(a?.created);
     });
     return data;
   }
@@ -18,8 +19,8 @@ const filterDate = (
   const range = filterRange.range();
   const filteredData = data.filter((obj) => {
     return (
-      range.min <= new Date(Number(obj.time)) &&
-      new Date(Number(obj.time)) <=
+      range.min <= new Date(Number(obj.created)) &&
+      new Date(Number(obj.created)) <=
         new Date(
           range.max.getTime() +
             (1000 * 60 * 60 * 22 + 1000 * 60 * 59 + 1000 * 59)
@@ -28,7 +29,7 @@ const filterDate = (
   });
 
   filteredData.sort((a, b) => {
-    return Number(b?.time) - Number(a?.time);
+    return Number(b?.created) - Number(a?.created);
   });
   return filteredData;
 };

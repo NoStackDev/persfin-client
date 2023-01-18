@@ -1,45 +1,17 @@
-import axios from "axios";
+import pb from "../lib/pocketbase";
 import { useQuery } from "react-query";
+import { OutflowType } from "../TypeDefs";
+import { Record } from "pocketbase";
 
-const getOutflows = async (userId: string) => {
-  try {
-    const res = await axios({
-      url: "",
-      method: "POST",
-      data: {
-        query: `query GetOutflows($user: ID) {
-                    outflows(user: $user) {
-                        _id
-                        title
-                        description
-                        amount
-                        time
-                        receiptImage
-                        budget
-                        item
-                        category {
-                            _id
-                            title
-                            categoryType
-                        }
-                        modelType
-                        createdAt
-                    }
-                }`,
-        variables: {
-          user: userId,
-        },
-      },
-    });
-    return res.data.data.outflows
-  } catch (err: any) {
-    console.log(err.message);
-  }
+const getOutflows = async (): Promise<(OutflowType | Record)[]> => {
+  return pb.collection("outflows").getFullList(200 /* batch size */, {
+    sort: "-created",
+  });
 };
 
 // export default getOutflows
 
-const FetchOutflows = (userId: string) =>
-  useQuery(["outflows"], () => getOutflows(userId));
+const FetchOutflows = () =>
+  useQuery(["outflows", pb.authStore.model?.id], getOutflows);
 
-export default FetchOutflows
+export default FetchOutflows;

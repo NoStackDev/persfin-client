@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import pb from "../../lib/pocketbase";
 
 import navbarItems from "./NavbarConfig";
 
@@ -10,9 +11,16 @@ type Props = {};
 const Nav = (props: Props) => {
   const [navbarOpen, setNavbarOpen] = useState<boolean>(false);
   const [selectedNav, setSelectedNav] = useState<number>(0);
+  const navigate = useNavigate();
 
   const handleNavClick = (navItemId: number) => {
     setSelectedNav(navItemId);
+  };
+
+  const handleLogout = () => {
+    pb.authStore.clear();
+    localStorage.removeItem("userId");
+    navigate("/login");
   };
 
   return (
@@ -53,8 +61,10 @@ const Nav = (props: Props) => {
         </ul>
       </div>
       <div className="bottomNav">
-        <span className="material-icons">exit_to_app</span>
-        <div className="logout">Log out</div>
+        <div onClick={handleLogout}>
+          <span className="material-icons">exit_to_app</span>
+          <div className="logout">Log out</div>
+        </div>
       </div>
     </nav>
   );

@@ -1,9 +1,10 @@
+import { Record } from "pocketbase";
 import { InflowType, OutflowType, SavingsType } from "../../../TypeDefs";
 
 export const calculateBalance = (
-  savings: SavingsType[] | null,
-  inflows: InflowType[] | null,
-  outflows: OutflowType[] | null
+  savings: (SavingsType | Record)[] | undefined,
+  inflows: (InflowType | Record)[] | undefined,
+  outflows: (OutflowType | Record)[] | undefined
 ) => {
   const savingsAmount =
     savings?.reduce((prevValue, currentSavingsObj) => {

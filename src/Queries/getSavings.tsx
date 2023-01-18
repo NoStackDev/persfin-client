@@ -1,32 +1,15 @@
-import axios from "axios";
+import { Record } from "pocketbase";
 import { useQuery } from "react-query";
+import pb from "../lib/pocketbase";
+import { SavingsType } from "../TypeDefs";
 
-const getSavings = async (userId: string) => {
-  try {
-    const res = await axios({
-      url: "",
-      method: "POST",
-      data: {
-        query: `query GetSavings($user: ID) {
-                    savings(user: $user) {
-                        _id
-                        amount
-                        time
-                        modelType
-                    }
-                }`,
-        variables: {
-          user: userId,
-        },
-      },
-    });
-    return res.data.data.savings;
-  } catch (err: any) {
-    console.log(err.message);
-  }
+const getSavings = async (): Promise<(SavingsType | Record)[]> => {
+  return pb.collection("savings").getFullList(200 /* batch size */, {
+    sort: "-created",
+  });
 };
 
-const FetchSavings = (userId: string) =>
-  useQuery(["savings"], () => getSavings(userId));
+const FetchSavings = () =>
+  useQuery(["savings", pb.authStore.model?.id], getSavings);
 
 export default FetchSavings;

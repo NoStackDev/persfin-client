@@ -5,11 +5,12 @@ import { UseMutationResult } from "react-query";
 import "./ModalBudgetForm.style.scss";
 
 import { BudgetItemType, BudgetType, CategoryType } from "../../../../TypeDefs";
+import { Record } from "pocketbase";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
   mutation: UseMutationResult<any, unknown, any, unknown>;
-  prefillData?: BudgetType | CategoryType | null;
+  prefillData?: BudgetType | CategoryType| Record | null;
 };
 
 const ModalBudgetForm = ({
@@ -34,7 +35,7 @@ const ModalBudgetForm = ({
     if (editItem) {
       setItems(
         items.map((obj) => {
-          if (obj._id === item._id) {
+          if (obj.id === item.id) {
             obj.title = item.title;
             obj.amount = item.amount;
             obj.balance = item.amount - editItem.amount + editItem.balance;
@@ -53,7 +54,7 @@ const ModalBudgetForm = ({
   };
 
   const handleItemDelete = (itemId: string | undefined) => {
-    setItems(items.filter((itemObj) => itemObj._id !== itemId));
+    setItems(items.filter((itemObj) => itemObj.id !== itemId));
   };
 
   const handleItemEdit = (item: BudgetItemType) => {
@@ -66,12 +67,12 @@ const ModalBudgetForm = ({
 
     if (prefillData) {
       mutation.mutate({
-        budgetId: prefillData._id,
+        budgetId: prefillData.id,
         title,
         total: items.reduce((prev, curr) => prev + curr.amount, 0),
         balance: items.reduce((prev, curr) => {
           const prefillDataItem = (prefillData as BudgetType).items.find(
-            (obj) => obj._id === curr._id
+            (obj) => obj.id === curr.id
           );
           return (
             prev +
@@ -83,9 +84,9 @@ const ModalBudgetForm = ({
         description,
         items: items.map((item) => {
           const prefillDataItem = (prefillData as BudgetType).items.find(
-            (obj) => obj._id === item._id
+            (obj) => obj.id === item.id
           );
-          const { _id, ...others } = item;
+          const { id, ...others } = item;
           return {
             ...others,
             balance:
@@ -104,7 +105,7 @@ const ModalBudgetForm = ({
       title,
       total: items.reduce((prev, curr) => prev + curr.amount, 0),
       items: items.map((obj) => {
-        const { _id, ...others } = obj;
+        const { id, ...others } = obj;
         return { ...others };
       }),
       description,
@@ -131,10 +132,10 @@ const ModalBudgetForm = ({
             <div className="budget-items-container">
               {items.map((item) => {
                 return (
-                  <div className="item" key={item._id}>
+                  <div className="item" key={item.id}>
                     <span
                       className="material-icons"
-                      onClick={() => handleItemDelete(item._id)}
+                      onClick={() => handleItemDelete(item.id)}
                     >
                       remove
                     </span>

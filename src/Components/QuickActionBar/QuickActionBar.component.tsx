@@ -24,7 +24,6 @@ import { UseMutationResult } from "react-query";
 type Props = {};
 
 const QuickActionBar = (props: Props) => {
-  const userId = "636ac4a250bbc5afa6004a8c";
   const [showMainModal, setShowMainModal] = useState<boolean>(false);
   const [selectedFormId, setSelectedFormId] = useState<number | null>(null);
 
@@ -33,25 +32,25 @@ const QuickActionBar = (props: Props) => {
     isLoading: isLoadingSavingsData,
     isSuccess: isSuccessSavingsData,
     data: savingsData,
-  } = FetchSavings(userId);
+  } = FetchSavings();
 
   const {
     isLoading: isLoadingInflowsData,
     isSuccess: isSuccessInflowsData,
     data: inflowsData,
-  } = FetchInflows(userId);
+  } = FetchInflows();
 
   const {
     isLoading: isLoadingOutflowsData,
     isSuccess: isSuccessOutflowsData,
     data: outflowsData,
-  } = FetchOutflows(userId);
+  } = FetchOutflows();
 
   const {
     isLoading: isLoadingBudgetsData,
     isSuccess: isSuccessBudgetsData,
     data: budgetsData,
-  } = FetchBudgets(userId);
+  } = FetchBudgets();
 
   // mutations
   const mutations: Record<

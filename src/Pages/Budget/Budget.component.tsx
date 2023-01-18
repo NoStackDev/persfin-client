@@ -9,6 +9,7 @@ import { DeleteBudget, UpdateBudget } from "../../Mutations";
 import { BudgetType, TimeRangeInterface } from "../../TypeDefs";
 import Modal from "../../Components/Modal";
 import { filterDate, filterText, filterTag } from "./helpers";
+import { Record } from "pocketbase";
 
 type Props = {};
 
@@ -21,13 +22,15 @@ const Budget = (props: Props) => {
   const [textFilter, setTextFilter] = useState<string>("");
   const [tagFilter, setTagFilter] = useState<boolean | null>(false);
   const [showMainModal, setShowMainModal] = useState<boolean>(false);
-  const [selecedBudget, setSelectedBudget] = useState<BudgetType | null>(null);
+  const [selecedBudget, setSelectedBudget] = useState<
+    (BudgetType | Record) | null
+  >(null);
 
   const {
     isLoading: isLoadingBudgetsData,
     isSuccess: isSuccessBudgetsData,
     data: budgetsData,
-  } = FetchBudgets(userId);
+  } = FetchBudgets();
 
   const tagFiltered = useMemo(() => {
     return filterTag(budgetsData, tagFilter);
@@ -59,7 +62,7 @@ const Budget = (props: Props) => {
         <section id="budget-cards-section">
           {textFiltered?.map((budget) => {
             return (
-              <div key={budget._id}>
+              <div key={budget.id}>
                 <BudgetCard
                   budget={budget}
                   deleteMutation={deleteBudgetMutation}

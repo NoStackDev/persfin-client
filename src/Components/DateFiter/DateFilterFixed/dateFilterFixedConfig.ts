@@ -1,6 +1,6 @@
 import { TimeRangeInterface } from "../../../TypeDefs";
 
-const timeRange: TimeRangeInterface[] = [
+const createdRange: TimeRangeInterface[] = [
   {
     id: "thwk",
     title: "This Week",
@@ -113,4 +113,4 @@ const timeRange: TimeRangeInterface[] = [
   },
 ];
 
-export default timeRange;
+export default createdRange;

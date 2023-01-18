@@ -29,16 +29,12 @@ const options = {
 
 type Props = {};
 
-
-
 const DistributionChart = (props: Props) => {
-  const userId = "636ac4a250bbc5afa6004a8c";
-
   const {
     isLoading: isLoadingBudgetData,
     isSuccess: isSuccessBudgetData,
     data: budgetsData,
-  } = FetchBudgets(userId);
+  } = FetchBudgets();
 
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null

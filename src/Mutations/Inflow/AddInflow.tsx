@@ -17,14 +17,14 @@ const AddInflow = async (
                 mutation AddInflow($user: ID, $title: String, $amount: Float, $category: ID, $description: String, $receiptImage: [String]) {
                     addInflow(user: $user, title: $title, amount: $amount, category: $category, description: $description, receiptImage: $receiptImage) {
                         user {
-                            _id
+                            id
                             firstname
                             lastname
                         }
-                        _id
+                        id
                         title
                         category {
-                            _id
+                            id
                             title
                             categoryType
                         }

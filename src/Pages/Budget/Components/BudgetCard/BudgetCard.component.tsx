@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import { UseMutationResult } from "react-query";
 
 import "./BudgetCard.style.scss";
-import { BudgetType } from "../../../../TypeDefs";
+import { BudgetItemType, BudgetType } from "../../../../TypeDefs";
+import { Record } from "pocketbase";
 
 type Props = {
-  budget: BudgetType;
+  budget: BudgetType | Record;
   deleteMutation: UseMutationResult<any, unknown, any, unknown>;
   updateMutation: UseMutationResult<any, unknown, any, unknown>;
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedBudget: React.Dispatch<React.SetStateAction<BudgetType | null>>;
+  setSelectedBudget: React.Dispatch<
+    React.SetStateAction<(BudgetType | Record) | null>
+  >;
 };
 
 const BudgetCard = ({
@@ -19,9 +22,8 @@ const BudgetCard = ({
   setShowMainModal,
   setSelectedBudget,
 }: Props) => {
-
   const handleUpdateClick = (budgetId: string) => {
-    setSelectedBudget(budget)
+    setSelectedBudget(budget);
     setShowMainModal(true);
   };
 
@@ -33,13 +35,13 @@ const BudgetCard = ({
           <div className="card-top-right">
             <span
               className="material-icons edit"
-              onClick={() => handleUpdateClick(budget._id)}
+              onClick={() => handleUpdateClick(budget.id)}
             >
               edit
             </span>
             <span
               className="material-icons delete"
-              onClick={() => deleteMutation.mutate({ budget: budget._id })}
+              onClick={() => deleteMutation.mutate({ budget: budget.id })}
             >
               delete
             </span>
@@ -47,15 +49,15 @@ const BudgetCard = ({
         </div>
         <div className="date-status">
           <div className="create-date">
-            created: {new Date(Number(budget.time)).toLocaleDateString()}
+            created: {new Date(Number(budget.created)).toLocaleDateString()}
           </div>
-          <div className="status">{budget.completed ? "completed" : null}</div>
+          <div className="status">{budget.exhausted ? "exhausted" : null}</div>
         </div>
         <div className="budget-items">
           <ul>
-            {budget.items.map((item) => {
+            {budget.items.map((item: BudgetItemType) => {
               return (
-                <li key={item._id}>
+                <li key={item.id}>
                   <span>{item.title}</span>
                   <div className="amount">
                     <span className="material-icons">attach_money</span>
