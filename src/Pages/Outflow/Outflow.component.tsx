@@ -57,7 +57,7 @@ const Outflow = (props: Props) => {
         <ActionCard
           title="Outflow Categories"
           categoriesNum={outflowCategoryNum}
-          categoryType="outflow"
+          categoryType="outflowCategories"
         />
         <CategoryChart dataset={[outflowsData]} showFixedDateFilter />
       </section>

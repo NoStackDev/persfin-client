@@ -4,6 +4,7 @@ import {
   OutflowType,
   BudgetType,
   TimeRangeInterface,
+  CategoryType,
 } from "../../../../TypeDefs";
 
 type ResultType = Record<string, SubResultInterface>;
@@ -47,21 +48,17 @@ const generateLabelsColorsAmount = (
         // }
 
         // check if modelType already exist as key in result object
-        if (!result[obj["@collectionName"]]) {
+        if (!result[obj.collectionName]) {
           // check if modelType is budget, handle special
-          if (obj["@collectionName"] === "budgets") {
+          if (obj.collectionName === "budgets") {
             result.budgets = {
               labels: [obj.title],
               colors: [generateColor([])],
               amount: [(obj as BudgetType).total],
             };
           } else {
-            result[obj["@collectionName"]] = {
-              labels: [
-                (obj as InflowType | OutflowType).category
-                  ? (obj as InflowType | OutflowType).category.title
-                  : "uncategorized",
-              ],
+            result[obj.collectionName] = {
+              labels: [(obj as InflowType | OutflowType).title || "Others"],
               colors: [generateColor([])],
               amount: [(obj as InflowType | OutflowType).amount],
             };
@@ -70,32 +67,32 @@ const generateLabelsColorsAmount = (
         }
 
         // handle budget scenario if result.budget already exists
-        if (obj["@collectionName"] === "budgets") {
+        if (obj.collectionName === "budgets") {
           result.budget.labels.push(obj.title);
           result.budget.colors.push(generateColor(result.budget.colors));
           result.budget.amount.push((obj as BudgetType).total);
         } else {
           // get index of category title in labels array
-          const index = result[obj["@collectionName"]].labels.findIndex((ele) => {
+          const index = result[obj.collectionName].labels.findIndex((ele) => {
             if (!(obj as InflowType | OutflowType).category)
               return ele === "uncategorized";
             return ele === (obj as InflowType | OutflowType).category.title;
           });
           // push if index is -1
           if (index === -1) {
-            result[obj["@collectionName"]].labels.push(
+            result[obj.collectionName].labels.push(
               (obj as InflowType | OutflowType).category
                 ? (obj as InflowType | OutflowType).category.title
                 : "uncategorized"
             );
-            result[obj["@collectionName"]].colors.push(
-              generateColor(result[obj["@collectionName"]].colors)
+            result[obj.collectionName].colors.push(
+              generateColor(result[obj.collectionName].colors)
             );
-            result[obj["@collectionName"]].amount.push(
+            result[obj.collectionName].amount.push(
               (obj as InflowType | OutflowType).amount
             );
           } else {
-            result[obj["@collectionName"]].amount[index] += (
+            result[obj.collectionName].amount[index] += (
               obj as InflowType | OutflowType
             ).amount;
           }

@@ -29,8 +29,6 @@ const ModalBudgetForm = ({
   const [showBudgetItemModal, setShowBudgetItemModal] =
     useState<boolean>(false);
 
-  const userId = "636ac4a250bbc5afa6004a8c";
-
   const handleItemAddition = (item: BudgetItemType) => {
     if (editItem) {
       setItems(
@@ -101,7 +99,6 @@ const ModalBudgetForm = ({
     }
 
     mutation.mutate({
-      userId,
       title,
       total: items.reduce((prev, curr) => prev + curr.amount, 0),
       items: items.map((obj) => {

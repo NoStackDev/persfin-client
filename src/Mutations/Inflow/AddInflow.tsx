@@ -1,54 +1,22 @@
-import axios from "axios";
+import pb from "../../lib/pocketbase";
 import { useMutation, useQueryClient } from "react-query";
 
 const AddInflow = async (
-  userId: string,
   title: string,
   amount: number,
   category: string,
   description: string
 ) => {
-  try {
-    return axios({
-      url: "",
-      method: "POST",
-      data: {
-        query: `
-                mutation AddInflow($user: ID, $title: String, $amount: Float, $category: ID, $description: String, $receiptImage: [String]) {
-                    addInflow(user: $user, title: $title, amount: $amount, category: $category, description: $description, receiptImage: $receiptImage) {
-                        user {
-                            id
-                            firstname
-                            lastname
-                        }
-                        id
-                        title
-                        category {
-                            id
-                            title
-                            categoryType
-                        }
-                        amount
-                    }
-                }
-                `,
-        variables: {
-          user: userId,
-          title,
-          amount,
-          category,
-          description,
-        },
-      },
-    });
-  } catch (err: any) {
-    console.log(err.message);
-    return err;
-  }
+  return pb.collection("inflows").create({
+    user: pb.authStore.model?.id,
+    title,
+    amount,
+    category,
+    description,
+  });
 };
 
 type Args = {
-  userId: string;
   title: string;
   amount: number;
   description: string;
@@ -58,10 +26,10 @@ type Args = {
 const CreateInflow = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ userId, title, amount, description, category }: Args) =>
-      AddInflow(userId, title, amount, category, description),
+    mutationFn: ({ title, amount, description, category }: Args) =>
+      AddInflow(title, amount, category, description),
     onSuccess: () => {
-      queryClient.invalidateQueries("inflows");
+      queryClient.invalidateQueries(["inflows", pb.authStore.model?.id]);
     },
   });
 };

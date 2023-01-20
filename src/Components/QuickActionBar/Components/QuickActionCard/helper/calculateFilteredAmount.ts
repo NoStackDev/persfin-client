@@ -11,7 +11,7 @@ type DataObj = InflowType | BudgetType | SavingsType | OutflowType | Record;
 const calculateFilteredAmount = (objArr: DataObj[] | null) => {
   if (objArr && objArr.length > 0) {
     const total = objArr.reduce((prevValue, currentObj) => {
-      if (currentObj["@collectionName"] === "budgets") {
+      if (currentObj.collectionName === "budgets") {
         return prevValue + (currentObj as BudgetType).total;
       }
       return (

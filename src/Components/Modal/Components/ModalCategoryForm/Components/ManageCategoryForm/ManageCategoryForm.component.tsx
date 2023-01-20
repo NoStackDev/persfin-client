@@ -96,7 +96,11 @@ const ManageCategoryForm = ({ categoryType }: Props) => {
           <h2>Manage Category</h2>
           <div className="form-body">
             <div className="category-type">
-              <input type="text" value={categoryType} readOnly />
+              <input
+                type="text"
+                value={categoryType.includes("inflow") ? "Inflow" : "Outflow"}
+                readOnly
+              />
             </div>
             <div className="categories-container">
               {CategoryQuery[categoryType].data?.map((category) => {
@@ -106,6 +110,11 @@ const ManageCategoryForm = ({ categoryType }: Props) => {
                   handleDeleteClick
                 );
               })}
+              <div key={"others"} className="category">
+                <div>
+                  <span>others</span>
+                </div>
+              </div>
             </div>
           </div>
         </form>

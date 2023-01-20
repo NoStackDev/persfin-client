@@ -11,7 +11,7 @@ const AddOutflowCategory = async (title: string, description: string) => {
 const CreateOutflowCategory = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ title, description }: CategoryType & { userId: string }) =>
+    mutationFn: ({ title, description }: CategoryType) =>
       AddOutflowCategory(title, description),
     onSuccess: () => {
       queryClient.invalidateQueries([

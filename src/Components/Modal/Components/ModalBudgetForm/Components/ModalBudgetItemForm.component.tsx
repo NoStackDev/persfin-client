@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  FetchCategories,
-  FetchOutflowCategories,
-} from "../../../../../Queries";
+import { FetchOutflowCategories } from "../../../../../Queries";
 import "./ModalBudgetItemForm.style.scss";
 import { BudgetItemType, CategoryType } from "../../../../../TypeDefs";
 import { Record } from "pocketbase";

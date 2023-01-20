@@ -17,7 +17,7 @@ type Props = {
 
 const icons = (_type: string): JSX.Element => {
   if (!_type) {
-    return <></>
+    return <></>;
   }
   switch (_type.toLowerCase()) {
     case "budgets":
@@ -38,7 +38,7 @@ const renderDateHeader = (
   activity: DataObj,
   dateHeaders: Record<string, string>
 ) => {
-  const activityTime = new Date(Number(activity.created))
+  const activityTime = new Date(activity.created)
     .toLocaleString()
     .split(",")[0];
 
@@ -79,10 +79,10 @@ const renderIconTitle = (activity: DataObj | null) => {
     return null;
   }
 
-  if (activity["@collectionName"] === "savings") {
+  if (activity.collectionName === "savings") {
     return (
       <td className="icon-title-wrapper">
-        {icons(activity["@collectionName"])}
+        {icons(activity.collectionName)}
         <span className="title">savings</span>
       </td>
     );
@@ -90,7 +90,7 @@ const renderIconTitle = (activity: DataObj | null) => {
 
   return (
     <td className="icon-title-wrapper">
-      {icons(activity["@collectionName"])}
+      {icons(activity.collectionName)}
       <span className="title">
         {(activity as InflowType | OutflowType | BudgetType).title}
       </span>
@@ -98,7 +98,7 @@ const renderIconTitle = (activity: DataObj | null) => {
   );
 };
 
-// handle created render
+// handle created date render
 const renderTime = (activity: DataObj | null) => {
   if (!activity) {
     return null;
@@ -106,13 +106,12 @@ const renderTime = (activity: DataObj | null) => {
 
   return (
     <td className="created">
-      {new Date(Number(activity.created)).toLocaleTimeString()}
-      {Number(
-        new Date(Number(activity.created)).toLocaleTimeString().split(":")[0]
-      ) >= 12 ? (
-        <>PM</>
+      {new Date(activity.created).toLocaleTimeString()}
+      {Number(new Date(activity.created).toLocaleTimeString().split(":")[0]) >=
+      12 ? (
+        <> PM</>
       ) : (
-        <>AM</>
+        <> AM</>
       )}
     </td>
   );
@@ -124,7 +123,7 @@ const renderAmount = (activity: DataObj | null) => {
     return null;
   }
 
-  if (activity["@collectionName"] === "budgets") {
+  if (activity.collectionName === "budgets") {
     return (
       <td className="amount">
         <span className="material-icons">attach_money</span>
@@ -157,10 +156,10 @@ const ActivityTable = ({ activities }: Props) => {
         if (
           activity &&
           !tempDateHeaders[
-            new Date(Number(activity.created)).toLocaleString().split(",")[0]
+            new Date(activity.created).toLocaleString().split(",")[0]
           ]
         ) {
-          const activityDate = new Date(Number(activity.created))
+          const activityDate = new Date(activity.created)
             .toLocaleString()
             .split(",")[0];
           tempDateHeaders[activityDate] = activity.id;
@@ -188,13 +187,13 @@ const ActivityTable = ({ activities }: Props) => {
               <React.Fragment key={index}>
                 {renderDateHeader(activity, dateHeaders)}
                 <tr
-                  className={"activity " + activity?.["@collectionName"]}
+                  className={"activity " + activity?.collectionName}
                   key={activity.id}
                 >
                   {renderIconTitle(activity)}
-                  <td className="type">{activity["@collectionName"]}</td>
+                  <td className="type">{activity.collectionName}</td>
                   <td className="date">
-                    {new Date(Number(activity.created)).toLocaleDateString()}
+                    {new Date(activity.created).toLocaleDateString()}
                   </td>
                   {renderTime(activity)}
                   {renderAmount(activity)}

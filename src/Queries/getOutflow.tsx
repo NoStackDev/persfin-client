@@ -6,6 +6,7 @@ import { Record } from "pocketbase";
 const getOutflows = async (): Promise<(OutflowType | Record)[]> => {
   return pb.collection("outflows").getFullList(200 /* batch size */, {
     sort: "-created",
+    expand: "category",
   });
 };
 

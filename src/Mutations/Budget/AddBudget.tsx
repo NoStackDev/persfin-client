@@ -1,62 +1,30 @@
 import { useMutation } from "react-query";
-import axios from "axios";
+import pb from "../../lib/pocketbase";
 import { useQueryClient } from "react-query";
 import { BudgetType, BudgetItemType } from "../../TypeDefs";
 
 const AddBudget = async (
-  userId: string,
   title: string,
   description: string,
   total: number,
   items: BudgetItemType[]
 ) => {
-  try {
-    return axios({
-      url: "",
-      method: "POST",
-      data: {
-        query: `mutation AddBudget($user: ID, $title: String, $total: Float, $description: String, $items:[BudgetItemInput]){
-                      addBudget(user: $user, title: $title, total: $total, description: $description, items: $items) {
-                          id
-                          title
-                          description
-                          total
-                          balance
-                          items {
-                              id
-                              title
-                              description
-                              amount
-                              balance
-                              category
-                          }
-                      }
-                  }`,
-        variables: {
-          user: userId,
-          title,
-          description,
-          total,
-          items,
-        },
-      },
+  return pb
+    .collection("budgets")
+    .create({
+      user: pb.authStore.model?.id,
+      title,
+      description,
+      total,
+      items: JSON.stringify(items),
     });
-  } catch (err: any) {
-    console.log(err.message);
-  }
 };
 
 const CreateBudget = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({
-      userId,
-      title,
-      description,
-      total,
-      items,
-    }: BudgetType & { userId: string }) =>
-      AddBudget(userId, title, description, total, items),
+    mutationFn: ({ title, description, total, items }: BudgetType) =>
+      AddBudget(title, description, total, items),
     onSuccess: () => {
       queryClient.invalidateQueries("budgets");
     },

@@ -52,7 +52,7 @@ const CreateCategoryForm = ({
             <label htmlFor="">Category Type</label>
             <input
               type="text"
-              value={categoryType.includes("inflow") ? "inflow" : "outflow"}
+              value={categoryType.includes("inflow") ? "Inflow" : "Outflow"}
               readOnly
             />
           </div>

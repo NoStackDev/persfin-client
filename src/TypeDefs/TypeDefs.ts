@@ -2,9 +2,9 @@ interface PockectBaseType {
   id: string;
   created: string;
   updated: string;
-  "@collectionId": string;
-  "@collectionName": string;
-  "@expand": {};
+  collectionId: string;
+  collectionName: string;
+  expand: {};
 }
 
 export interface InflowType extends PockectBaseType {
