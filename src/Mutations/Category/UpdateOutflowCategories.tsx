@@ -24,10 +24,7 @@ const UpdateOutflowCategory = () => {
       description: string;
     }) => EditOutflowCategory(categoryId, title, description),
     onSuccess: () => {
-      queryClient.invalidateQueries([
-        "outflowCategories",
-        pb.authStore.model?.id,
-      ]);
+      queryClient.invalidateQueries("outflowCategories");
     },
   });
 };

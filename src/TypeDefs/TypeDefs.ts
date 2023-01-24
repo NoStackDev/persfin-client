@@ -33,7 +33,7 @@ export interface BudgetType extends PockectBaseType {
   exhausted: boolean;
 }
 
-export type BudgetItemType = {
+export type BudgetItemType  = {
   id: string;
   title: string;
   amount: number;

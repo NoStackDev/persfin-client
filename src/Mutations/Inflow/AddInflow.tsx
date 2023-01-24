@@ -29,7 +29,7 @@ const CreateInflow = () => {
     mutationFn: ({ title, amount, description, category }: Args) =>
       AddInflow(title, amount, category, description),
     onSuccess: () => {
-      queryClient.invalidateQueries(["inflows", pb.authStore.model?.id]);
+      queryClient.invalidateQueries("inflows");
     },
   });
 };

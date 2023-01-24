@@ -14,10 +14,7 @@ const CreateOutflowCategory = () => {
     mutationFn: ({ title, description }: CategoryType) =>
       AddOutflowCategory(title, description),
     onSuccess: () => {
-      queryClient.invalidateQueries([
-        "outflowCategories",
-        pb.authStore.model?.id,
-      ]);
+      queryClient.invalidateQueries("outflowCategories");
     },
   });
 };

@@ -11,11 +11,7 @@ const DeleteInflowCategory = () => {
   return useMutation({
     mutationFn: ({ categoryId }: { categoryId: string }) =>
       RemoveInflowCategory(categoryId),
-    onSuccess: () =>
-      queryClient.invalidateQueries([
-        "inflowCategories",
-        pb.authStore.model?.id,
-      ]),
+    onSuccess: () => queryClient.invalidateQueries("inflowCategories"),
   });
 };
 

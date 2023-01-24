@@ -41,7 +41,7 @@ const BudgetCard = ({
             </span>
             <span
               className="material-icons delete"
-              onClick={() => deleteMutation.mutate({ budget: budget.id })}
+              onClick={() => deleteMutation.mutate({ budgetId: budget.id })}
             >
               delete
             </span>
@@ -49,7 +49,7 @@ const BudgetCard = ({
         </div>
         <div className="date-status">
           <div className="create-date">
-            created: {new Date(Number(budget.created)).toLocaleDateString()}
+            created: {new Date(budget.created).toLocaleDateString()}
           </div>
           <div className="status">{budget.exhausted ? "exhausted" : null}</div>
         </div>

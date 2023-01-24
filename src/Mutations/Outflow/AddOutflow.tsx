@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import pb from "../../lib/pocketbase";
 
 const AddOutflow = async (
-  userId: string,
   title: string,
   amount: number,
   budget: string,
@@ -10,46 +10,19 @@ const AddOutflow = async (
   category: string,
   description: string
 ) => {
-  try {
-    return axios({
-      url: "",
-      method: "POST",
-      data: {
-        query: `mutation AddOutflow($user: ID, $title: String, $amount: Float, $category: ID, $budget: ID, $item: ID, $description: String, $receiptImage: [String]) {
-                    addOutflow(user: $user, title: $title, amount: $amount, category: $category, budget: $budget, item: $item, description: $description, receiptImage: $receiptImage) {
-                        user {
-                            id
-                            firstname
-                            lastname
-                        }
-                        id
-                        title
-                        category {
-                            id
-                            title
-                            categoryType
-                        }
-                        amount
-                    }
-                  }`,
-        variables: {
-          user: userId,
-          title,
-          amount,
-          budget,
-          item,
-          category,
-          description,
-        },
-      },
-    });
-  } catch (err: any) {
-    console.log(err.message);
-  }
+  console.table({ title, amount, budget, item, category, description });
+  return pb.collection("outflows").create({
+    title,
+    amount,
+    budget,
+    item,
+    category,
+    description,
+    user: pb.authStore.model?.id,
+  });
 };
 
 type Args = {
-  userId: string;
   title: string;
   amount: number;
   item: string;
@@ -62,15 +35,13 @@ const CreateOutflow = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
-      userId,
       title,
       amount,
       budget,
       item,
       description,
       category,
-    }: Args) =>
-      AddOutflow(userId, title, amount, budget, item, category, description),
+    }: Args) => AddOutflow(title, amount, budget, item, category, description),
     onSuccess: () => {
       queryClient.invalidateQueries("outflows");
       queryClient.invalidateQueries("budgets");

@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
-import axios from "axios";
 import { useQueryClient } from "react-query";
+import pb from "../../lib/pocketbase";
 
 const EditBudget = async (
   budgetId: string,
@@ -8,50 +8,17 @@ const EditBudget = async (
   total: number,
   balance: number,
   description: string,
-  items: {
-    id: string;
-    title: string;
-    amount: number;
-    balance: number;
-    description: string;
-    category: string;
-  }
+  items: string
 ) => {
-  try {
-    return axios({
-      url: "",
-      method: "POST",
-      data: {
-        query: `mutation UpdateBudget($budgetId: ID, $title: String, $total: Float, $balance: Float, $description: String, $items:[BudgetItemInput]){
-                        updateBudget(budgetId: $budgetId, title: $title, total: $total, balance: $balance, description: $description, items: $items) {
-                            id
-                            title
-                            description
-                            total
-                            balance
-                            items {
-                                id
-                                title
-                                description
-                                amount
-                                balance
-                                category
-                            }
-                        }
-                    }`,
-        variables: {
-          budgetId,
-          title,
-          total,
-          balance,
-          description,
-          items,
-        },
-      },
+  return pb
+    .collection("budgets")
+    .update(budgetId, {
+      title,
+      total,
+      balance,
+      description,
+      items: JSON.stringify(items),
     });
-  } catch (err: any) {
-    console.log(err.message);
-  }
 };
 
 const UpdateBudget = () => {
@@ -70,14 +37,7 @@ const UpdateBudget = () => {
       total: number;
       balance: number;
       description: string;
-      items: {
-        id: string;
-        title: string;
-        amount: number;
-        balance: number;
-        description: string;
-        category: string;
-      };
+      items: string;
     }) => EditBudget(budgetId, title, total, balance, description, items),
     onSuccess: () => {
       queryClient.invalidateQueries("budgets");

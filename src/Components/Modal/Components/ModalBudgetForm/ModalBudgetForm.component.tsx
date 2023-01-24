@@ -10,7 +10,7 @@ import { Record } from "pocketbase";
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
   mutation: UseMutationResult<any, unknown, any, unknown>;
-  prefillData?: BudgetType | CategoryType| Record | null;
+  prefillData?: BudgetType | CategoryType | Record | null;
 };
 
 const ModalBudgetForm = ({
@@ -69,9 +69,9 @@ const ModalBudgetForm = ({
         title,
         total: items.reduce((prev, curr) => prev + curr.amount, 0),
         balance: items.reduce((prev, curr) => {
-          const prefillDataItem = (prefillData as BudgetType).items.find(
-            (obj) => obj.id === curr.id
-          );
+          const prefillDataItem = (
+            (prefillData as BudgetType).items as BudgetItemType[]
+          ).find((obj) => obj.id === curr.id);
           return (
             prev +
             curr.amount -
@@ -81,12 +81,11 @@ const ModalBudgetForm = ({
         }, 0),
         description,
         items: items.map((item) => {
-          const prefillDataItem = (prefillData as BudgetType).items.find(
-            (obj) => obj.id === item.id
-          );
-          const { id, ...others } = item;
+          const prefillDataItem = (
+            (prefillData as BudgetType).items as BudgetItemType[]
+          ).find((obj) => obj.id === item.id);
           return {
-            ...others,
+            ...item,
             balance:
               item.amount -
               (prefillDataItem?.amount || 0) +
@@ -101,10 +100,7 @@ const ModalBudgetForm = ({
     mutation.mutate({
       title,
       total: items.reduce((prev, curr) => prev + curr.amount, 0),
-      items: items.map((obj) => {
-        const { id, ...others } = obj;
-        return { ...others };
-      }),
+      items,
       description,
     });
     setShowMainModal(false);

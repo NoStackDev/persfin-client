@@ -1,44 +1,15 @@
 import { useMutation } from "react-query";
-import axios from "axios";
 import { useQueryClient } from "react-query";
+import pb from "../../lib/pocketbase";
 
-const RemoveBudget = async (budget: string) => {
-  try {
-    return axios({
-      url: "",
-      method: "POST",
-      data: {
-        query: `mutation RemoveBudget($budget: ID){
-                    deleteBudget(budget: $budget) {
-                        id
-                        title
-                        description
-                        total
-                        balance
-                        items {
-                            id
-                            title
-                            description
-                            amount
-                            balance
-                            category
-                        }
-                    }
-                }`,
-        variables: {
-          budget,
-        },
-      },
-    });
-  } catch (err: any) {
-    console.log(err.message);
-  }
+const RemoveBudget = async (budgetId: string) => {
+  return pb.collection("budgets").delete(budgetId);
 };
 
 const DeleteBudget = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ budget }: { budget: string }) => RemoveBudget(budget),
+    mutationFn: ({ budgetId }: { budgetId: string }) => RemoveBudget(budgetId),
     onSuccess: () => queryClient.invalidateQueries("budgets"),
   });
 };

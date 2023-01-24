@@ -25,10 +25,7 @@ const UpdateInflowCategory = () => {
       description: string;
     }) => EditInflowCategory(categoryId, title, description),
     onSuccess: () => {
-      queryClient.invalidateQueries([
-        "inflowCategories",
-        pb.authStore.model?.id,
-      ]);
+      queryClient.invalidateQueries("inflowCategories");
     },
   });
 };

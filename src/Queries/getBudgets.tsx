@@ -9,7 +9,6 @@ const getBudgets = async (): Promise<(BudgetType | Record)[]> => {
   });
 };
 
-const FetchBudgets = () =>
-  useQuery(["budgets", pb.authStore.model?.id], getBudgets);
+const FetchBudgets = () => useQuery("budgets", getBudgets);
 
 export default FetchBudgets;

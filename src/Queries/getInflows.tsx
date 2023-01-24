@@ -12,7 +12,6 @@ const getInflows = async (): Promise<(InflowType | Record)[]> => {
 
 // export default getInflows
 
-const FetchInflows = () =>
-  useQuery(["inflows", pb.authStore.model?.id], getInflows);
+const FetchInflows = () => useQuery("inflows", getInflows);
 
 export default FetchInflows;

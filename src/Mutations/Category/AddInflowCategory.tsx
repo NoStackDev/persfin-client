@@ -14,10 +14,7 @@ const CreateInflowCategory = () => {
     mutationFn: ({ title, description }: CategoryType) =>
       AddInflowCategory(title, description),
     onSuccess: () => {
-      queryClient.invalidateQueries([
-        "inflowCategories",
-        pb.authStore.model?.id,
-      ]);
+      queryClient.invalidateQueries("inflowCategories");
     },
   });
 };

@@ -12,7 +12,6 @@ const getOutflows = async (): Promise<(OutflowType | Record)[]> => {
 
 // export default getOutflows
 
-const FetchOutflows = () =>
-  useQuery(["outflows", pb.authStore.model?.id], getOutflows);
+const FetchOutflows = () => useQuery("outflows", getOutflows);
 
 export default FetchOutflows;

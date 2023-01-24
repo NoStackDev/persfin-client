@@ -33,10 +33,10 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
     e.preventDefault();
     mutation.mutate({
       title,
-      amount, 
+      amount,
       budget: budget?.id,
-      item: item?.id,
-      category: category?.id,
+      item: item?.category,
+      category: item?.id || category?.id,
       description,
     });
     setShowMainModal(false);

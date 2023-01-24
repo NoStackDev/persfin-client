@@ -9,7 +9,6 @@ const getSavings = async (): Promise<(SavingsType | Record)[]> => {
   });
 };
 
-const FetchSavings = () =>
-  useQuery(["savings", pb.authStore.model?.id], getSavings);
+const FetchSavings = () => useQuery("savings", getSavings);
 
 export default FetchSavings;

@@ -10,6 +10,6 @@ const getOutflowCategories = async (): Promise<(CategoryType | Record)[]> => {
 };
 
 const FetchOutflowCategories = () =>
-  useQuery(["outflowCategories", pb.authStore.model?.id], getOutflowCategories);
+  useQuery("outflowCategories", getOutflowCategories);
 
 export default FetchOutflowCategories;
