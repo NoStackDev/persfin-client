@@ -9,7 +9,7 @@ const getOutflowCategories = async (): Promise<(CategoryType | Record)[]> => {
   });
 };
 
-const FetchOutflowCategories = () =>
+const useOutflowCategoriesQuery = () =>
   useQuery("outflowCategories", getOutflowCategories);
 
-export default FetchOutflowCategories;
+export default useOutflowCategoriesQuery;

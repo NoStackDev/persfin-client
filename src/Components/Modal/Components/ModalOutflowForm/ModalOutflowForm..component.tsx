@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { UseMutationResult } from "react-query";
-import { FetchBudgets, FetchOutflowCategories } from "../../../../Queries";
+import { useBudgetsQuery, useOutflowCategoriesQuery } from "../../../../Queries";
 import "./ModalOutflowForm.style.scss";
 import { BudgetType, BudgetItemType, CategoryType } from "../../../../TypeDefs";
 import { Record } from "pocketbase";
@@ -26,16 +26,16 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
 
-  const { data: categoryData } = FetchOutflowCategories();
-  const { data: budgetData } = FetchBudgets();
+  const { data: categoryData } = useOutflowCategoriesQuery();
+  const { data: budgetData } = useBudgetsQuery();
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     mutation.mutate({
       title,
       amount,
-      budget: budget?.id,
-      item: item?.category,
+      budget: budget,
+      item: item,
       category: item?.id || category?.id,
       description,
     });

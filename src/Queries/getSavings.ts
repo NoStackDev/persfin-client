@@ -9,6 +9,6 @@ const getSavings = async (): Promise<(SavingsType | Record)[]> => {
   });
 };
 
-const FetchSavings = () => useQuery("savings", getSavings);
+const useSavingsQuery = () => useQuery("savings", getSavings);
 
-export default FetchSavings;
+export default useSavingsQuery;

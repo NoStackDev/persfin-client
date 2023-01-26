@@ -3,10 +3,10 @@ import React, { useMemo, useState } from "react";
 import quickActions from "./quickActionBarConfig";
 import QuickActionCard from "./Components/QuickActionCard";
 import {
-  FetchSavings,
-  FetchInflows,
-  FetchOutflows,
-  FetchBudgets,
+  useSavingsQuery,
+  useInflowsQuery,
+  useOutlflowsQuery,
+  useBudgetsQuery,
 } from "../../Queries";
 import { calculateBalance, calculateSavings } from "./helper";
 
@@ -32,25 +32,25 @@ const QuickActionBar = (props: Props) => {
     isLoading: isLoadingSavingsData,
     isSuccess: isSuccessSavingsData,
     data: savingsData,
-  } = FetchSavings();
+  } = useSavingsQuery();
 
   const {
     isLoading: isLoadingInflowsData,
     isSuccess: isSuccessInflowsData,
     data: inflowsData,
-  } = FetchInflows();
+  } = useInflowsQuery();
 
   const {
     isLoading: isLoadingOutflowsData,
     isSuccess: isSuccessOutflowsData,
     data: outflowsData,
-  } = FetchOutflows();
+  } = useOutlflowsQuery();
 
   const {
     isLoading: isLoadingBudgetsData,
     isSuccess: isSuccessBudgetsData,
     data: budgetsData,
-  } = FetchBudgets();
+  } = useBudgetsQuery();
 
   // mutations
   const mutations: Record<

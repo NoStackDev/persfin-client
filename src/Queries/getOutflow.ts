@@ -12,6 +12,6 @@ const getOutflows = async (): Promise<(OutflowType | Record)[]> => {
 
 // export default getOutflows
 
-const FetchOutflows = () => useQuery("outflows", getOutflows);
+const useOutlflowsQuery = () => useQuery("outflows", getOutflows);
 
-export default FetchOutflows;
+export default useOutlflowsQuery;

@@ -3,7 +3,7 @@ import FilterBar from "../../Components/FilterBar";
 
 import "./Inflow.style.scss";
 import { useMemo, useState } from "react";
-import { FetchInflowCategories, FetchInflows } from "../../Queries";
+import { useInflowCategoriesQuery, useInflowsQuery } from "../../Queries";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
 import { TimeRangeInterface } from "../../TypeDefs";
@@ -22,13 +22,13 @@ const Inflow = (props: Props) => {
     isLoading: isLoadingInflowsData,
     isSuccess: isSuccessInflowsData,
     data: inflowsData,
-  } = FetchInflows();
+  } = useInflowsQuery();
 
   const {
     isLoading: isLoadingCategoriesData,
     isSuccess: isSuccessCategoriesData,
     data: categoryData,
-  } = FetchInflowCategories();
+  } = useInflowCategoriesQuery();
 
   const inflowCategoryNum = useMemo(() => {
     return categoryData ? categoryData.length + 1 : 1;

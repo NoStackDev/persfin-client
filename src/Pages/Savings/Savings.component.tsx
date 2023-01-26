@@ -4,7 +4,7 @@ import ActivityCard from "../../Components/ActivityCard";
 import DistributionChart from "../../Components/Charts/PieChart";
 import { useMemo, useState } from "react";
 import filterDate from "./helpers/filterDate";
-import { FetchSavings } from "../../Queries";
+import { useSavingsQuery } from "../../Queries";
 
 import { TimeRangeInterface } from "../../TypeDefs";
 
@@ -20,7 +20,7 @@ const Savings = (props: Props) => {
     isLoading: isLoadingSavingsData,
     isSuccess: isSuccessSavingsData,
     data: savingsData,
-  } = FetchSavings();
+  } = useSavingsQuery();
 
   const dateFiltered = useMemo(() => {
     return filterDate(savingsData, filterRange);

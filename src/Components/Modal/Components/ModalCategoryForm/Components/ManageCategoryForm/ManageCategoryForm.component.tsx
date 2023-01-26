@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
-  FetchInflowCategories,
-  FetchOutflowCategories,
+  useInflowCategoriesQuery,
+  useOutflowCategoriesQuery,
 } from "../../../../../../Queries";
 import { CategoryType } from "../../../../../../TypeDefs";
 import { UseMutationResult, UseQueryResult } from "react-query";
@@ -60,8 +60,8 @@ const ManageCategoryForm = ({ categoryType }: Props) => {
     string,
     UseQueryResult<(CategoryType | pbRecord)[], unknown>
   > = {
-    inflowCategories: FetchInflowCategories(),
-    outflowCategories: FetchOutflowCategories(),
+    inflowCategories: useInflowCategoriesQuery(),
+    outflowCategories: useOutflowCategoriesQuery(),
   };
 
   // mutation

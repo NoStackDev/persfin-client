@@ -5,7 +5,7 @@ import DateFilterFixed from "../../DateFiter/DateFilterFixed";
 import getLabelsColorsDataset from "./helpers/getLabelsColorsData";
 
 import "./DistributionChart.style.scss";
-import { FetchBudgets } from "../../../Queries";
+import { useBudgetsQuery } from "../../../Queries";
 
 import { TimeRangeInterface } from "../../../TypeDefs";
 
@@ -34,7 +34,7 @@ const DistributionChart = (props: Props) => {
     isLoading: isLoadingBudgetData,
     isSuccess: isSuccessBudgetData,
     data: budgetsData,
-  } = FetchBudgets();
+  } = useBudgetsQuery();
 
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null

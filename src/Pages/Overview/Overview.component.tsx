@@ -6,10 +6,10 @@ import Spinner from "../../Components/Spinner";
 
 import "./Overview.style.scss";
 import {
-  FetchSavings,
-  FetchInflows,
-  FetchOutflows,
-  FetchBudgets,
+  useSavingsQuery,
+  useInflowsQuery,
+  useOutlflowsQuery,
+  useBudgetsQuery,
 } from "../../Queries";
 import collateData from "./helpers";
 import BudgetCard from "../Budget/Components/BudgetCard";
@@ -30,24 +30,24 @@ const Overview = (props: Props) => {
     isLoading: isLoadingInflowsData,
     isSuccess: isSuccessInflowsData,
     data: inflowsData,
-  } = FetchInflows();
+  } = useInflowsQuery();
   const {
     isLoading: isLoadingOutflowsData,
     isSuccess: isSuccessOutflowsData,
     data: outflowsData,
-  } = FetchOutflows();
+  } = useOutlflowsQuery();
 
   const {
     isLoading: isLoadingSavingsData,
     isSuccess: isSuccessSavingsData,
     data: savingsData,
-  } = FetchSavings();
+  } = useSavingsQuery();
 
   const {
     isLoading: isLoadingBudgetsData,
     isSuccess: isSuccessBudgetsData,
     data: budgetsData,
-  } = FetchBudgets();
+  } = useBudgetsQuery();
 
   const data = useMemo(() => {
     return collateData([inflowsData, outflowsData, savingsData]);

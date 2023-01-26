@@ -2,7 +2,7 @@ import FilterBar from "../../Components/FilterBar";
 import BudgetCard from "./Components/BudgetCard";
 import "./Budget.style.scss";
 import { useMemo, useState } from "react";
-import { FetchBudgets } from "../../Queries";
+import { useBudgetsQuery } from "../../Queries";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 import Spinner from "../../Components/Spinner";
 import { DeleteBudget, UpdateBudget } from "../../Mutations";
@@ -30,7 +30,9 @@ const Budget = (props: Props) => {
     isLoading: isLoadingBudgetsData,
     isSuccess: isSuccessBudgetsData,
     data: budgetsData,
-  } = FetchBudgets();
+  } = useBudgetsQuery();
+
+  console.log(budgetsData)
 
   const tagFiltered = useMemo(() => {
     return filterTag(budgetsData, tagFilter);

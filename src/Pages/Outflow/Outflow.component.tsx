@@ -3,7 +3,7 @@ import FilterBar from "../../Components/FilterBar";
 
 import "./Outflow.style.scss";
 import { useMemo, useState } from "react";
-import { FetchOutflowCategories, FetchOutflows } from "../../Queries";
+import { useOutflowCategoriesQuery, useOutlflowsQuery } from "../../Queries";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
 import { TimeRangeInterface } from "../../TypeDefs";
@@ -22,13 +22,13 @@ const Outflow = (props: Props) => {
     isLoading: isLoadingOutflowsData,
     isSuccess: isSuccessOutflowsData,
     data: outflowsData,
-  } = FetchOutflows();
+  } = useOutlflowsQuery();
 
   const {
     isLoading: isLoadingCategoriesData,
     isSuccess: isSuccessCategoriesData,
     data: categoryData,
-  } = FetchOutflowCategories();
+  } = useOutflowCategoriesQuery();
 
   const outflowCategoryNum = useMemo(() => {
     return categoryData ? categoryData.length + 1 : 1;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FetchOutflowCategories } from "../../../../../Queries";
+import { useOutflowCategoriesQuery } from "../../../../../Queries";
 import "./ModalBudgetItemForm.style.scss";
 import { BudgetItemType, CategoryType } from "../../../../../TypeDefs";
 import { Record } from "pocketbase";
@@ -28,7 +28,7 @@ const ModalBudgetItemForm = ({
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
 
-  const { data: categoryData } = FetchOutflowCategories();
+  const { data: categoryData } = useOutflowCategoriesQuery();
 
   useEffect(() => {
     if (prefillItemData && categoryData) {

@@ -15,7 +15,7 @@ import {
 } from "chart.js";
 
 import "./InflowOutflowChart.style.scss";
-import { FetchInflows, FetchOutflows } from "../../../Queries";
+import { useInflowsQuery, useOutlflowsQuery } from "../../../Queries";
 
 import { TimeRangeInterface } from "../../../TypeDefs";
 
@@ -55,12 +55,12 @@ const InflowOutflowChart = (props: Props) => {
     isLoading: isLoadingInflowsData,
     isSuccess: isSuccessInflowsData,
     data: inflowsData,
-  } = FetchInflows();
+  } = useInflowsQuery();
   const {
     isLoading: isLoadingOutflowsData,
     isSuccess: isSuccessOutflowsData,
     data: outflowsData,
-  } = FetchOutflows();
+  } = useOutlflowsQuery();
 
   const { labels: labelsArr, data: dataArr } = useMemo(() => {
     return getLabelsAndDataset([inflowsData, outflowsData], filterRange);

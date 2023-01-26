@@ -1,6 +1,6 @@
-export { default as FetchInflows } from "./getInflows";
-export { default as FetchOutflows } from "./getOutflow";
-export { default as FetchSavings } from "./getSavings";
-export { default as FetchBudgets } from "./getBudgets";
-export { default as FetchInflowCategories } from "./getInflowCategories";
-export {default as FetchOutflowCategories} from "./getOutflowCategories";
+export { default as useInflowsQuery } from "./getInflows";
+export { default as useOutlflowsQuery } from "./getOutflow";
+export { default as useSavingsQuery } from "./getSavings";
+export { default as useBudgetsQuery } from "./getBudgets";
+export { default as useInflowCategoriesQuery } from "./getInflowCategories";
+export {default as useOutflowCategoriesQuery} from "./getOutflowCategories";

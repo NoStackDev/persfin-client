@@ -10,15 +10,14 @@ const EditBudget = async (
   description: string,
   items: string
 ) => {
-  return pb
-    .collection("budgets")
-    .update(budgetId, {
-      title,
-      total,
-      balance,
-      description,
-      items: JSON.stringify(items),
-    });
+  return pb.collection("budgets").update(budgetId, {
+    user: pb.authStore.model?.id,
+    title,
+    total,
+    balance,
+    description,
+    items: JSON.stringify(items),
+  });
 };
 
 const UpdateBudget = () => {

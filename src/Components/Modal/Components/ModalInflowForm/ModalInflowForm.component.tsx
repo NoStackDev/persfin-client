@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./ModalInflowForm.style.scss";
 import { UseMutationResult } from "react-query";
-import { FetchInflowCategories } from "../../../../Queries";
+import { useInflowCategoriesQuery } from "../../../../Queries";
 import { CategoryType } from "../../../../TypeDefs";
 import { Record } from "pocketbase";
 
@@ -18,7 +18,7 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
 
-  const { data: categoryData } = FetchInflowCategories();
+  const { data: categoryData } = useInflowCategoriesQuery();
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
