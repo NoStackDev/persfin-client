@@ -67,6 +67,8 @@ const QuickActionBar = (props: Props) => {
     return calculateBalance(savingsData, inflowsData, outflowsData);
   }, [savingsData, inflowsData, outflowsData]);
 
+  localStorage.setItem("balance", balance.toLocaleString());
+
   const savingsTotal = useMemo(() => {
     return calculateSavings(savingsData);
   }, [savingsData]);

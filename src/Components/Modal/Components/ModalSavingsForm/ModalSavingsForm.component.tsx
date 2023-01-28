@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { UseMutationResult } from "react-query";
+import { useOnClickOutside } from "../../../../Hooks";
 import "./ModalSavingsForm.style.scss";
 
 type Props = {
@@ -9,6 +10,8 @@ type Props = {
 
 const ModalSavingsForm = ({ setShowMainModal, mutation }: Props) => {
   const [amount, setAmount] = useState<number>(0);
+  const modalSavingsFormRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(modalSavingsFormRef, setShowMainModal);
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -24,7 +27,7 @@ const ModalSavingsForm = ({ setShowMainModal, mutation }: Props) => {
   };
 
   return (
-    <div id="modal-savings-form">
+    <div id="modal-savings-form" ref={modalSavingsFormRef}>
       <form>
         <h2>Savings</h2>
         <div className="form-body">

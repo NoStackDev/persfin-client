@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useOutflowCategoriesQuery } from "../../../../../Queries";
 import "./ModalBudgetItemForm.style.scss";
 import { BudgetItemType, CategoryType } from "../../../../../TypeDefs";
 import { Record } from "pocketbase";
+import { useOnClickOutside } from "../../../../../Hooks";
 
 type Props = {
   setShowBudgetItemModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,8 +29,11 @@ const ModalBudgetItemForm = ({
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
 
+  const modalBudgetItemFormRef = useRef<HTMLDivElement>(null);
+
   const { data: categoryData } = useOutflowCategoriesQuery();
 
+  useOnClickOutside(modalBudgetItemFormRef, setShowBudgetItemModal)
   useEffect(() => {
     if (prefillItemData && categoryData) {
       setCategory(categoryData.find((obj) => obj.id === prefillItemData.id));
@@ -56,7 +60,7 @@ const ModalBudgetItemForm = ({
   };
 
   return (
-    <div id="modal-budget-item-form">
+    <div id="modal-budget-item-form" ref={modalBudgetItemFormRef}>
       <form>
         <h2>Budget Item</h2>
         <div className="form-body">

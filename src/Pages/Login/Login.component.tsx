@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Spinner from "../../Components/Spinner";
 import { AuthUser, CreateUser } from "../../Mutations";
-import { useNavigate, redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import "./Login.style.scss";
+import pb from "../../lib/pocketbase";
 
 type Props = {};
 
@@ -17,8 +18,6 @@ const Login = (props: Props) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [signUp, setSignUp] = useState(false);
-
-  const navigate = useNavigate();
 
   const createUserMutation = CreateUser();
   const authUserMutation = AuthUser();
@@ -50,12 +49,8 @@ const Login = (props: Props) => {
     authUserMutation.mutate({ email, password });
   };
 
-  if (createUserMutation.isSuccess) {
-    navigate("/");
-  }
-
-  if (authUserMutation.isSuccess) {
-    navigate("/");
+  if (pb.authStore.model) {
+    return <Navigate replace to="/" />;
   }
 
   return (

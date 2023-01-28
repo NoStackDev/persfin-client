@@ -1,7 +1,8 @@
 import { Record } from "pocketbase";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { UseMutationResult } from "react-query";
 import { BudgetType, CategoryType } from "../../../../../../TypeDefs";
+import { useOnClickOutside } from "../../../../../../Hooks";
 import "./CreateCategoryForm.style.scss";
 
 type Props = {
@@ -21,6 +22,8 @@ const CreateCategoryForm = ({
   const [description, setDescription] = useState<string>(
     prefillData?.description || ""
   );
+  const createCategoryFormRef = useRef<HTMLDivElement>(null)
+  useOnClickOutside(createCategoryFormRef, setShowMainModal)
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -36,7 +39,7 @@ const CreateCategoryForm = ({
   };
 
   return (
-    <div id="modal-create-category-form">
+    <div id="modal-create-category-form" ref={createCategoryFormRef}>
       <form>
         <h2>Category</h2>
         <div className="form-body">

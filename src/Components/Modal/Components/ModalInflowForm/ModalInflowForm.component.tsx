@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./ModalInflowForm.style.scss";
 import { UseMutationResult } from "react-query";
 import { useInflowCategoriesQuery } from "../../../../Queries";
 import { CategoryType } from "../../../../TypeDefs";
 import { Record } from "pocketbase";
+import { useOnClickOutside } from "../../../../Hooks";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,6 +18,9 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
   const [description, setDescription] = useState<string>("");
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
+
+  const modalInflowFormRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(modalInflowFormRef, setShowMainModal);
 
   const { data: categoryData } = useInflowCategoriesQuery();
 
@@ -44,7 +48,7 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
   };
 
   return (
-    <div id="modal-inflow-form">
+    <div id="modal-inflow-form" ref={modalInflowFormRef}>
       <form>
         <h2>Inflow</h2>
         <div className="form-body">

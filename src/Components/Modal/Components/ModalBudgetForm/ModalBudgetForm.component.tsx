@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ModalContainer from "../ModalContainer";
 import ModalBudgetItemForm from "./Components/ModalBudgetItemForm.component";
 import { UseMutationResult } from "react-query";
@@ -6,6 +6,7 @@ import "./ModalBudgetForm.style.scss";
 
 import { BudgetItemType, BudgetType, CategoryType } from "../../../../TypeDefs";
 import { Record } from "pocketbase";
+import { useOnClickOutside } from "../../../../Hooks";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,6 +29,9 @@ const ModalBudgetForm = ({
   const [editItem, setEditItem] = useState<BudgetItemType | null>(null);
   const [showBudgetItemModal, setShowBudgetItemModal] =
     useState<boolean>(false);
+
+  const modalBudgetFormRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(modalBudgetFormRef, setShowMainModal);
 
   const handleItemAddition = (item: BudgetItemType) => {
     if (editItem) {
@@ -107,7 +111,7 @@ const ModalBudgetForm = ({
   };
 
   return (
-    <div id="modal-budget-form">
+    <div id="modal-budget-form" ref={modalBudgetFormRef}>
       <form>
         <h2>Budget</h2>
         <div className="form-body">

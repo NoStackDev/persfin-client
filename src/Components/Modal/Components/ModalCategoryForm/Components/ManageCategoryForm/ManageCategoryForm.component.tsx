@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   useInflowCategoriesQuery,
   useOutflowCategoriesQuery,
@@ -15,6 +15,7 @@ import {
 import Spinner from "../../../../../Spinner";
 import Modal from "../../../../Modal.component";
 import { Record as pbRecord } from "pocketbase";
+import { useOnClickOutside } from "../../../../../../Hooks";
 
 type Props = {
   categoryType: string;
@@ -49,11 +50,13 @@ const renderCategoryItem = (
   );
 };
 
-const ManageCategoryForm = ({ categoryType }: Props) => {
+const ManageCategoryForm = ({ categoryType, setShowMainModal }: Props) => {
   const [selectedCategory, setSelectedCategory] = useState<
     CategoryType | pbRecord | null
   >(null);
-  const [showMainModal, setShowMainModal] = useState<boolean>(false);
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const manageCategoryFormRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(manageCategoryFormRef, setShowMainModal);
 
   // queries
   const CategoryQuery: Record<
@@ -82,7 +85,7 @@ const ManageCategoryForm = ({ categoryType }: Props) => {
 
   const handleEditClick = (category: CategoryType | pbRecord) => {
     setSelectedCategory(category);
-    setShowMainModal(true);
+    setShowEditModal(true);
   };
 
   const handleDeleteClick = (category: CategoryType | pbRecord) => {
@@ -91,7 +94,7 @@ const ManageCategoryForm = ({ categoryType }: Props) => {
 
   return (
     <>
-      <div id="modal-manage-category">
+      <div id="modal-manage-category" ref={manageCategoryFormRef}>
         <form action="">
           <h2>Manage Category</h2>
           <div className="form-body">
@@ -119,10 +122,10 @@ const ManageCategoryForm = ({ categoryType }: Props) => {
           </div>
         </form>
       </div>
-      {showMainModal ? (
+      {showEditModal ? (
         <Modal
           quickActionId={6}
-          setShowMainModal={setShowMainModal}
+          setShowMainModal={setShowEditModal}
           mutation={updateMutation[categoryType]}
           prefillData={selectedCategory}
         />

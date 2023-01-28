@@ -19,16 +19,17 @@
   max-height: 80vh;
   overflow-y: scroll;
 
+  h2 {
+    @include h1-regular;
+    text-align: center;
+  }
+
   form {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: to-rem(20px);
-
-    h2 {
-      @include h1-regular;
-      text-align: center;
-    }
+    overflow-y: scroll;
 
     .form-body {
       @include h3-regular;
@@ -123,13 +124,6 @@
         flex-direction: column;
       }
     }
-    // .budget {
-    //   z-index: 2;
-    // }
-
-    // .budget-item {
-    //   z-index: 1;
-    // }
 
     .limit {
       font-size: to-rem(16px);
@@ -137,19 +131,19 @@
       display: flex;
       justify-content: space-between;
     }
-    
-    button {
-      //   color: hsl(0, 0%, 100%);
-      @include theme-aware("color", "btn-text-color");
-      @include theme-aware("background", "btn-bg-color");
-      @include h3-bold;
-      padding: to-rem(14px);
-      border-radius: to-rem(12px);
-      border: none;
+  }
 
-      &:hover {
-        cursor: pointer;
-      }
+  button {
+    //   color: hsl(0, 0%, 100%);
+    @include theme-aware("color", "btn-text-color");
+    @include theme-aware("background", "btn-bg-color");
+    @include h3-bold;
+    padding: to-rem(14px);
+    border-radius: to-rem(12px);
+    border: none;
+
+    &:hover {
+      cursor: pointer;
     }
   }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   useBudgetsQuery,
   useInflowsQuery,
@@ -33,7 +33,7 @@ const Topbar = (props: Props) => {
 
   return (
     <div className="topbar">
-      <div className="leftTopbar">Current Page</div>
+      <div className="leftTopbar appLogo">PERSFIN</div>
       <div className="middleTopbar">{date}</div>
       <div className="rightTopbar">
         {/* <img src={profilePic} alt="profile" className="profilePic" /> */}

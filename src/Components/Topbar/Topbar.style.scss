@@ -13,19 +13,20 @@
 
   @include breakpoint("m") {
     grid-template-columns: repeat(3, 1fr);
-    grid-column: 2 / 3;
   }
 
   .leftTopbar {
     display: flex;
     align-items: center;
     @include theme-aware("color", "header-color");
-    @include h2-medium;
     display: none;
     align-self: center;
 
     @include breakpoint("m") {
+      @include h1-bold;
       display: block;
+      position: relative;
+      left: to-rem(50px);
     }
   }
 
@@ -33,7 +34,7 @@
     justify-self: end;
     align-self: center;
 
-    @include breakpoint('m') {
+    @include breakpoint("m") {
       justify-self: center;
     }
   }

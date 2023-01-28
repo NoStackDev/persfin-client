@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { UseMutationResult } from "react-query";
 import {
   useBudgetsQuery,
@@ -8,6 +8,7 @@ import "./ModalOutflowForm.style.scss";
 import { BudgetType, BudgetItemType, CategoryType } from "../../../../TypeDefs";
 import { Record } from "pocketbase";
 import { UpdateBudget } from "../../../../Mutations";
+import { useOnClickOutside } from "../../../../Hooks";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,6 +30,9 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
     useState<boolean>(false);
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
+
+  const modalOutflowFormRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(modalOutflowFormRef, setShowMainModal);
 
   const { data: categoryData } = useOutflowCategoriesQuery();
   const { data: budgetData } = useBudgetsQuery();
@@ -102,9 +106,10 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
   };
 
   return (
-    <div id="modal-outflow-form">
+    <div id="modal-outflow-form" ref={modalOutflowFormRef}>
+      <h2>Outflow</h2>
+
       <form>
-        <h2>Outflow</h2>
         <div className="form-body">
           <div className="title">
             <label htmlFor="title">Title</label>
@@ -114,13 +119,21 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
               value={title}
             />
           </div>
-          <div className="amount">
-            <label htmlFor="amount">amount</label>
-            <input
-              type="text"
-              onChange={(e) => onAmountChange(e)}
-              value={amount}
-            />
+
+          {/* amount */}
+          <div className="amount-container">
+            <div className="amount">
+              <label htmlFor="amount">amount</label>
+              <input
+                type="text"
+                onChange={(e) => onAmountChange(e)}
+                value={amount}
+              />
+            </div>
+            <div className="limit">
+              <div>available</div>
+              <div>{item ? item.balance : localStorage.getItem("balance")}</div>
+            </div>
           </div>
 
           {/* budgets  */}
@@ -158,7 +171,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
             </div>
             {budget ? (
               <div className="limit">
-                <div>limit</div>
+                <div>available</div>
                 <div>{budget.balance}</div>
               </div>
             ) : null}
@@ -195,7 +208,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
               </div>
               {item ? (
                 <div className="limit">
-                  <div>limit</div>
+                  <div>available</div>
                   <div>{item.balance}</div>
                 </div>
               ) : null}
@@ -249,10 +262,10 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
             ></textarea>
           </div>
         </div>
-        <button type="submit" onClick={(e) => onSubmit(e)}>
-          Add Outflow
-        </button>
       </form>
+      <button type="submit" onClick={(e) => onSubmit(e)}>
+        Add Outflow
+      </button>
     </div>
   );
 };

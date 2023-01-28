@@ -5,6 +5,30 @@
 
 $Rufina: "Rufina", serif;
 
+#blur {
+  position: relative;
+  grid-column: 1 / 2;
+  grid-row: 1 / -1;
+  z-index: 100;
+  height: 100%;
+
+  // filter
+  &.open::after {
+    content: "";
+    width: 100vw;
+    height: 100%;
+    position: absolute;
+    top: -10%;
+    left: 100%;
+    backdrop-filter: blur(2px);
+
+    @include breakpoint("m") {
+      content: unset;
+      grid-row: 2 / -1;
+    }
+  }
+}
+
 nav {
   width: 0;
   @include theme-aware("background", "card-bg-color");
@@ -33,6 +57,10 @@ nav {
 
   @include breakpoint("m") {
     width: to-rem(70px);
+    grid-row: 2 / -1;
+    position: unset;
+    display: grid;
+    grid-template-rows: 3fr 1fr;
   }
 
   .topNav {
@@ -45,15 +73,14 @@ nav {
     @include theme-aware("background", "card-bg-color");
 
     @include breakpoint("m") {
-      height: to-rem(60px);
+      height: to-rem(0px);
     }
 
     .appLogo {
       @include h1-bold;
 
       @include breakpoint("m") {
-        visibility: hidden;
-        transition-delay: 0.2s;
+        display: none;
       }
     }
 
@@ -72,12 +99,8 @@ nav {
 
       @include breakpoint("m") {
         position: absolute;
-        right: to-rem(20px);
-        top: to-rem(30px);
-
-        &.open {
-          right: to-rem(10px);
-        }
+        left: to-rem(15px);
+        top: to-rem(25px);
       }
 
       &:hover {
@@ -131,7 +154,7 @@ nav {
 
   .middleNav {
     overflow-x: hidden;
-    flex-grow: 1;
+    flex-grow: 2;
 
     ul {
       display: flex;
@@ -158,28 +181,34 @@ nav {
         }
       }
     }
+
+    @include breakpoint("m") {
+      padding-top: to-rem(20px);
+      grid-row: 1 / 2;
+    }
   }
 
   .bottomNav {
+    overflow-x: hidden;
+    flex-grow: 1;
+
     div {
-      overflow-x: hidden;
-      display: flex;
+      display: grid;
+      grid-template-columns: max-content max-content;
       align-items: center;
-      gap: to-rem(20px);
+      padding-inline: to-rem(20px);
 
       .logout {
         visibility: hidden;
       }
 
-      @include breakpoint("m") {
-        padding-block: to-rem(10px);
-        padding-inline: to-rem(20px);
-      }
-
       &:hover {
-        color: blue;
         cursor: pointer;
       }
+    }
+
+    @include breakpoint("m") {
+      grid-row: 2 / 3;
     }
   }
 
@@ -203,25 +232,8 @@ nav {
     }
 
     .bottomNav {
-      padding-inline: to-rem(20px);
       .logout {
-        word-break: keep-all;
         visibility: visible;
-      }
-    }
-
-    // filter
-    &::before {
-      content: "";
-      width: 100vw;
-      height: 120vh;
-      position: absolute;
-      top: -10%;
-      left: 100%;
-      backdrop-filter: blur(2px);
-
-      @include breakpoint("m") {
-        content: unset;
       }
     }
   }
