@@ -1,43 +1,17 @@
-import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import pb from "../../lib/pocketbase";
 import { SavingsType } from "../../TypeDefs";
 
-const AddSavings = async (userId: string, amount: number) => {
-  try {
-    return axios({
-      url: "",
-      method: "POST",
-      data: {
-        query: `mutation AddSavings($user: ID, $amount: Float){
-                    addSavings(user: $user, amount: $amount){
-                        user {
-                            id
-                            firstname
-                            lastname
-                        }
-                        amount
-                        created
-                    }
-                }`,
-        variables: {
-          user: userId,
-          amount: amount,
-        },
-      },
-    });
-  } catch (err: any) {
-    console.log(err.message);
-  }
+const AddSavings = async (amount: number) => {
+  pb.collection("savings").create({ user: pb.authStore.model?.id, amount });
 };
-
 
 const CreateSavings = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ userId, amount }: SavingsType & { userId: string }) =>
-      AddSavings(userId, amount),
+    mutationFn: ({ amount }: SavingsType) => AddSavings(amount),
     onSuccess: () => {
-      queryClient.invalidateQueries("savings");
+      queryClient.invalidateQueries(["savings"]);
     },
   });
 };

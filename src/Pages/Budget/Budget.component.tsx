@@ -32,8 +32,6 @@ const Budget = (props: Props) => {
     data: budgetsData,
   } = useBudgetsQuery();
 
-  console.log(budgetsData)
-
   const tagFiltered = useMemo(() => {
     return filterTag(budgetsData, tagFilter);
   }, [budgetsData, tagFilter]);

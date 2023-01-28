@@ -36,17 +36,11 @@ const generateLabelsColorsAmount = (
       }
       return filterData(arr, filterRange);
     });
+
     // loop over each array of arrays
     filteredDataset?.forEach((arr) => {
-      // loop over objects in arrays
+      // loop over objects in array
       arr?.forEach((obj: DataObj) => {
-        // throw error if modelType does not exist in object
-        // if (!obj.modelType) {
-        //   throw new Error(
-        //     "objects in arrays need to have modelType properties to generate labels and colors"
-        //   );
-        // }
-
         // check if modelType already exist as key in result object
         if (!result[obj.collectionName]) {
           // check if modelType is budget, handle special
@@ -58,7 +52,10 @@ const generateLabelsColorsAmount = (
             };
           } else {
             result[obj.collectionName] = {
-              labels: [(obj as InflowType | OutflowType).title || "Others"],
+              labels: [
+                (obj as InflowType | OutflowType).expand.category?.title ||
+                  "uncategorized",
+              ],
               colors: [generateColor([])],
               amount: [(obj as InflowType | OutflowType).amount],
             };
@@ -68,22 +65,25 @@ const generateLabelsColorsAmount = (
 
         // handle budget scenario if result.budget already exists
         if (obj.collectionName === "budgets") {
-          result.budget.labels.push(obj.title);
-          result.budget.colors.push(generateColor(result.budget.colors));
-          result.budget.amount.push((obj as BudgetType).total);
+          result[obj.collectionName].labels.push(obj.title);
+          result[obj.collectionName].colors.push(
+            generateColor(result[obj.collectionName].colors)
+          );
+          result[obj.collectionName].amount.push((obj as BudgetType).total);
         } else {
           // get index of category title in labels array
           const index = result[obj.collectionName].labels.findIndex((ele) => {
-            if (!(obj as InflowType | OutflowType).category)
+            if (!(obj as InflowType | OutflowType).expand.category?.title)
               return ele === "uncategorized";
-            return ele === (obj as InflowType | OutflowType).category.title;
+            return (
+              ele === (obj as InflowType | OutflowType).expand.category?.title
+            );
           });
           // push if index is -1
           if (index === -1) {
             result[obj.collectionName].labels.push(
-              (obj as InflowType | OutflowType).category
-                ? (obj as InflowType | OutflowType).category.title
-                : "uncategorized"
+              (obj as InflowType | OutflowType).expand.category?.title ||
+                "uncategorized"
             );
             result[obj.collectionName].colors.push(
               generateColor(result[obj.collectionName].colors)
@@ -100,7 +100,6 @@ const generateLabelsColorsAmount = (
       });
     });
   }
-
   return result;
 };
 

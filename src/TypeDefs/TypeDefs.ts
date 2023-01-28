@@ -1,10 +1,12 @@
+import { Type } from "typescript";
+
 interface PockectBaseType {
   id: string;
   created: string;
   updated: string;
   collectionId: string;
   collectionName: string;
-  expand: {};
+  expand: Record<any, any>
 }
 
 export interface InflowType extends PockectBaseType {

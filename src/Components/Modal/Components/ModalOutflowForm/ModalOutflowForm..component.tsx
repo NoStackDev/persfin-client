@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { UseMutationResult } from "react-query";
-import { useBudgetsQuery, useOutflowCategoriesQuery } from "../../../../Queries";
+import {
+  useBudgetsQuery,
+  useOutflowCategoriesQuery,
+} from "../../../../Queries";
 import "./ModalOutflowForm.style.scss";
 import { BudgetType, BudgetItemType, CategoryType } from "../../../../TypeDefs";
 import { Record } from "pocketbase";
+import { UpdateBudget } from "../../../../Mutations";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,14 +33,45 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
   const { data: categoryData } = useOutflowCategoriesQuery();
   const { data: budgetData } = useBudgetsQuery();
 
+  const budgetMutation = UpdateBudget();
+
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    if (budget && item) {
+      const updatedBudgetItems = budget.items.map((obj: BudgetItemType) => {
+        if (obj.id !== item.id) return obj;
+        obj.balance = obj.balance - amount;
+        return obj;
+      });
+      budgetMutation
+        .mutateAsync({
+          budgetId: budget.id,
+          title: budget.title,
+          total: budget.total,
+          balance: budget.balance - amount,
+          description: budget.description,
+          items: updatedBudgetItems,
+        })
+        .then(() =>
+          mutation.mutate({
+            title,
+            amount,
+            budget: budget,
+            item: item,
+            category: category?.id || item?.category,
+            description,
+          })
+        );
+      setShowMainModal(false);
+      return;
+    }
+
     mutation.mutate({
       title,
       amount,
       budget: budget,
       item: item,
-      category: item?.id || category?.id,
+      category: category?.id || item?.category,
       description,
     });
     setShowMainModal(false);

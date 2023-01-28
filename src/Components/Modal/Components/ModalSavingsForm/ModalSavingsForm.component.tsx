@@ -10,11 +10,9 @@ type Props = {
 const ModalSavingsForm = ({ setShowMainModal, mutation }: Props) => {
   const [amount, setAmount] = useState<number>(0);
 
-  const userId = "636ac4a250bbc5afa6004a8c";
-
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    mutation.mutate({ userId, amount });
+    mutation.mutate({ amount });
     setShowMainModal(false);
   };
 
