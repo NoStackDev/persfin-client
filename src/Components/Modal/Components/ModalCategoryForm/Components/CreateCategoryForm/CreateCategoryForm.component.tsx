@@ -22,8 +22,8 @@ const CreateCategoryForm = ({
   const [description, setDescription] = useState<string>(
     prefillData?.description || ""
   );
-  const createCategoryFormRef = useRef<HTMLDivElement>(null)
-  useOnClickOutside(createCategoryFormRef, setShowMainModal)
+  const createCategoryFormRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(createCategoryFormRef, setShowMainModal);
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -40,8 +40,9 @@ const CreateCategoryForm = ({
 
   return (
     <div id="modal-create-category-form" ref={createCategoryFormRef}>
+      <h2>Category</h2>
+
       <form>
-        <h2>Category</h2>
         <div className="form-body">
           <div className="title">
             <label htmlFor="title">Title</label>
@@ -70,10 +71,10 @@ const CreateCategoryForm = ({
             ></textarea>
           </div>
         </div>
-        <button type="submit" onClick={(e) => onSubmit(e)}>
-          {prefillData ? "Edit Category" : "Add Category"}
-        </button>
       </form>
+      <button type="submit" onClick={(e) => onSubmit(e)}>
+        {prefillData ? "Edit Category" : "Add Category"}
+      </button>
     </div>
   );
 };

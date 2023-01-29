@@ -112,8 +112,9 @@ const ModalBudgetForm = ({
 
   return (
     <div id="modal-budget-form" ref={modalBudgetFormRef}>
+      <h2>Budget</h2>
+
       <form>
-        <h2>Budget</h2>
         <div className="form-body">
           <div className="title">
             <label htmlFor="title-input">Title</label>
@@ -166,10 +167,10 @@ const ModalBudgetForm = ({
             ></textarea>
           </div>
         </div>
-        <button type="submit" onClick={(e) => onSubmit(e)}>
-          {prefillData ? "Update" : "Add Budget"}
-        </button>
       </form>
+      <button type="submit" onClick={(e) => onSubmit(e)}>
+        {prefillData ? "Update" : "Add Budget"}
+      </button>
       {showBudgetItemModal ? (
         <div className="budget-item-modal">
           <ModalContainer />

@@ -17,7 +17,6 @@
   gap: to-rem(20px);
   @include theme-aware("color", "header-color");
   max-height: 80vh;
-  overflow-y: scroll;
 
   h2 {
     @include h1-regular;

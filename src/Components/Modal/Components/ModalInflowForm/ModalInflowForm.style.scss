@@ -16,17 +16,19 @@
   align-items: center;
   gap: to-rem(20px);
   @include theme-aware("color", "header-color");
+  max-height: 80vh;
+
+  h2 {
+    @include h1-regular;
+    text-align: center;
+  }
 
   form {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: to-rem(20px);
-
-    h2 {
-      @include h1-regular;
-      text-align: center;
-    }
+    overflow-y: scroll;
 
     .form-body {
       @include h3-regular;
@@ -101,7 +103,7 @@
           color: white;
           width: 100%;
           filter: drop-shadow(0px to-rem(2px) hsla(0, 0%, 0%, 0.2));
-          
+
           &.show-true {
             display: block;
           }
@@ -114,19 +116,17 @@
         flex-direction: column;
       }
     }
+  }
+  button {
+    @include theme-aware("color", "btn-text-color");
+    @include theme-aware("background", "btn-bg-color");
+    @include h3-bold;
+    padding: to-rem(14px);
+    border-radius: to-rem(12px);
+    border: none;
 
-    button {
-      //   color: hsl(0, 0%, 100%);
-      @include theme-aware("color", "btn-text-color");
-      @include theme-aware("background", "btn-bg-color");
-      @include h3-bold;
-      padding: to-rem(14px);
-      border-radius: to-rem(12px);
-      border: none;
-
-      &:hover {
-        cursor: pointer;
-      }
+    &:hover {
+      cursor: pointer;
     }
   }
 }

@@ -1,19 +1,22 @@
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import createdRange from "./dateFilterFixedConfig";
 
 import "./DateFilterFixed.style.scss";
 
 import { TimeRangeInterface } from "../../../TypeDefs";
+import { useOnClickOutside } from "../../../Hooks";
 
 type SetFilterRange = {
   setFilterRange: React.Dispatch<SetStateAction<TimeRangeInterface | null>>;
 };
 
-const DateFilterFixed = ({setFilterRange}: SetFilterRange) => {
+const DateFilterFixed = ({ setFilterRange }: SetFilterRange) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<TimeRangeInterface>(
     createdRange[0]
   );
+  const dateFilterFixedRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(dateFilterFixedRef, setShowOptions);
 
   useEffect(() => {
     setFilterRange(createdRange[0]);
@@ -28,6 +31,7 @@ const DateFilterFixed = ({setFilterRange}: SetFilterRange) => {
     <div
       onClick={() => setShowOptions(!showOptions)}
       className="date-filter-fixed"
+      ref={dateFilterFixedRef}
     >
       <div className="selected-option">{selectedOption.title}</div>
       {showOptions ? (

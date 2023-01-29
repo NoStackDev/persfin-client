@@ -49,8 +49,9 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
 
   return (
     <div id="modal-inflow-form" ref={modalInflowFormRef}>
+      <h2>Inflow</h2>
+
       <form>
-        <h2>Inflow</h2>
         <div className="form-body">
           {/* title  */}
           <div className="title">
@@ -114,10 +115,10 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
             ></textarea>
           </div>
         </div>
-        <button type="submit" onClick={(e) => onSubmit(e)}>
-          Add Inflow
-        </button>
       </form>
+      <button type="submit" onClick={(e) => onSubmit(e)}>
+        Add Inflow
+      </button>
     </div>
   );
 };

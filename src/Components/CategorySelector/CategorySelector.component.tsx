@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useOnClickOutside } from "../../Hooks";
 import "./CategorySelector.style.scss";
 
 type Props = {
@@ -9,6 +10,9 @@ type Props = {
 const CategorySelector = ({ categories, setSelectedCategory }: Props) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+
+  const categorySelectorRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(categorySelectorRef, setShowOptions);
 
   const handleClick = (category: string) => {
     setSelectedOption(category);
@@ -29,6 +33,7 @@ const CategorySelector = ({ categories, setSelectedCategory }: Props) => {
     <div
       className="category-selector"
       onClick={() => setShowOptions(!showOptions)}
+      ref={categorySelectorRef}
     >
       <div className="selected-option">{selectedOption}</div>
 

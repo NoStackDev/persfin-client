@@ -95,8 +95,9 @@ const ManageCategoryForm = ({ categoryType, setShowMainModal }: Props) => {
   return (
     <>
       <div id="modal-manage-category" ref={manageCategoryFormRef}>
+        <h2>Manage Category</h2>
+
         <form action="">
-          <h2>Manage Category</h2>
           <div className="form-body">
             <div className="category-type">
               <input
@@ -121,15 +122,16 @@ const ManageCategoryForm = ({ categoryType, setShowMainModal }: Props) => {
             </div>
           </div>
         </form>
+        {showEditModal ? (
+          <Modal
+            quickActionId={6}
+            setShowMainModal={setShowEditModal}
+            mutation={updateMutation[categoryType]}
+            prefillData={selectedCategory}
+          />
+        ) : null}
       </div>
-      {showEditModal ? (
-        <Modal
-          quickActionId={6}
-          setShowMainModal={setShowEditModal}
-          mutation={updateMutation[categoryType]}
-          prefillData={selectedCategory}
-        />
-      ) : null}
+
       <Spinner
         mutation={updateMutation[categoryType]}
         message={"updating category"}

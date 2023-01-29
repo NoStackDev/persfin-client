@@ -16,17 +16,18 @@
   align-items: center;
   gap: to-rem(20px);
   @include theme-aware("color", "header-color");
+  max-height: 80vh;
+
+  h2 {
+    @include h1-regular;
+    text-align: center;
+  }
 
   form {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: to-rem(20px);
-
-    h2 {
-      @include h1-regular;
-      text-align: center;
-    }
 
     .form-body {
       @include h3-regular;
@@ -55,18 +56,18 @@
         flex-direction: column;
       }
     }
+  }
 
-    button {
-      color: hsl(0, 0%, 100%);
-      background: #14aacf;
-      @include h3-bold;
-      padding: to-rem(14px);
-      border-radius: to-rem(12px);
-      border: none;
+  button {
+    color: hsl(0, 0%, 100%);
+    background: #14aacf;
+    @include h3-bold;
+    padding: to-rem(14px);
+    border-radius: to-rem(12px);
+    border: none;
 
-      &:hover {
-        cursor: pointer;
-      }
+    &:hover {
+      cursor: pointer;
     }
   }
 }

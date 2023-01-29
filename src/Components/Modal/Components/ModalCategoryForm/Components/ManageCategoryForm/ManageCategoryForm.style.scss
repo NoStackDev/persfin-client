@@ -16,17 +16,19 @@
   align-items: center;
   gap: to-rem(20px);
   @include theme-aware("color", "header-color");
+  max-height: 80vh;
+
+  h2 {
+    @include h1-regular;
+    text-align: center;
+  }
 
   form {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: to-rem(20px);
-
-    h2 {
-      @include h1-regular;
-      text-align: center;
-    }
+    overflow-y: scroll;
 
     .form-body {
       @include h3-regular;

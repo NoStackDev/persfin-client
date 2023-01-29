@@ -30,10 +30,13 @@ const ModalBudgetItemForm = ({
     useState<boolean>(false);
 
   const modalBudgetItemFormRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(modalBudgetItemFormRef, setShowBudgetItemModal);
+
+  const categoryOptionsRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(categoryOptionsRef, setShowCategoryOptions);
 
   const { data: categoryData } = useOutflowCategoriesQuery();
 
-  useOnClickOutside(modalBudgetItemFormRef, setShowBudgetItemModal)
   useEffect(() => {
     if (prefillItemData && categoryData) {
       setCategory(categoryData.find((obj) => obj.id === prefillItemData.id));
@@ -61,8 +64,9 @@ const ModalBudgetItemForm = ({
 
   return (
     <div id="modal-budget-item-form" ref={modalBudgetItemFormRef}>
+      <h2>Budget Item</h2>
+
       <form>
-        <h2>Budget Item</h2>
         <div className="form-body">
           {/* title  */}
           <div className="title">
@@ -83,7 +87,7 @@ const ModalBudgetItemForm = ({
             />
           </div>
           {/* category  */}
-          <div className="category">
+          <div className="category" ref={categoryOptionsRef}>
             <label htmlFor="category-options-container">Category</label>
             <div
               className="category-selected"
@@ -126,10 +130,10 @@ const ModalBudgetItemForm = ({
             ></textarea>
           </div>
         </div>
-        <button type="submit" onClick={(e) => onSubmit(e)}>
-          {prefillItemData ? "Update" : "Add Item"}
-        </button>
       </form>
+      <button type="submit" onClick={(e) => onSubmit(e)}>
+        {prefillItemData ? "Update" : "Add Item"}
+      </button>
     </div>
   );
 };

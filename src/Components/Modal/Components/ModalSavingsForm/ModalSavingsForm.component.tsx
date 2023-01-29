@@ -28,8 +28,9 @@ const ModalSavingsForm = ({ setShowMainModal, mutation }: Props) => {
 
   return (
     <div id="modal-savings-form" ref={modalSavingsFormRef}>
+      <h2>Savings</h2>
+
       <form>
-        <h2>Savings</h2>
         <div className="form-body">
           <div className="title">
             <label htmlFor="title">Amount</label>
@@ -40,10 +41,10 @@ const ModalSavingsForm = ({ setShowMainModal, mutation }: Props) => {
             />
           </div>
         </div>
-        <button type="submit" onClick={(e) => onSubmit(e)}>
-          Add Savings
-        </button>
       </form>
+      <button type="submit" onClick={(e) => onSubmit(e)}>
+        Add Savings
+      </button>
     </div>
   );
 };
