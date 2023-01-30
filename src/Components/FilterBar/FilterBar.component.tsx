@@ -2,9 +2,6 @@ import { SetStateAction, useState } from "react";
 import DateFilterDynamic from "../DateFiter/DateFilterDynamic";
 import "./FilterBar.style.scss";
 import {
-  BudgetType,
-  InflowType,
-  OutflowType,
   TimeRangeInterface,
 } from "../../TypeDefs";
 
@@ -79,7 +76,7 @@ const FilterBar = ({
                 className={tag === 1 ? "completed active" : "completed"}
                 onClick={() => handleTagClick(1)}
               >
-                completed
+                exhausted
               </div>
               <div
                 className={tag === 2 ? "all active" : "all"}

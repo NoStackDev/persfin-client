@@ -17,6 +17,7 @@ const EditBudget = async (
     balance,
     description,
     items: JSON.stringify(items),
+    exhausted: balance <= 0,
   });
 };
 

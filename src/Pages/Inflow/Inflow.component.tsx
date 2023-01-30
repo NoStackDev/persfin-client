@@ -53,7 +53,7 @@ const Inflow = (props: Props) => {
       <section id="inflow-activity-section">
         <ActivityCard cardTitle="Inflow" activities={textFiltered} />
       </section>
-      <section id="distribution-chart-section">
+      <section id="action-card-category-chart-section">
         <ActionCard
           title="Inflow Categories"
           categoriesNum={inflowCategoryNum}

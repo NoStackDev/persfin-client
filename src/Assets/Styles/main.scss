@@ -35,6 +35,15 @@ body {
       overflow-y: scroll;
       row-gap: to-rem(20px);
 
+      &::-webkit-scrollbar {
+        width: 5px;
+        @include theme-aware("background-color", "bg-color");
+      }
+
+      &::-webkit-scrollbar-thumb {
+        @include theme-aware("background-color", "text-color");
+      }
+
       & > section:nth-of-type(1) {
         margin-top: to-rem(20px);
       }

@@ -59,6 +59,15 @@
     .chart {
       overflow-x: scroll;
       height: 100%;
+      
+      &::-webkit-scrollbar {
+        @include theme-aware("background-color", "card-bg-color");
+      }
+
+      &::-webkit-scrollbar-thumb {
+        @include theme-aware("background-color", "card-bg-color");
+      }
+
       .chart-container {
         height: 100%;
         position: relative;

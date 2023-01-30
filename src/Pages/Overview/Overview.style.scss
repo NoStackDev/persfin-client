@@ -10,8 +10,22 @@ main {
     display: flex;
     flex-direction: column;
     gap: to-rem(20px);
+    max-height: 79vh;
     overflow-y: scroll;
-    min-width: to-rem(340px);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(to-rem(280px), 1fr));
+    grid-auto-flow: dense;
+    gap: to-rem(20px);
+    min-width: to-rem(280px);
+
+    &::-webkit-scrollbar {
+      width: 5px;
+      @include theme-aware("background-color", "card-bg-color");
+    }
+
+    &::-webkit-scrollbar-thumb {
+      @include theme-aware("background-color", "text-color");
+    }
   }
 
   @include breakpoint("l") {
@@ -33,7 +47,7 @@ main {
     #budgets {
       grid-column: 2 / 3;
       grid-row: 2 / 3;
-      max-height: inherit;
+      max-height: 127vh;
     }
   }
 

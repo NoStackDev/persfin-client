@@ -4,7 +4,7 @@
 @import "../../Assets/Styles/variables";
 
 .activity-container {
-  min-width: to-rem(340px);
+  min-width: fit-content;
 
   .card {
     @include theme-aware("background", "card-bg-color");
