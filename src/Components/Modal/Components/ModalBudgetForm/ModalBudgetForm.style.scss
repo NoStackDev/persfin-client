@@ -30,6 +30,15 @@
     gap: to-rem(20px);
     overflow-y: scroll;
 
+    &::-webkit-scrollbar {
+      width: 5px;
+      @include theme-aware("background-color", "card-bg-color");
+    }
+
+    &::-webkit-scrollbar-thumb {
+      @include theme-aware("background-color", "text-color");
+    }
+
     .form-body {
       @include h3-regular;
       display: flex;
