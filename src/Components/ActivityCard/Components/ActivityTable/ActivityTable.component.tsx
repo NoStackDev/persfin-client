@@ -103,7 +103,14 @@ const renderIconTitle = (activity: DataObj | null) => {
     <td className="icon-title-wrapper">
       {icons(activity.collectionName)}
       <span className="title">
-        {(activity as InflowType | OutflowType | BudgetType).title}
+        {(activity as InflowType | OutflowType | BudgetType).title.trim()
+          .length > 0
+          ? (activity as InflowType | OutflowType | BudgetType).title.trim()
+          : (activity as InflowType | OutflowType | BudgetType).expand.category
+              ?.title ||
+            (
+              activity as InflowType | OutflowType | BudgetType
+            ).collectionName.split("s")[0]}
       </span>
     </td>
   );

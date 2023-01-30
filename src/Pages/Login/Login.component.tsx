@@ -34,9 +34,7 @@ const Login = (props: Props) => {
     if (!eventEnd) {
       setInputState({ ...inputState, email: true, password: true });
     }
-    if (email.trim().length === 0) {
-      setInputState({ ...inputState, email: false, password: false });
-    }
+    return
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
