@@ -15,8 +15,14 @@ const ModalSavingsForm = ({ setShowMainModal, mutation }: Props) => {
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    mutation.mutate({ amount });
-    setShowMainModal(false);
+
+    if (amount > parseFloat(localStorage.getItem("balance") || "0")) {
+      console.log('stop')
+      return;
+    }
+    console.log("okay");
+    // mutation.mutate({ amount });
+    // setShowMainModal(false);
   };
 
   const onAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +45,10 @@ const ModalSavingsForm = ({ setShowMainModal, mutation }: Props) => {
               onChange={(e) => onAmountChange(e)}
               value={amount}
             />
+          </div>
+          <div className="limit">
+            <div>available</div>
+            <div>{localStorage.getItem("balance") || 0}</div>
           </div>
         </div>
       </form>

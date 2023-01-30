@@ -33,7 +33,7 @@
       @include h3-regular;
       display: flex;
       flex-direction: column;
-      gap: to-rem(30px);
+      gap: to-rem(10px);
 
       input {
         height: to-rem(40px);
@@ -55,6 +55,13 @@
         gap: to-rem(10px);
         flex-direction: column;
       }
+
+      .limit {
+        font-size: to-rem(16px);
+        padding-top: to-rem(5px);
+        display: flex;
+        justify-content: space-between;
+      };
     }
   }
 

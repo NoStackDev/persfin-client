@@ -17,9 +17,7 @@ const ModalBudgetItemForm = ({
   prefillItemData,
 }: Props) => {
   const [title, setTitle] = useState<string>(prefillItemData?.title || "");
-  const [amount, setAmount] = useState<string>(
-    prefillItemData?.amount.toString() || "0"
-  );
+  const [amount, setAmount] = useState<number>(prefillItemData?.amount || 0);
   const [category, setCategory] = useState<CategoryType | Record | undefined>(
     undefined
   );
@@ -42,6 +40,13 @@ const ModalBudgetItemForm = ({
       setCategory(categoryData.find((obj) => obj.id === prefillItemData.id));
     }
   }, [categoryData, prefillItemData]);
+
+  const onAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (isNaN(Number(e.target.value))) {
+      return;
+    }
+    setAmount(Number(e.target.value));
+  };
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -82,7 +87,7 @@ const ModalBudgetItemForm = ({
             <label htmlFor="amount">amount</label>
             <input
               type="text"
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => onAmountChange(e)}
               value={amount}
             />
           </div>

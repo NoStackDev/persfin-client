@@ -54,6 +54,10 @@
       }
     }
 
+    &.balance {
+      @include theme-aware("color", "budget-color");
+    }
+
     &.budgets {
       @include theme-aware("color", "budget-color");
     }

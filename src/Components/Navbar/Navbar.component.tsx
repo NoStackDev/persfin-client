@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import pb from "../../lib/pocketbase";
 
 import navbarItems from "./NavbarConfig";
@@ -13,6 +13,14 @@ const Nav = (props: Props) => {
   const [selectedNav, setSelectedNav] = useState<number>(0);
   const navigate = useNavigate();
   const navbarRef = useRef<HTMLElement>(null);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const currentUrlPath = navbarItems.find(
+      (navObj) => navObj.link.split("/")[0] === pathname.split("/")[1]
+    );
+    setSelectedNav(currentUrlPath?.id || 0);
+  }, [pathname]);
 
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {

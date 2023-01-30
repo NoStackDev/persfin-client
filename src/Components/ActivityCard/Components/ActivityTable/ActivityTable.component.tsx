@@ -20,6 +20,8 @@ const icons = (_type: string): JSX.Element => {
     return <></>;
   }
   switch (_type.toLowerCase()) {
+    case "balance":
+      return <span className="material-icons"> account_balance_wallet</span>;
     case "budgets":
       return <span className="material-icons">pie_chart</span>;
     case "inflows":
@@ -80,6 +82,15 @@ const renderIconTitle = (activity: DataObj | null) => {
   }
 
   if (activity.collectionName === "savings") {
+    if ((activity as SavingsType).amount < 0) {
+      return (
+        <td className="icon-title-wrapper">
+          {icons("balance")}
+          <span className="title transfer">Transfered to balance</span>
+        </td>
+      );
+    }
+
     return (
       <td className="icon-title-wrapper">
         {icons(activity.collectionName)}
@@ -128,7 +139,9 @@ const renderAmount = (activity: DataObj | null) => {
       <td className="amount">
         <span className="material-icons">attach_money</span>
         <span>
-          {new Intl.NumberFormat().format((activity as BudgetType).total)}
+          {new Intl.NumberFormat().format(
+            Math.abs((activity as BudgetType).total)
+          )}
         </span>
       </td>
     );
@@ -139,11 +152,24 @@ const renderAmount = (activity: DataObj | null) => {
       <span className="material-icons">attach_money</span>
       <span>
         {new Intl.NumberFormat().format(
-          (activity as InflowType | OutflowType | SavingsType).amount
+          Math.abs((activity as InflowType | OutflowType | SavingsType).amount)
         )}
       </span>
     </td>
   );
+};
+
+const activityClassName = (activity: DataObj | null) => {
+  if (!activity) return null;
+
+  if (
+    activity.collectionName === "savings" &&
+    (activity as SavingsType).amount < 0
+  ) {
+    return "balance";
+  }
+
+  return activity.collectionName;
 };
 
 const ActivityTable = ({ activities }: Props) => {
@@ -187,7 +213,7 @@ const ActivityTable = ({ activities }: Props) => {
               <React.Fragment key={index}>
                 {renderDateHeader(activity, dateHeaders)}
                 <tr
-                  className={"activity " + activity?.collectionName}
+                  className={"activity " + activityClassName(activity)}
                   key={activity.id}
                 >
                   {renderIconTitle(activity)}
