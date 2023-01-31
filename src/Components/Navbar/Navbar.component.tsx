@@ -14,6 +14,16 @@ const Nav = (props: Props) => {
   const navigate = useNavigate();
   const navbarRef = useRef<HTMLElement>(null);
   const { pathname } = useLocation();
+  const [theme, setTheme] = useState<string>(
+    localStorage.getItem("theme") || "theme-light"
+  );
+
+  useEffect(() => {
+    document.documentElement.setAttribute(
+      "class",
+      localStorage.getItem("theme") || "theme-light"
+    );
+  });
 
   useEffect(() => {
     const currentUrlPath = navbarItems.find(
@@ -50,6 +60,18 @@ const Nav = (props: Props) => {
     pb.authStore.clear();
     localStorage.removeItem("userId");
     navigate("/login");
+  };
+
+  const switchTheme = () => {
+    if (theme === "theme-light") {
+      document.documentElement.setAttribute("class", "theme-dark");
+      localStorage.setItem("theme", "theme-dark");
+      setTheme("theme-dark");
+      return;
+    }
+    document.documentElement.setAttribute("class", "theme-light");
+    localStorage.setItem("theme", "theme-light");
+    setTheme("theme-light");
   };
 
   return (
@@ -92,10 +114,19 @@ const Nav = (props: Props) => {
           </ul>
         </div>
         <div className="bottomNav">
-          <div onClick={handleLogout}>
+          <div className="theme-wrapper" onClick={switchTheme}>
+            <button className="theme-switcher">
+              <div className={`sun-moon ${theme}`}></div>
+            </button>
+            <span>Theme</span>
+          </div>
+
+          <div className="logout-wrapper" onClick={handleLogout}>
             <span className="material-icons">exit_to_app</span>
             <div className="logout">Log out</div>
           </div>
+
+          <div className="user-email">{pb.authStore.model?.email}</div>
         </div>
       </nav>
     </>

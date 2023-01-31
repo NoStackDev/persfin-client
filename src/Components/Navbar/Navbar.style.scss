@@ -10,7 +10,7 @@ $Rufina: "Rufina", serif;
   grid-column: 1 / 2;
   grid-row: 1 / -1;
   z-index: 100;
-  height: 100%;
+  height: 120%;
 
   // filter
   &.open::after {
@@ -42,7 +42,7 @@ nav {
   display: flex;
   flex-direction: column;
   gap: to-rem(50px);
-  transition: 0.5s;
+  transition: width 0.5s;
 
   a {
     @include theme-aware("color", "header-color");
@@ -87,7 +87,7 @@ nav {
     .hamburger-menu-wrapper {
       position: absolute;
       right: to-rem(-50px);
-      top: to-rem(20px);
+      top: to-rem(10px);
       height: to-rem(30px);
       display: flex;
       align-items: center;
@@ -100,7 +100,7 @@ nav {
       @include breakpoint("m") {
         position: absolute;
         left: to-rem(15px);
-        top: to-rem(25px);
+        top: to-rem(20px);
       }
 
       &:hover {
@@ -153,7 +153,7 @@ nav {
   }
 
   .middleNav {
-    overflow-x: hidden;
+    overflow: hidden;
     flex-grow: 2;
 
     ul {
@@ -189,13 +189,105 @@ nav {
   }
 
   .bottomNav {
-    overflow-x: hidden;
+    overflow: hidden;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: to-rem(40px);
 
-    div {
+    .theme-wrapper {
+      display: flex;
+      align-items: center;
+      gap: to-rem(20px);
+      padding-left: to-rem(20px);
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      .theme-switcher {
+        opacity: 0.65;
+        position: relative;
+        border-radius: 5px;
+        width: 40px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.3s ease;
+        border: none;
+        outline: none;
+        background: none;
+        cursor: pointer;
+        appearance: none;
+        width: fit-content;
+
+        .sun-moon {
+          position: relative;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          border: none;
+          @include theme-aware("background-color", "card-bg-color");
+          transform: scale(1);
+          transition: all 0.45s ease;
+          overflow: hidden;
+          box-shadow: inset 8px -8px 0px 0px;
+          @include theme-aware("color", "header-color");
+
+          &.theme-dark {
+            border: 4px solid;
+            @include theme-aware("border-color", "header-color");
+            @include theme-aware("background-color", "header-color");
+            transform: scale(0.55);
+            transition: all 0.45s ease 0s;
+            overflow: visible;
+            box-shadow: none;
+
+            &::before {
+              content: "";
+              position: absolute;
+              right: -9px;
+              top: -9px;
+              height: 24px;
+              width: 24px;
+              border: 2px solid;
+              @include theme-aware("border-color", "header-color");
+              border-radius: 50%;
+              transform: translate(14px, -14px);
+              opacity: 0;
+              transition: transform 0.45s ease 0s;
+            }
+
+            &::after {
+              content: "";
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              margin: -4px 0px 0px -4px;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              box-shadow: 0 -23px 0, 0 23px 0, 23px 0 0, -23px 0 0, 15px 15px 0,
+                -15px 15px 0, 15px -15px 0, -15px -15px 0;
+              @include theme-aware("color", "header-color");
+              transform: scale(1);
+              transition: all 0.35s ease 0s;
+            }
+          }
+        }
+      }
+
+      & > span {
+        visibility: hidden;
+      }
+    }
+
+    .logout-wrapper {
       display: grid;
       grid-template-columns: max-content max-content;
       align-items: center;
+      gap: to-rem(20px);
       padding-inline: to-rem(20px);
 
       .logout {
@@ -204,6 +296,17 @@ nav {
 
       &:hover {
         cursor: pointer;
+      }
+    }
+
+    .user-email {
+      padding-inline: to-rem(20px);
+      word-wrap: break-word;
+      font-size: to-rem(18px);
+      visibility: hidden;
+
+      @include breakpoint("sm") {
+        display: none;
       }
     }
 
@@ -233,6 +336,14 @@ nav {
 
     .bottomNav {
       .logout {
+        visibility: visible;
+      }
+
+      .theme-wrapper > span {
+        visibility: visible;
+      }
+
+      .user-email {
         visibility: visible;
       }
     }

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import pb from "../../lib/pocketbase";
 import {
   useBudgetsQuery,
   useInflowsQuery,
@@ -36,8 +37,7 @@ const Topbar = (props: Props) => {
       <div className="leftTopbar appLogo">PERSFIN</div>
       <div className="middleTopbar">{date}</div>
       <div className="rightTopbar">
-        {/* <img src={profilePic} alt="profile" className="profilePic" /> */}
-        <span className="material-icons">person</span>
+        <span className="user-email">{pb.authStore.model?.email}</span>
       </div>
     </div>
   );

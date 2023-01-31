@@ -44,12 +44,25 @@
       }
     }
 
-    .type,
-    .date,
-    .created {
+    .type {
+      display: none;
+
+      @include breakpoint("m") {
+        display: table-cell;
+      }
+    }
+
+    .date {
       display: none;
 
       @include breakpoint("sm") {
+        display: table-cell;
+      }
+    }
+    .created {
+      display: none;
+
+      @include breakpoint("l") {
         display: table-cell;
       }
     }

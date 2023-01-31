@@ -10,6 +10,7 @@
   padding: to-rem(10px) to-rem(20px);
   display: grid;
   grid-template-columns: 2fr 1fr;
+  gap: to-rem(20px);
 
   @include breakpoint("m") {
     grid-template-columns: repeat(3, 1fr);
@@ -43,29 +44,14 @@
     justify-self: end;
     display: flex;
     align-items: center;
-    .profilePic {
-      height: to-rem(40px);
-      width: to-rem(40px);
-      border-radius: 50%;
 
-      @include breakpoint("m") {
-        height: to-rem(60px);
-        width: to-rem(60px);
+    .user-email {
+      display: none;
+      
+      @include breakpoint('sm') {
+        display: block
       }
-    }
-
-    .material-icons {
-      font-size: to-rem(40px);
-      border-radius: 50%;
-
-      @include breakpoint("m") {
-        font-size: to-rem(60px);
-      }
-    }
-
-    .profilePic:hover,
-    .material-icons:hover {
-      cursor: pointer;
+      @include theme-aware("color", "header-color");
     }
   }
 }
