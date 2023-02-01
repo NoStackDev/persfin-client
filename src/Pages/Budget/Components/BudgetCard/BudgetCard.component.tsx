@@ -60,7 +60,7 @@ const BudgetCard = ({
                 <li key={item.id}>
                   <span>{item.title}</span>
                   <div className="amount">
-                    <span className="material-icons">attach_money</span>
+                    &#x20A6;
                     <span className="number">{item.balance}</span>
                   </div>
                 </li>
@@ -71,14 +71,14 @@ const BudgetCard = ({
         <div className="budget-balance">
           <span>Balance</span>
           <div className="amount">
-            <span className="material-icons">attach_money</span>
+            &#x20A6;
             <span className="number">{budget.balance}</span>
           </div>
         </div>
         <div className="budget-total">
           <span>Total</span>
           <div className="amount">
-            <span className="material-icons">attach_money</span>
+            &#x20A6;
             <span className="number">{budget.total}</span>
           </div>
         </div>

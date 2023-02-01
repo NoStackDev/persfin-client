@@ -13,6 +13,7 @@
   gap: to-rem(20px);
 
   @include breakpoint("m") {
+    grid-column: 2 / 3;
     grid-template-columns: repeat(3, 1fr);
   }
 
@@ -27,7 +28,7 @@
       @include h1-bold;
       display: block;
       position: relative;
-      left: to-rem(50px);
+      // left: to-rem(50px);
     }
   }
 

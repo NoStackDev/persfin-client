@@ -132,7 +132,9 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
             </div>
             <div className="limit">
               <div>available</div>
-              <div>{item ? item.balance : localStorage.getItem("balance")}</div>
+              <div>
+                &#x20A6; {item ? item.balance : localStorage.getItem("balance")}
+              </div>
             </div>
           </div>
 
@@ -172,7 +174,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
             {budget ? (
               <div className="limit">
                 <div>available</div>
-                <div>{budget.balance}</div>
+                <div> &#x20A6; {budget.balance}</div>
               </div>
             ) : null}
           </div>
@@ -209,7 +211,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
               {item ? (
                 <div className="limit">
                   <div>available</div>
-                  <div>{item.balance}</div>
+                  <div> &#x20A6; {item.balance}</div>
                 </div>
               ) : null}
             </div>

@@ -11,20 +11,25 @@ $Rufina: "Rufina", serif;
   grid-row: 1 / -1;
   z-index: 100;
   height: 120%;
+  display: none;
 
   // filter
-  &.open::after {
-    content: "";
-    width: 100vw;
-    height: 100%;
-    position: absolute;
-    top: -10%;
-    left: 100%;
-    backdrop-filter: blur(2px);
+  &.open {
+    display: block;
 
-    @include breakpoint("m") {
-      content: unset;
-      grid-row: 2 / -1;
+    &::after {
+      content: "";
+      width: 100vw;
+      height: 100%;
+      position: absolute;
+      top: -10%;
+      left: 100%;
+      backdrop-filter: blur(2px);
+
+      @include breakpoint("m") {
+        content: unset;
+        grid-row: 2 / -1;
+      }
     }
   }
 }
@@ -57,7 +62,8 @@ nav {
 
   @include breakpoint("m") {
     width: to-rem(70px);
-    grid-row: 2 / -1;
+    // grid-row: 2 / -1;
+    padding-top: to-rem(54px);
     position: unset;
     display: grid;
     grid-template-rows: 3fr 1fr;
@@ -78,6 +84,7 @@ nav {
 
     .appLogo {
       @include h1-bold;
+      visibility: hidden;
 
       @include breakpoint("m") {
         display: none;
@@ -92,9 +99,14 @@ nav {
       display: flex;
       align-items: center;
       transition: 0.5s;
+      width: fit-content;
 
       &.open {
         right: to-rem(-30px);
+
+        @include breakpoint("m") {
+          left: to-rem(150px);
+        }
       }
 
       @include breakpoint("m") {
@@ -208,9 +220,9 @@ nav {
       .theme-switcher {
         opacity: 0.65;
         position: relative;
-        border-radius: 5px;
-        width: 40px;
-        height: 25px;
+        border-radius: to-rem(5px);
+        width: to-rem(40px);
+        height: to-rem(25px);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -224,19 +236,19 @@ nav {
 
         .sun-moon {
           position: relative;
-          width: 24px;
-          height: 24px;
+          width: to-rem(24px);
+          height: to-rem(24px);
           border-radius: 50%;
           border: none;
           @include theme-aware("background-color", "card-bg-color");
           transform: scale(1);
           transition: all 0.45s ease;
           overflow: hidden;
-          box-shadow: inset 8px -8px 0px 0px;
+          box-shadow: inset to-rem(8px) to-rem(-8px) to-rem(0px) to-rem(0px);
           @include theme-aware("color", "header-color");
 
           &.theme-dark {
-            border: 4px solid;
+            border: to-rem(4px) solid;
             @include theme-aware("border-color", "header-color");
             @include theme-aware("background-color", "header-color");
             transform: scale(0.55);
@@ -247,29 +259,31 @@ nav {
             &::before {
               content: "";
               position: absolute;
-              right: -9px;
-              top: -9px;
-              height: 24px;
-              width: 24px;
-              border: 2px solid;
+              right: to-rem(-9px);
+              top: to-rem(-9px);
+              height: to-rem(24px);
+              width: to-rem(24px);
+              border: to-rem(2px) solid;
               @include theme-aware("border-color", "header-color");
               border-radius: 50%;
-              transform: translate(14px, -14px);
+              transform: translate(to-rem(14px), to-rem(-14px));
               opacity: 0;
               transition: transform 0.45s ease 0s;
             }
 
             &::after {
               content: "";
-              width: 8px;
-              height: 8px;
+              width: to-rem(8px);
+              height: to-rem(8px);
               border-radius: 50%;
-              margin: -4px 0px 0px -4px;
+              margin: to-rem(-4px) to-rem(0px) to-rem(0px) to-rem(-4px);
               position: absolute;
               top: 50%;
               left: 50%;
-              box-shadow: 0 -23px 0, 0 23px 0, 23px 0 0, -23px 0 0, 15px 15px 0,
-                -15px 15px 0, 15px -15px 0, -15px -15px 0;
+              box-shadow: 0 to-rem(-23px) 0, 0 to-rem(23px) 0, to-rem(23px) 0 0,
+                to-rem(-23px) 0 0, to-rem(15px) to-rem(15px) 0,
+                to-rem(-15px) to-rem(15px) 0, to-rem(15px) to-rem(-15px) 0,
+                to-rem(-15px) to-rem(-15px) 0;
               @include theme-aware("color", "header-color");
               transform: scale(1);
               transition: all 0.35s ease 0s;
@@ -317,8 +331,13 @@ nav {
 
   // behaviour on open
   &.open {
-    padding-block: to-rem(13px) to-rem(20px);
+    padding-block: to-rem(5px) to-rem(20px);
     width: to-rem(200px);
+
+    @include breakpoint("m") {
+      // padding-block: 0px;
+      padding-top: to-rem(54px);
+    }
 
     .topNav {
       .appLogo {

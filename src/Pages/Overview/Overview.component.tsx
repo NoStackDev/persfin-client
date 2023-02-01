@@ -78,6 +78,7 @@ const Overview = (props: Props) => {
         </section>
         <section id="budgets">
           {budgetsData?.map((budget) => {
+            if (budget.exhausted) return null;
             return (
               <BudgetCard
                 budget={budget}

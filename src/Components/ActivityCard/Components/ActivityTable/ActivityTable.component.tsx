@@ -144,8 +144,8 @@ const renderAmount = (activity: DataObj | null) => {
   if (activity.collectionName === "budgets") {
     return (
       <td className="amount">
-        <span className="material-icons">attach_money</span>
         <span>
+          &#x20A6;
           {new Intl.NumberFormat().format(
             Math.abs((activity as BudgetType).total)
           )}
@@ -156,8 +156,8 @@ const renderAmount = (activity: DataObj | null) => {
 
   return (
     <td className="amount">
-      <span className="material-icons">attach_money</span>
       <span>
+        &#x20A6;
         {new Intl.NumberFormat().format(
           Math.abs((activity as InflowType | OutflowType | SavingsType).amount)
         )}
