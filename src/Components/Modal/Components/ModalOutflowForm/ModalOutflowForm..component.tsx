@@ -30,6 +30,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
     useState<boolean>(false);
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
   const modalOutflowFormRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(modalOutflowFormRef, setShowMainModal);
@@ -85,6 +86,22 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
     if (isNaN(Number(e.target.value))) {
       return;
     }
+
+    if (item && Number(e.target.value) > item.balance) {
+      setAmount(item.balance);
+      return;
+    }
+
+    if (
+      Number(e.target.value) >
+      Number(localStorage.getItem("balance")?.split(",").join("") || "0")
+    ) {
+      setAmount(
+        Number(localStorage.getItem("balance")?.split(",").join("") || "0")
+      );
+      return;
+    }
+
     setAmount(Number(e.target.value));
   };
 

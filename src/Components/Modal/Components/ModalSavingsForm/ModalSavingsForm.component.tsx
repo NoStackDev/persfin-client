@@ -16,8 +16,11 @@ const ModalSavingsForm = ({ setShowMainModal, mutation }: Props) => {
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    if (amount > parseFloat(localStorage.getItem("balance") || "0")) {
-      console.log('stop')
+    if (
+      amount >
+      Number(localStorage.getItem("balance")?.split(",").join("") || "0")
+    ) {
+      console.log("stop");
       return;
     }
     console.log("okay");
@@ -29,6 +32,17 @@ const ModalSavingsForm = ({ setShowMainModal, mutation }: Props) => {
     if (isNaN(Number(e.target.value))) {
       return;
     }
+
+    if (
+      Number(e.target.value) >
+      Number(localStorage.getItem("balance")?.split(",").join("") || "0")
+    ) {
+      setAmount(
+        Number(localStorage.getItem("balance")?.split(",").join("") || "0")
+      );
+      return;
+    }
+
     setAmount(Number(e.target.value));
   };
 
@@ -48,7 +62,7 @@ const ModalSavingsForm = ({ setShowMainModal, mutation }: Props) => {
           </div>
           <div className="limit">
             <div>available</div>
-            <div>{localStorage.getItem("balance") || 0}</div>
+            <div>&#x20A6; {localStorage.getItem("balance") || 0}</div>
           </div>
         </div>
       </form>
