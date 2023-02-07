@@ -29,6 +29,10 @@ const ModalBudgetForm = ({
   const [editItem, setEditItem] = useState<BudgetItemType | null>(null);
   const [showBudgetItemModal, setShowBudgetItemModal] =
     useState<boolean>(false);
+  const [formErrors, setFormErrors] = useState<{
+    title: string | null;
+    items: string | null;
+  }>({ title: null, items: null });
 
   const modalBudgetFormRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(modalBudgetFormRef, setShowMainModal);
@@ -38,11 +42,11 @@ const ModalBudgetForm = ({
       setItems(
         items.map((obj) => {
           if (obj.id === item.id) {
-            obj.title = item.title;
+            obj.title = item.title.trim();
             obj.amount = item.amount;
             obj.balance = item.amount - editItem.amount + editItem.balance;
             obj.category = item.category;
-            obj.description = item.description;
+            obj.description = item.description.trim();
 
             return obj;
           }
@@ -67,10 +71,18 @@ const ModalBudgetForm = ({
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
+    if (title.length < 1 || items.length < 1) {
+      setFormErrors({
+        title: title.length < 1 ? "required" : null,
+        items: items.length < 1 ? "minimum of one item required" : null,
+      });
+      return;
+    }
+
     if (prefillData) {
       mutation.mutate({
         budgetId: prefillData.id,
-        title,
+        title: title.trim(),
         total: items.reduce((prev, curr) => prev + curr.amount, 0),
         balance: items.reduce((prev, curr) => {
           const prefillDataItem = (
@@ -83,7 +95,7 @@ const ModalBudgetForm = ({
             (prefillDataItem?.balance || 0)
           );
         }, 0),
-        description,
+        description: description.trim(),
         items: items.map((item) => {
           const prefillDataItem = (
             (prefillData as BudgetType).items as BudgetItemType[]
@@ -102,10 +114,10 @@ const ModalBudgetForm = ({
     }
 
     mutation.mutate({
-      title,
+      title: title.trim(),
       total: items.reduce((prev, curr) => prev + curr.amount, 0),
       items,
-      description,
+      description: description.trim(),
     });
     setShowMainModal(false);
   };
@@ -116,6 +128,7 @@ const ModalBudgetForm = ({
 
       <form>
         <div className="form-body">
+          {/* title  */}
           <div className="title">
             <label htmlFor="title-input">Title</label>
             <input
@@ -124,7 +137,10 @@ const ModalBudgetForm = ({
               onChange={(e) => setTitle(e.target.value)}
               value={title}
             />
+            <p className="validation-message">{formErrors.title}</p>
           </div>
+
+          {/* budget  */}
           <div className="budget-items">
             <label htmlFor="">Item(s)</label>
             <div className="budget-items-container">
@@ -141,7 +157,7 @@ const ModalBudgetForm = ({
                       className="title-amount"
                       onClick={() => handleItemEdit({ ...item })}
                     >
-                      <div className="item-title">{item.title}</div>
+                      <div className="item-title">{item.title.trim()}</div>
                       <div className="amount">{item.amount}</div>
                     </div>
                   </div>
@@ -155,7 +171,10 @@ const ModalBudgetForm = ({
                 + add item
               </div>
             </div>
+            <p className="validation-message">{formErrors.items}</p>
           </div>
+
+          {/* description  */}
           <div className="description">
             <label htmlFor="description">Description</label>
             <textarea

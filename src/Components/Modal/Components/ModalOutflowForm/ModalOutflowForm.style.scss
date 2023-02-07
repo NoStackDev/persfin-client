@@ -53,12 +53,30 @@
         padding-top: 5px;
         @include theme-aware("background", "bg-color");
         border: none;
-        color: white;
+        @include theme-aware("color", "text-color");
         width: 100%;
 
         &:focus {
           @include theme-aware("outline-color", "header-color");
         }
+      }
+
+      .savings {
+        display: flex;
+        flex-direction: column;
+
+        &>div:nth-of-type(1) {
+          display: flex;
+          align-items: center;
+          gap: to-rem(10px);
+          font-size: to-rem(16px);
+  
+          input {
+            width: to-rem(16px);
+            height: to-rem(16px);
+          }
+        }
+
       }
 
       textarea {
@@ -69,7 +87,7 @@
         padding-top: 5px;
         @include theme-aware("background", "bg-color");
         border: none;
-        color: white;
+        @include theme-aware("color", "text-color");
 
         &:focus {
           @include theme-aware("outline-color", "header-color");
@@ -99,7 +117,7 @@
           padding-top: 5px;
           @include theme-aware("background", "bg-color");
           border: none;
-          color: white;
+          @include theme-aware("color", "text-color");
           width: 100%;
         }
 
@@ -115,7 +133,7 @@
           padding-block: 5px;
           @include theme-aware("background", "bg-color");
           border: none;
-          color: white;
+          @include theme-aware("color", "text-color");
           width: 100%;
           filter: drop-shadow(0px to-rem(2px) hsla(0, 0%, 0%, 0.2));
 
@@ -138,6 +156,11 @@
       padding-top: to-rem(5px);
       display: flex;
       justify-content: space-between;
+    }
+
+    .validation-message {
+      font-size: to-rem(16px);
+      @include theme-aware(color, "outflow-color");
     }
   }
 

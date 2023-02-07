@@ -61,7 +61,12 @@
         padding-top: to-rem(5px);
         display: flex;
         justify-content: space-between;
-      };
+      }
+    }
+
+    .validation-message {
+      font-size: to-rem(16px);
+      @include theme-aware(color, "outflow-color");
     }
   }
 

@@ -15,6 +15,7 @@
     gap: to-rem(40px);
     padding: to-rem(20px);
     @include theme-aware("background", "card-bg-color");
+    min-width: to-rem(320px);
 
     h1 {
       text-align: center;
@@ -28,7 +29,7 @@
       min-width: to-rem(250px);
 
       &.sign-up {
-        gap: to-rem(30px);
+        gap: to-rem(70px);
       }
 
       .form-set {
@@ -81,11 +82,13 @@
             animation-direction: reverse;
           }
         }
-      }
 
-      .validation-message {
-        width: 28ch;
-        font-size: to-rem(14px);
+        .validation-message {
+          position: relative;
+          top: to-rem(50px);
+          font-size: to-rem(14px);
+          @include theme-aware(color, 'outflow-color');
+        }
       }
 
       button {

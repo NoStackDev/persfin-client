@@ -64,13 +64,19 @@ const QuickActionBar = (props: Props) => {
   };
 
   const balance = useMemo(() => {
-    return calculateBalance(savingsData, inflowsData, outflowsData);
+    const balanceCalc = calculateBalance(
+      savingsData,
+      inflowsData,
+      outflowsData
+    );
+    localStorage.setItem("balance", balanceCalc.toString());
+    return balanceCalc;
   }, [savingsData, inflowsData, outflowsData]);
 
-  localStorage.setItem("balance", balance.toLocaleString());
-
   const savingsTotal = useMemo(() => {
-    return calculateSavings(savingsData);
+    const savingsCalc = calculateSavings(savingsData);
+    localStorage.setItem("savings", savingsCalc.toString());
+    return savingsCalc;
   }, [savingsData]);
 
   const getAmount = (title: string) => {

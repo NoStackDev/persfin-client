@@ -11,21 +11,24 @@ type Props = {
 const ModalSavingsForm = ({ setShowMainModal, mutation }: Props) => {
   const [amount, setAmount] = useState<number>(0);
   const modalSavingsFormRef = useRef<HTMLDivElement>(null);
+  const [formErrors, setFormErrors] = useState<{
+    amount: string | null;
+  }>({ amount: null });
+
   useOnClickOutside(modalSavingsFormRef, setShowMainModal);
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    if (
-      amount >
-      Number(localStorage.getItem("balance")?.split(",").join("") || "0")
-    ) {
-      console.log("stop");
+    if (amount <= 0) {
+      setFormErrors({
+        amount: amount <= 0 ? "must be greater than 0" : null,
+      });
       return;
     }
-    console.log("okay");
-    // mutation.mutate({ amount });
-    // setShowMainModal(false);
+
+    mutation.mutate({ amount });
+    setShowMainModal(false);
   };
 
   const onAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +63,7 @@ const ModalSavingsForm = ({ setShowMainModal, mutation }: Props) => {
               value={amount}
             />
           </div>
+          <p className="validation-message">{formErrors.amount}</p>
           <div className="limit">
             <div>available</div>
             <div>&#x20A6; {localStorage.getItem("balance") || 0}</div>

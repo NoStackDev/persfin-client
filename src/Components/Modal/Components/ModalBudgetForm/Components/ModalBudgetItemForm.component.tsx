@@ -26,6 +26,10 @@ const ModalBudgetItemForm = ({
   );
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
+  const [formErrors, setFormErrors] = useState<{
+    title: string | null;
+    amount: string | null;
+  }>({ title: null, amount: null });
 
   const modalBudgetItemFormRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(modalBudgetItemFormRef, setShowBudgetItemModal);
@@ -49,15 +53,22 @@ const ModalBudgetItemForm = ({
   };
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (title.length < 1 || amount <= 0) {
+      setFormErrors({
+        title: title.length < 1 ? "required" : null,
+        amount: amount <= 0 ? "must be greater than 0" : null,
+      });
+      return;
+    }
     e.preventDefault();
     const tempCategoryId = category ? category.id : null;
     handleItemAddition({
       id: prefillItemData?.id || Date.now().toString(),
-      title,
+      title: title.trim(),
       amount: Number(amount),
       balance: prefillItemData?.balance || Number(amount),
       category: tempCategoryId,
-      description,
+      description: description.trim(),
     });
     setShowBudgetItemModal(false);
   };
@@ -81,16 +92,16 @@ const ModalBudgetItemForm = ({
               onChange={(e) => setTitle(e.target.value)}
               value={title}
             />
+            <p className="validation-message">{formErrors.title}</p>
           </div>
+
           {/* amount  */}
           <div className="amount">
             <label htmlFor="amount">amount</label>
-            <input
-              type="text"
-              onChange={(e) => onAmountChange(e)}
-              value={amount}
-            />
+            <input type="text" onChange={(e) => onAmountChange(e)} />
+            <p className="validation-message">{formErrors.amount}</p>
           </div>
+
           {/* category  */}
           <div className="category" ref={categoryOptionsRef}>
             <label htmlFor="category-options-container">Category</label>
@@ -123,6 +134,7 @@ const ModalBudgetItemForm = ({
               })}
             </div>
           </div>
+
           {/* description  */}
           <div className="description">
             <label htmlFor="description">Description</label>

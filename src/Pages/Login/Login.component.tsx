@@ -19,12 +19,15 @@ const Login = (props: Props) => {
     password: false,
     confirmPassword: false,
   });
-  const [formErrors, setFormErrors] = useState({
+  const [formErrors, setFormErrors] = useState<{
+    email: string | null;
+    password: string | null;
+    confirmPassword: string | null;
+  }>({
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const [isValid, setIsValid] = useState(false);
   const [signUp, setSignUp] = useState(false);
 
   const createUserMutation = CreateUser();
@@ -45,25 +48,80 @@ const Login = (props: Props) => {
     return;
   };
 
-  const validate = () => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValues({ ...inputValues, [e.target.name]: e.target.value.trim() });
+
     // check email match @{domain name}.{domain}
     const formatPattern =
       /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+[.][A-za-z0-9.-]+$/gm;
-    // check length of password
+    // check password length
     const lengthPattern = /^([a-zA-Z0-9_-~!@$%&]){8,}$/;
-  };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValues({ ...inputValues, [e.target.name]: e.target.value });
+    switch (e.target.name) {
+      case "email":
+        if (!e.target.value.match(formatPattern)?.length) {
+          setFormErrors({
+            ...formErrors,
+            email: "format should be example@mail.com",
+          });
+        } else {
+          setFormErrors({
+            ...formErrors,
+            email: null,
+          });
+        }
+        break;
+
+      case "password":
+        if (!e.target.value.match(lengthPattern)?.length) {
+          setFormErrors({
+            ...formErrors,
+            password: "minimum length of 8 required",
+          });
+        } else {
+          setFormErrors({
+            ...formErrors,
+            password: null,
+          });
+        }
+        break;
+
+      case "confirmPassword":
+        // console.log("password: ", inputValues.password)
+        // console.log("confirm password: ", inputState.)
+        if (inputValues.password !== e.target.value) {
+          setFormErrors({
+            ...formErrors,
+            confirmPassword: "does not match password",
+          });
+        } else {
+          setFormErrors({
+            ...formErrors,
+            confirmPassword: null,
+          });
+        }
+        break;
+      default:
+        break;
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (signUp) {
-      // if (!isValid.email || !isValid.password || !isValid.confirmPassword) {
-      //   console.log("invalid");
-      //   return;
-      // }
+      if (
+        !formErrors.email ||
+        !formErrors.password ||
+        !formErrors.confirmPassword
+      ) {
+        console.log("invalid");
+        setFormErrors({
+          ...formErrors,
+          email: formErrors.email || "required",
+          password: formErrors.password || "required",
+        });
+        return;
+      }
 
       createUserMutation.mutate({
         email: inputValues.email,
@@ -83,8 +141,6 @@ const Login = (props: Props) => {
     return <Navigate replace to="/" />;
   }
 
-  console.log(inputValues);
-
   return (
     <>
       <div id="login">
@@ -101,7 +157,6 @@ const Login = (props: Props) => {
                 onFocus={() => setInputState({ ...inputState, email: true })}
                 onBlur={() => handleInputOnBlur(0)}
                 onChange={(e) => handleChange(e)}
-                // value={inputValues.email}
               />
               <label
                 htmlFor="email"
@@ -109,8 +164,10 @@ const Login = (props: Props) => {
               >
                 Email
               </label>
+              {signUp ? (
+                <p className="validation-message">{formErrors.email}</p>
+              ) : null}
             </div>
-            <p className="validation-message"></p>
             <div className="form-set">
               <input
                 type="password"
@@ -126,8 +183,10 @@ const Login = (props: Props) => {
               >
                 Password
               </label>
+              {signUp ? (
+                <p className="validation-message">{formErrors.password}</p>
+              ) : null}
             </div>
-            <p className="validation-message"></p>
             {signUp ? (
               <>
                 <div className="form-set">
@@ -149,8 +208,12 @@ const Login = (props: Props) => {
                   >
                     Confirm Password
                   </label>
+                  {signUp ? (
+                    <p className="validation-message">
+                      {formErrors.confirmPassword}
+                    </p>
+                  ) : null}
                 </div>
-                <p className="validation-message"></p>
               </>
             ) : null}
 

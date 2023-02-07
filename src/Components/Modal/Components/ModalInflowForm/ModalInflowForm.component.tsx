@@ -19,6 +19,11 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
 
+  const [formErrors, setFormErrors] = useState<{
+    title: string | null;
+    amount: string | null;
+  }>({ title: null, amount: null });
+
   const modalInflowFormRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(modalInflowFormRef, setShowMainModal);
 
@@ -26,11 +31,20 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+
+    if (title.length < 1 || amount <= 0) {
+      setFormErrors({
+        title: title.length < 1 ? "required" : null,
+        amount: amount <= 0 ? "must be greater than 0" : null,
+      });
+      return;
+    }
+
     mutation.mutate({
-      title,
+      title: title.trim(),
       amount,
       category: category?.id,
-      description,
+      description: description.trim(),
     });
     setShowMainModal(false);
   };
@@ -61,7 +75,9 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
               onChange={(e) => setTitle(e.target.value)}
               value={title}
             />
+            <p className="validation-message">{formErrors.title}</p>
           </div>
+
           {/* amount  */}
           <div className="amount">
             <label htmlFor="amount">amount</label>
@@ -70,7 +86,9 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
               onChange={(e) => onAmountChange(e)}
               value={amount}
             />
+            <p className="validation-message">{formErrors.amount}</p>
           </div>
+
           {/* category  */}
           <div className="category">
             <label htmlFor="category-options-container">Category</label>
@@ -78,7 +96,7 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
               className="category-selected"
               onClick={() => setShowCategoryOptions(!showCategoryOptions)}
             >
-              {category ? category.title : "Others"}
+              {category ? category.title.trim() : "Others"}
             </div>
             <div
               className={`category-options-container show-${showCategoryOptions}`}
@@ -97,12 +115,13 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
                     onClick={(e) => onCategoryChange(ele)}
                     key={ele.id}
                   >
-                    {ele.title}
+                    {ele.title.trim()}
                   </div>
                 );
               })}
             </div>
           </div>
+
           {/* description  */}
           <div className="description">
             <label htmlFor="description">Description</label>

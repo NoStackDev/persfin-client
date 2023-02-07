@@ -29,12 +29,16 @@ const CreateCategoryForm = ({
     e.preventDefault();
 
     if (prefillData) {
-      mutation.mutate({ categoryId: prefillData.id, title, description });
+      mutation.mutate({
+        categoryId: prefillData.id,
+        title: title.trim(),
+        description: description.trim(),
+      });
       setShowMainModal(false);
       return;
     }
 
-    mutation.mutate({ title, description });
+    mutation.mutate({ title: title.trim(), description: description.trim() });
     setShowMainModal(false);
   };
 

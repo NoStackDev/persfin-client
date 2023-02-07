@@ -7,7 +7,7 @@ import {
 import "./ModalOutflowForm.style.scss";
 import { BudgetType, BudgetItemType, CategoryType } from "../../../../TypeDefs";
 import { Record } from "pocketbase";
-import { UpdateBudget } from "../../../../Mutations";
+import { CreateSavings, UpdateBudget } from "../../../../Mutations";
 import { useOnClickOutside } from "../../../../Hooks";
 
 type Props = {
@@ -17,6 +17,7 @@ type Props = {
 
 const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
   const [title, setTitle] = useState<string>("");
+  const [takeFromSavings, setTakeFromSavings] = useState(false);
   const [amount, setAmount] = useState<number>(0);
   const [category, setCategory] = useState<CategoryType | Record | null>(null);
   const [budget, setBudget] = useState<BudgetType | Record | null>(null);
@@ -30,7 +31,10 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
     useState<boolean>(false);
   const [showCategoryOptions, setShowCategoryOptions] =
     useState<boolean>(false);
-  const [error, setError] = useState<boolean>(false);
+  const [formErrors, setFormErrors] = useState<{
+    title: string | null;
+    amount: string | null;
+  }>({ title: null, amount: null });
 
   const modalOutflowFormRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(modalOutflowFormRef, setShowMainModal);
@@ -39,9 +43,29 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
   const { data: budgetData } = useBudgetsQuery();
 
   const budgetMutation = UpdateBudget();
+  const savingsMutation = CreateSavings();
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+
+    if (title.length < 1 || amount <= 0) {
+      setFormErrors({
+        title: title.length < 0 ? "required" : null,
+        amount: amount <= 0 ? "must be greater than 0" : null,
+      });
+      return;
+    }
+
+    if (takeFromSavings) {
+      savingsMutation
+        .mutateAsync({
+          amount: -amount,
+        })
+        .catch((err) => {
+          throw new Error("deduction from savings failed");
+        });
+    }
+
     if (budget && item) {
       const updatedBudgetItems = budget.items.map((obj: BudgetItemType) => {
         if (obj.id !== item.id) return obj;
@@ -51,20 +75,20 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
       budgetMutation
         .mutateAsync({
           budgetId: budget.id,
-          title: budget.title,
+          title: budget.title.trim(),
           total: budget.total,
           balance: budget.balance - amount,
-          description: budget.description,
+          description: budget.description.trim(),
           items: updatedBudgetItems,
         })
         .then(() =>
           mutation.mutate({
-            title,
+            title: title.trim(),
             amount,
             budget: budget,
             item: item,
             category: category?.id || item?.category,
-            description,
+            description: description.trim(),
           })
         );
       setShowMainModal(false);
@@ -72,12 +96,12 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
     }
 
     mutation.mutate({
-      title,
+      title: title.trim(),
       amount,
       budget: budget,
       item: item,
       category: category?.id || item?.category,
-      description,
+      description: description.trim(),
     });
     setShowMainModal(false);
   };
@@ -87,22 +111,15 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
       return;
     }
 
-    if (item && Number(e.target.value) > item.balance) {
-      setAmount(item.balance);
-      return;
-    }
-
-    if (
-      Number(e.target.value) >
-      Number(localStorage.getItem("balance")?.split(",").join("") || "0")
-    ) {
-      setAmount(
-        Number(localStorage.getItem("balance")?.split(",").join("") || "0")
-      );
-      return;
-    }
-
-    setAmount(Number(e.target.value));
+    setAmount(
+      Math.min(
+        takeFromSavings
+          ? Number(localStorage.getItem("savings") || 0)
+          : Number(localStorage.getItem("balance") || 0),
+        Number(e.target.value),
+        item ? item.balance : Infinity
+      )
+    );
   };
 
   const onBudgetChange = (budget: BudgetType | Record | null) => {
@@ -110,11 +127,42 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
     setBudgetItems(budget?.items || null);
     setItem(budget ? budget.items[0] : null);
     setShowBudgetOptions(!showBudgetOptions);
+    setAmount(
+      Math.min(
+        takeFromSavings
+          ? Number(localStorage.getItem("savings") || 0)
+          : Number(localStorage.getItem("balance") || 0),
+        amount,
+        budget ? budget.items[0].amount : Infinity
+      )
+    );
   };
 
   const onBudgetItemChange = (item: BudgetItemType | null) => {
     setItem(item ? item : null);
     setShowBudgetItemsOptions(!showBudgetItemsOptions);
+    setAmount(
+      Math.min(
+        takeFromSavings
+          ? Number(localStorage.getItem("savings") || 0)
+          : Number(localStorage.getItem("balance") || 0),
+        amount,
+        item ? item.amount : Infinity
+      )
+    );
+  };
+
+  const onSavingsChange = () => {
+    setTakeFromSavings(!takeFromSavings);
+    setAmount(
+      Math.min(
+        !takeFromSavings
+          ? Number(localStorage.getItem("savings") || 0)
+          : Number(localStorage.getItem("balance") || 0),
+        amount,
+        item ? item.amount : Infinity
+      )
+    );
   };
 
   const onCategoryChange = (category: CategoryType | Record | null) => {
@@ -135,6 +183,20 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
               onChange={(e) => setTitle(e.target.value)}
               value={title}
             />
+            <p className="validation-message">{formErrors.title}</p>
+          </div>
+
+          {/* take from saving */}
+          <div className="savings">
+            <div>
+              <input
+                type="checkbox"
+                name="take_from_savings"
+                id=""
+                onChange={() => onSavingsChange()}
+              />
+              <label htmlFor="">take from savings</label>
+            </div>
           </div>
 
           {/* amount */}
@@ -144,13 +206,27 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
               <input
                 type="text"
                 onChange={(e) => onAmountChange(e)}
+                id="amount"
                 value={amount}
               />
+              <p className="validation-message">{formErrors.amount}</p>
             </div>
+            {item ? (
+              <div className="limit">
+                <div>item budget</div>
+                <div>
+                  &#x20A6;
+                  {item ? item.balance.toLocaleString() : null}
+                </div>
+              </div>
+            ) : null}
             <div className="limit">
-              <div>available</div>
+              <div>{takeFromSavings ? "savings" : "balance"}</div>
               <div>
-                &#x20A6; {item ? item.balance : localStorage.getItem("balance")}
+                &#x20A6;
+                {takeFromSavings
+                  ? Number(localStorage.getItem("savings")).toLocaleString()
+                  : Number(localStorage.getItem("balance")).toLocaleString()}
               </div>
             </div>
           </div>
@@ -162,7 +238,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
               className="budget-selected"
               onClick={() => setShowBudgetOptions(!showBudgetOptions)}
             >
-              {budget ? budget.title : "Unbudgeted"}
+              {budget ? budget.title.trim() : "Unbudgeted"}
             </div>
             <div
               className={`budget-options-container show-${showBudgetOptions}`}
@@ -182,7 +258,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
                       onClick={() => onBudgetChange(ele)}
                       key={ele.id}
                     >
-                      {ele.title}
+                      {ele.title.trim()}
                     </div>
                   );
                 return null;
@@ -206,7 +282,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
                   setShowBudgetItemsOptions(!showBudgetItemsOptions)
                 }
               >
-                {item ? item.title : null}
+                {item ? item.title.trim() : null}
               </div>
               <div
                 className={`budget-item-options-container show-${showBudgetItemsOptions}`}
@@ -242,7 +318,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
                 className="category-selected"
                 onClick={() => setShowCategoryOptions(!showCategoryOptions)}
               >
-                {category ? category.title : "Others"}
+                {category ? category.title.trim() : "Others"}
               </div>
               <div
                 className={`category-options-container show-${showCategoryOptions}`}
@@ -261,7 +337,7 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
                       onClick={() => onCategoryChange(ele)}
                       key={ele.id}
                     >
-                      {ele.title}
+                      {ele.title.trim()}
                     </div>
                   );
                 })}
