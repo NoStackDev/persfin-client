@@ -59,24 +59,27 @@
         &:focus {
           @include theme-aware("outline-color", "header-color");
         }
+
+        &:hover {
+          cursor: pointer;
+        }
       }
 
       .savings {
         display: flex;
         flex-direction: column;
 
-        &>div:nth-of-type(1) {
+        & > div:nth-of-type(1) {
           display: flex;
           align-items: center;
           gap: to-rem(10px);
           font-size: to-rem(16px);
-  
+
           input {
             width: to-rem(16px);
             height: to-rem(16px);
           }
         }
-
       }
 
       textarea {
@@ -148,6 +151,10 @@
         display: flex;
         gap: to-rem(10px);
         flex-direction: column;
+      }
+
+      .inputdiv:hover {
+        cursor: pointer;
       }
     }
 

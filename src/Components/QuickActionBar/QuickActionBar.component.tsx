@@ -90,7 +90,7 @@ const QuickActionBar = (props: Props) => {
       case "outflow":
         return outflowsData;
       case "budgets":
-        return budgetsData?.length;
+        return budgetsData?.filter((budget) => !budget.exhausted).length;
       default:
         return 0;
     }

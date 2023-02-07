@@ -16,21 +16,28 @@ type Props = {
 };
 
 const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
-  const [title, setTitle] = useState<string>("");
+  const [inputStates, setInputStates] = useState<{
+    title: string;
+    amount: number;
+    category: CategoryType | Record | null;
+    budget: BudgetType | Record | null;
+    budgetItems: BudgetItemType[] | null;
+    item: BudgetItemType | null;
+    description: string;
+  }>({
+    title: "",
+    amount: 0,
+    category: null,
+    budget: null,
+    budgetItems: null,
+    item: null,
+    description: "",
+  });
+
   const [takeFromSavings, setTakeFromSavings] = useState(false);
-  const [amount, setAmount] = useState<number>(0);
-  const [category, setCategory] = useState<CategoryType | Record | null>(null);
-  const [budget, setBudget] = useState<BudgetType | Record | null>(null);
-  const [budgetItems, setBudgetItems] = useState<BudgetItemType[] | null>(null);
-  const [item, setItem] = useState<BudgetItemType | null>(
-    budgetItems ? budgetItems[0] : null
-  );
-  const [description, setDescription] = useState<string>("");
-  const [showBudgetOptions, setShowBudgetOptions] = useState<boolean>(false);
-  const [showBudgetItemsOptions, setShowBudgetItemsOptions] =
-    useState<boolean>(false);
-  const [showCategoryOptions, setShowCategoryOptions] =
-    useState<boolean>(false);
+  const [showBudgetOptions, setShowBudgetOptions] = useState(false);
+  const [showBudgetItemsOptions, setShowBudgetItemsOptions] = useState(false);
+  const [showCategoryOptions, setShowCategoryOptions] = useState(false);
   const [formErrors, setFormErrors] = useState<{
     title: string | null;
     amount: string | null;
@@ -38,6 +45,12 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
 
   const modalOutflowFormRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(modalOutflowFormRef, setShowMainModal);
+  const budgetRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(budgetRef, setShowBudgetOptions);
+  const budgetItemsRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(budgetItemsRef, setShowBudgetItemsOptions);
+  const categoryRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(categoryRef, setShowCategoryOptions);
 
   const { data: categoryData } = useOutflowCategoriesQuery();
   const { data: budgetData } = useBudgetsQuery();
@@ -48,10 +61,10 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    if (title.length < 1 || amount <= 0) {
+    if (inputStates.title.length < 1 || inputStates.amount <= 0) {
       setFormErrors({
-        title: title.length < 0 ? "required" : null,
-        amount: amount <= 0 ? "must be greater than 0" : null,
+        title: inputStates.title.length < 0 ? "required" : null,
+        amount: inputStates.amount <= 0 ? "must be greater than 0" : null,
       });
       return;
     }
@@ -59,36 +72,38 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
     if (takeFromSavings) {
       savingsMutation
         .mutateAsync({
-          amount: -amount,
+          amount: -inputStates.amount,
         })
         .catch((err) => {
           throw new Error("deduction from savings failed");
         });
     }
 
-    if (budget && item) {
-      const updatedBudgetItems = budget.items.map((obj: BudgetItemType) => {
-        if (obj.id !== item.id) return obj;
-        obj.balance = obj.balance - amount;
-        return obj;
-      });
+    if (inputStates.budget && inputStates.item) {
+      const updatedBudgetItems = inputStates.budget.items.map(
+        (obj: BudgetItemType) => {
+          if (obj.id !== inputStates.item?.id) return obj;
+          obj.balance = obj.balance - inputStates.amount;
+          return obj;
+        }
+      );
       budgetMutation
         .mutateAsync({
-          budgetId: budget.id,
-          title: budget.title.trim(),
-          total: budget.total,
-          balance: budget.balance - amount,
-          description: budget.description.trim(),
+          budgetId: inputStates.budget.id,
+          title: inputStates.budget.title.trim(),
+          total: inputStates.budget.total,
+          balance: inputStates.budget.balance - inputStates.amount,
+          description: inputStates.budget.description.trim(),
           items: updatedBudgetItems,
         })
         .then(() =>
           mutation.mutate({
-            title: title.trim(),
-            amount,
-            budget: budget,
-            item: item,
-            category: category?.id || item?.category,
-            description: description.trim(),
+            title: inputStates.title.trim(),
+            amount: inputStates.amount,
+            budget: inputStates.budget,
+            item: inputStates.item,
+            category: inputStates.category?.id || inputStates.item?.category,
+            description: inputStates.description.trim(),
           })
         );
       setShowMainModal(false);
@@ -96,12 +111,12 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
     }
 
     mutation.mutate({
-      title: title.trim(),
-      amount,
-      budget: budget,
-      item: item,
-      category: category?.id || item?.category,
-      description: description.trim(),
+      title: inputStates.title.trim(),
+      amount: inputStates.amount,
+      budget: inputStates.budget,
+      item: inputStates.item,
+      category: inputStates.category?.id || inputStates.item?.category,
+      description: inputStates.description.trim(),
     });
     setShowMainModal(false);
   };
@@ -111,62 +126,66 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
       return;
     }
 
-    setAmount(
-      Math.min(
+    setInputStates({
+      ...inputStates,
+      amount: Math.min(
         takeFromSavings
           ? Number(localStorage.getItem("savings") || 0)
           : Number(localStorage.getItem("balance") || 0),
         Number(e.target.value),
-        item ? item.balance : Infinity
-      )
-    );
+        inputStates.item ? inputStates.item.balance : Infinity
+      ),
+    });
   };
 
   const onBudgetChange = (budget: BudgetType | Record | null) => {
-    setBudget(budget);
-    setBudgetItems(budget?.items || null);
-    setItem(budget ? budget.items[0] : null);
-    setShowBudgetOptions(!showBudgetOptions);
-    setAmount(
-      Math.min(
+    setInputStates({
+      ...inputStates,
+      budget: budget,
+      budgetItems: budget?.items,
+      item: budget?.items[0],
+      amount: Math.min(
         takeFromSavings
           ? Number(localStorage.getItem("savings") || 0)
           : Number(localStorage.getItem("balance") || 0),
-        amount,
+        inputStates.amount,
         budget ? budget.items[0].amount : Infinity
-      )
-    );
+      ),
+    });
+    setShowBudgetOptions(!showBudgetOptions);
   };
 
   const onBudgetItemChange = (item: BudgetItemType | null) => {
-    setItem(item ? item : null);
-    setShowBudgetItemsOptions(!showBudgetItemsOptions);
-    setAmount(
-      Math.min(
+    setInputStates({
+      ...inputStates,
+      item: item,
+      amount: Math.min(
         takeFromSavings
           ? Number(localStorage.getItem("savings") || 0)
           : Number(localStorage.getItem("balance") || 0),
-        amount,
+        inputStates.amount,
         item ? item.amount : Infinity
-      )
-    );
+      ),
+    });
+    setShowBudgetItemsOptions(!showBudgetItemsOptions);
   };
 
   const onSavingsChange = () => {
     setTakeFromSavings(!takeFromSavings);
-    setAmount(
-      Math.min(
+    setInputStates({
+      ...inputStates,
+      amount: Math.min(
         !takeFromSavings
           ? Number(localStorage.getItem("savings") || 0)
           : Number(localStorage.getItem("balance") || 0),
-        amount,
-        item ? item.amount : Infinity
-      )
-    );
+        inputStates.amount,
+        inputStates.item ? inputStates.item.amount : Infinity
+      ),
+    });
   };
 
   const onCategoryChange = (category: CategoryType | Record | null) => {
-    setCategory(category);
+    setInputStates({ ...inputStates, category: category });
     setShowCategoryOptions(!showCategoryOptions);
   };
 
@@ -180,8 +199,10 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
             <label htmlFor="title">Title</label>
             <input
               type="text"
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
+              onChange={(e) =>
+                setInputStates({ ...inputStates, title: e.target.value })
+              }
+              value={inputStates.title}
             />
             <p className="validation-message">{formErrors.title}</p>
           </div>
@@ -207,16 +228,18 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
                 type="text"
                 onChange={(e) => onAmountChange(e)}
                 id="amount"
-                value={amount}
+                value={inputStates.amount}
               />
               <p className="validation-message">{formErrors.amount}</p>
             </div>
-            {item ? (
+            {inputStates.item ? (
               <div className="limit">
                 <div>item budget</div>
                 <div>
                   &#x20A6;
-                  {item ? item.balance.toLocaleString() : null}
+                  {inputStates.item
+                    ? inputStates.item.balance.toLocaleString()
+                    : null}
                 </div>
               </div>
             ) : null}
@@ -232,29 +255,34 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
           </div>
 
           {/* budgets  */}
-          <div className="budget">
+          <div className="budget" ref={budgetRef}>
             <label htmlFor="budget-options-container">Budget</label>
             <div
-              className="budget-selected"
+              className="budget-selected inputdiv"
               onClick={() => setShowBudgetOptions(!showBudgetOptions)}
             >
-              {budget ? budget.title.trim() : "Unbudgeted"}
+              {inputStates.budget
+                ? inputStates.budget.title.trim()
+                : "Unbudgeted"}
             </div>
             <div
               className={`budget-options-container show-${showBudgetOptions}`}
             >
               <div
-                className="budget-options"
+                className="budget-options inputdiv"
                 onClick={() => onBudgetChange(null)}
               >
-                {budget ? "Unbudgeted" : null}
+                {inputStates.budget ? "Unbudgeted" : null}
               </div>
 
               {budgetData?.map((ele) => {
-                if (ele.exhausted === false && ele.id !== budget?.id)
+                if (
+                  ele.exhausted === false &&
+                  ele.id !== inputStates.budget?.id
+                )
                   return (
                     <div
-                      className="budget-options"
+                      className="budget-options inputdiv"
                       onClick={() => onBudgetChange(ele)}
                       key={ele.id}
                     >
@@ -264,34 +292,34 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
                 return null;
               })}
             </div>
-            {budget ? (
+            {inputStates.budget ? (
               <div className="limit">
                 <div>available</div>
-                <div> &#x20A6; {budget.balance}</div>
+                <div> &#x20A6; {inputStates.budget.balance}</div>
               </div>
             ) : null}
           </div>
 
           {/* budget items  */}
-          {budget ? (
-            <div className="budget-item">
+          {inputStates.budget ? (
+            <div className="budget-item" ref={budgetItemsRef}>
               <label htmlFor="budget-item-options-container">Items</label>
               <div
-                className="budget-item-selected"
+                className="budget-item-selected inputdiv"
                 onClick={() =>
                   setShowBudgetItemsOptions(!showBudgetItemsOptions)
                 }
               >
-                {item ? item.title.trim() : null}
+                {inputStates.item ? inputStates.item.title.trim() : null}
               </div>
               <div
                 className={`budget-item-options-container show-${showBudgetItemsOptions}`}
               >
-                {budgetItems?.map((ele: BudgetItemType) => {
-                  if (ele.id !== item?.id)
+                {inputStates.budgetItems?.map((ele: BudgetItemType) => {
+                  if (ele.id !== inputStates.item?.id)
                     return (
                       <div
-                        className="budget-item-options"
+                        className="budget-item-options inputdiv"
                         onClick={() => onBudgetItemChange(ele)}
                         key={ele.id}
                       >
@@ -301,39 +329,41 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
                   return null;
                 })}
               </div>
-              {item ? (
+              {inputStates.item ? (
                 <div className="limit">
                   <div>available</div>
-                  <div> &#x20A6; {item.balance}</div>
+                  <div> &#x20A6; {inputStates.item.balance}</div>
                 </div>
               ) : null}
             </div>
           ) : null}
 
           {/* category  */}
-          {budget ? null : (
-            <div className="category">
+          {inputStates.budget ? null : (
+            <div className="category" ref={categoryRef}>
               <label htmlFor="category-options-container">Category</label>
               <div
-                className="category-selected"
+                className="category-selected inputdiv"
                 onClick={() => setShowCategoryOptions(!showCategoryOptions)}
               >
-                {category ? category.title.trim() : "Others"}
+                {inputStates.category
+                  ? inputStates.category.title.trim()
+                  : "Others"}
               </div>
               <div
                 className={`category-options-container show-${showCategoryOptions}`}
               >
                 <div
-                  className="category-options"
+                  className="category-options inputdiv"
                   onClick={() => onCategoryChange(null)}
                 >
-                  {category ? "Others" : null}
+                  {inputStates.category ? "Others" : null}
                 </div>
 
                 {categoryData?.map((ele) => {
                   return (
                     <div
-                      className="category-options"
+                      className="category-options inputdiv"
                       onClick={() => onCategoryChange(ele)}
                       key={ele.id}
                     >
@@ -352,8 +382,10 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
               name="description"
               id="description-text-area"
               rows={2}
-              onChange={(e) => setDescription(e.target.value)}
-              value={description}
+              onChange={(e) =>
+                setInputStates({ ...inputStates, description: e.target.value })
+              }
+              value={inputStates.description}
             ></textarea>
           </div>
         </div>

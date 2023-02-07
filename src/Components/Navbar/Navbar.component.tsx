@@ -53,7 +53,7 @@ const Nav = (props: Props) => {
 
   const handleNavClick = (navItemId: number) => {
     setSelectedNav(navItemId);
-    // setNavbarOpen(false);
+    setNavbarOpen(false);
   };
 
   const handleLogout = () => {
