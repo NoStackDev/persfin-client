@@ -134,11 +134,15 @@ const ManageCategoryForm = ({ categoryType, setShowMainModal }: Props) => {
 
       <Spinner
         mutation={updateMutation[categoryType]}
-        message={"updating category"}
+        loadingMessage={"updating category"}
+        successMessage={"updated category"}
+        failMessage={"failed to update category"}
       />
       <Spinner
         mutation={deleteMutation[categoryType]}
-        message={"deleting category"}
+        loadingMessage={"deleting category"}
+        successMessage={"deleted category"}
+        failMessage={"failed to delete category"}
       />
     </>
   );

@@ -4,10 +4,17 @@ import "./Spinner.style.scss";
 
 type Props = {
   mutation: UseMutationResult<any, unknown, any, unknown> | null;
-  message?: string;
+  loadingMessage: string;
+  successMessage: string;
+  failMessage: string;
 };
 
-const Spinner = ({ mutation, message }: Props) => {
+const Spinner = ({
+  mutation,
+  loadingMessage,
+  successMessage,
+  failMessage,
+}: Props) => {
   const createdrRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -22,7 +29,7 @@ const Spinner = ({ mutation, message }: Props) => {
     status = "loading";
     return (
       <div id="spinner-container" className={status}>
-        <span>{message?.trim().toLocaleLowerCase()}</span>
+        <span>{loadingMessage?.trim().toLocaleLowerCase()}</span>
         <div id="spinner"></div>
       </div>
     );
@@ -31,10 +38,10 @@ const Spinner = ({ mutation, message }: Props) => {
     status = "error";
     createdrRef.current = window.setTimeout(() => {
       mutation?.reset();
-    }, 5000);
+    }, 3000);
     return (
       <div id="spinner-container" className={status}>
-        <span>failed</span>
+        <span>{failMessage}</span>
         <div id="spinner"></div>
       </div>
     );
@@ -43,10 +50,10 @@ const Spinner = ({ mutation, message }: Props) => {
     status = "success";
     createdrRef.current = window.setTimeout(() => {
       mutation?.reset();
-    }, 5000);
+    }, 3000);
     return (
       <div id="spinner-container" className={status}>
-        <span>successful</span>
+        <span>{successMessage}</span>
         <div id="spinner"></div>
       </div>
     );

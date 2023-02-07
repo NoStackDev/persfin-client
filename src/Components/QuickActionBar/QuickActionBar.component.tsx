@@ -132,8 +132,15 @@ const QuickActionBar = (props: Props) => {
 
       <Spinner
         mutation={selectedFormId ? mutations[selectedFormId] : null}
-        message={
+        loadingMessage={
           "adding " + quickActions[selectedFormId ? selectedFormId : 0]["title"]
+        }
+        successMessage={
+          "added " + quickActions[selectedFormId ? selectedFormId : 0]["title"]
+        }
+        failMessage={
+          "failed to added " +
+          quickActions[selectedFormId ? selectedFormId : 0]["title"]
         }
       />
     </>

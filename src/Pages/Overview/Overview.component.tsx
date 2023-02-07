@@ -99,9 +99,19 @@ const Overview = (props: Props) => {
           mutation={updateBudgetMutation}
           prefillData={selecedBudget}
         />
-      ) : null}{" "}
-      <Spinner mutation={updateBudgetMutation} message={"updating budget"} />
-      <Spinner mutation={deleteBudgetMutation} message={"deleting budget"} />
+      ) : null}
+      <Spinner
+        mutation={updateBudgetMutation}
+        loadingMessage={"updating budget"}
+        successMessage={"updated budget"}
+        failMessage={"failed to update budget"}
+      />
+      <Spinner
+        mutation={deleteBudgetMutation}
+        loadingMessage={"deleting budget"}
+        successMessage={"deleted budget"}
+        failMessage={"failed to delete budget"}
+      />
     </>
   );
 };

@@ -241,8 +241,18 @@ const Login = (props: Props) => {
           )}
         </div>
       </div>
-      <Spinner mutation={createUserMutation} message={"signing up"} />
-      <Spinner mutation={authUserMutation} message={"logging in"} />
+      <Spinner
+        mutation={createUserMutation}
+        loadingMessage={"signing up"}
+        successMessage={"signed up"}
+        failMessage={"failed"}
+      />
+      <Spinner
+        mutation={authUserMutation}
+        loadingMessage={"sign in"}
+        successMessage={"signed in"}
+        failMessage={"incorrect email or password"}
+      />
     </>
   );
 };

@@ -170,7 +170,9 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
     setShowBudgetItemsOptions(!showBudgetItemsOptions);
   };
 
-  const onSavingsChange = () => {
+  const onSavingsChange = (e: React.MouseEvent<HTMLDivElement>) => {
+    (document.getElementById("take-from-savings") as HTMLInputElement).checked =
+      takeFromSavings ? false : true;
     setTakeFromSavings(!takeFromSavings);
     setInputStates({
       ...inputStates,
@@ -208,16 +210,13 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
           </div>
 
           {/* take from saving */}
-          <div className="savings">
-            <div>
+          <div className="savings" onClick={(e) => onSavingsChange(e)}>
               <input
                 type="checkbox"
                 name="take_from_savings"
-                id=""
-                onChange={() => onSavingsChange()}
+                id="take-from-savings"
               />
               <label htmlFor="">take from savings</label>
-            </div>
           </div>
 
           {/* amount */}

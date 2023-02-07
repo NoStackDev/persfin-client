@@ -51,7 +51,9 @@ const ActionCard = ({ title, categoriesNum, categoryType }: Props) => {
       ) : null}
       <Spinner
         mutation={selectedFormId ? mutations[categoryType] : null}
-        message={"adding category"}
+        loadingMessage={"adding category"}
+        successMessage={"added category"}
+        failMessage={"failed to add category"}
       />
     </>
   );

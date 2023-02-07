@@ -67,18 +67,18 @@
 
       .savings {
         display: flex;
-        flex-direction: column;
+        width: fit-content;
+        align-items: center;
+        gap: to-rem(10px);
+        font-size: to-rem(18px);
 
-        & > div:nth-of-type(1) {
-          display: flex;
-          align-items: center;
-          gap: to-rem(10px);
-          font-size: to-rem(16px);
+        input {
+          width: to-rem(18px);
+          height: to-rem(18px);
+        }
 
-          input {
-            width: to-rem(16px);
-            height: to-rem(16px);
-          }
+        &:hover {
+          cursor: pointer;
         }
       }
 
