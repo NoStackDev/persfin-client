@@ -1,5 +1,5 @@
 import PocketBase from "pocketbase";
 
-const pb = new PocketBase(process.env.REACT_APP_PB_URL);
+const pb = new PocketBase("https://tall-addition.pockethost.io");
 
 export default pb;
