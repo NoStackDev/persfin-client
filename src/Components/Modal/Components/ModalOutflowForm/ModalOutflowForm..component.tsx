@@ -278,9 +278,18 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
                     className="budget-selected inputdiv"
                     onClick={() => setShowBudgetOptions(!showBudgetOptions)}
                   >
-                    {inputStates.budget
-                      ? inputStates.budget.title.trim()
-                      : "Unbudgeted"}
+                    <div>
+                      {inputStates.budget
+                        ? inputStates.budget.title.trim()
+                        : "Unbudgeted"}
+                    </div>
+                    <span
+                      className={`material-icons ${
+                        showBudgetOptions ? "open" : null
+                      }`}
+                    >
+                      expand_more
+                    </span>
                   </div>
                   <div
                     className={`budget-options-container show-${showBudgetOptions}`}
@@ -327,7 +336,18 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
                         setShowBudgetItemsOptions(!showBudgetItemsOptions)
                       }
                     >
-                      {inputStates.item ? inputStates.item.title.trim() : null}
+                      <div>
+                        {inputStates.item
+                          ? inputStates.item.title.trim()
+                          : null}
+                      </div>
+                      <span
+                        className={`material-icons ${
+                          showBudgetItemsOptions ? "open" : null
+                        }`}
+                      >
+                        expand_more
+                      </span>
                     </div>
                     <div
                       className={`budget-item-options-container show-${showBudgetItemsOptions}`}
@@ -365,9 +385,18 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
                         setShowCategoryOptions(!showCategoryOptions)
                       }
                     >
-                      {inputStates.category
-                        ? inputStates.category.title.trim()
-                        : "Others"}
+                      <div>
+                        {inputStates.category
+                          ? inputStates.category.title.trim()
+                          : "Others"}
+                      </div>
+                      <span
+                        className={`material-icons ${
+                          showCategoryOptions ? "open" : null
+                        }`}
+                      >
+                        expand_more
+                      </span>
                     </div>
                     <div
                       className={`category-options-container show-${showCategoryOptions}`}

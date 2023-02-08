@@ -121,7 +121,14 @@ const ModalBudgetItemForm = ({
                     className="category-selected"
                     onClick={() => setShowCategoryOptions(!showCategoryOptions)}
                   >
-                    {category ? category.title : "Others"}
+                    <div> {category ? category.title : "Others"}</div>
+                    <span
+                      className={`material-icons ${
+                        showCategoryOptions ? "open" : null
+                      }`}
+                    >
+                      expand_more
+                    </span>
                   </div>
                   <div
                     className={`category-options-container show-${showCategoryOptions}`}

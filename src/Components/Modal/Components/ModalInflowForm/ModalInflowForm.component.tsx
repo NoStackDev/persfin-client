@@ -120,9 +120,18 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
                     className="category-selected"
                     onClick={() => setShowCategoryOptions(!showCategoryOptions)}
                   >
-                    {inputValues.category
-                      ? inputValues.category.title.trim()
-                      : "Others"}
+                    <div>
+                      {inputValues.category
+                        ? inputValues.category.title.trim()
+                        : "Others"}
+                    </div>
+                    <span
+                      className={`material-icons ${
+                        showCategoryOptions ? "open" : null
+                      }`}
+                    >
+                      expand_more
+                    </span>
                   </div>
                   <div
                     className={`category-options-container show-${showCategoryOptions}`}

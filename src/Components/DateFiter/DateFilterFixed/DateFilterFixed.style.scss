@@ -13,9 +13,21 @@
   }
 
   .selected-option {
-    padding-block: to-rem(5px);
-    padding-inline: to-rem(12px);
+    padding-inline: to-rem(10px) to-rem(5px);
     @include theme-aware("background", "bg-color");
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: to-rem(3px);
+
+    .material-icons {
+      font-size: to-rem(24px);
+      transition: transform 0.3s ease;
+
+      &.open {
+        transform: rotate(180deg);
+      }
+    }
   }
 
   .filter-option-container {
@@ -30,7 +42,8 @@
 
     .filter-option {
       width: 100%;
-      text-align: center;
+      text-align: left;
+      padding-left: to-rem(10px);
 
       &:hover {
         transform: scale(1.05);

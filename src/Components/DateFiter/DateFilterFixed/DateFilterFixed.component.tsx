@@ -33,7 +33,12 @@ const DateFilterFixed = ({ setFilterRange }: SetFilterRange) => {
       className="date-filter-fixed"
       ref={dateFilterFixedRef}
     >
-      <div className="selected-option">{selectedOption.title}</div>
+      <div className="selected-option">
+        <div>{selectedOption.title}</div>
+        <span className={`material-icons ${showOptions ? "open" : null}`}>
+          expand_more
+        </span>
+      </div>
       {showOptions ? (
         <div className="filter-option-container">
           {createdRange.map((createdObj) => {

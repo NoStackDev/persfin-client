@@ -7,7 +7,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: to-rem(20px);
+  padding-block: to-rem(20px);
   @include theme-aware("background", "card-bg-color");
   border-radius: to-rem(12px);
   min-width: to-rem(335px);
@@ -24,6 +24,7 @@
   }
 
   form {
+    padding-inline: to-rem(20px);
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -44,6 +45,7 @@
       display: flex;
       flex-direction: column;
       gap: to-rem(30px);
+      padding-bottom: to-rem(10px);
 
       input {
         height: to-rem(40px);
@@ -97,6 +99,19 @@
           border: none;
           @include theme-aware("color", "text-color");
           width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-right: to-rem(5px);
+
+          .material-icons {
+            font-size: to-rem(24px);
+            transition: transform .3s ease;
+
+            &.open {
+              transform: rotate(180deg);
+            }
+          }
         }
 
         .category-options-container {
@@ -152,3 +167,4 @@
     }
   }
 }
+

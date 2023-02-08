@@ -35,7 +35,12 @@ const CategorySelector = ({ categories, setSelectedCategory }: Props) => {
       onClick={() => setShowOptions(!showOptions)}
       ref={categorySelectorRef}
     >
-      <div className="selected-option">{selectedOption}</div>
+      <div className="selected-option">
+        <div>{selectedOption}</div>
+        <span className={`material-icons ${showOptions ? "open" : null}`}>
+          expand_more
+        </span>
+      </div>
 
       {showOptions ? (
         <div className="options-container">
