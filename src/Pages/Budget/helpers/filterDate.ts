@@ -19,8 +19,8 @@ const filterDate = (
   const range = filterRange.range();
   const filteredData = data.filter((obj) => {
     return (
-      range.min <= new Date(Number(obj.created)) &&
-      new Date(Number(obj.created)) <=
+      range.min <= new Date(obj.created) &&
+      new Date(obj.created) <=
         new Date(
           range.max.getTime() +
             (1000 * 60 * 60 * 22 + 1000 * 60 * 59 + 1000 * 59)
