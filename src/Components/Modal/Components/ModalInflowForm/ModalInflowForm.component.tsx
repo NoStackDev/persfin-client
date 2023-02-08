@@ -5,6 +5,9 @@ import { useInflowCategoriesQuery } from "../../../../Queries";
 import { CategoryType } from "../../../../TypeDefs";
 import { Record } from "pocketbase";
 import { useOnClickOutside } from "../../../../Hooks";
+import { CreateInflowCategory } from "../../../../Mutations";
+import { CreateCategoryForm } from "../ModalCategoryForm";
+import Spinner from "../../../Spinner";
 
 type Props = {
   setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,45 +15,61 @@ type Props = {
 };
 
 const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
-  const [title, setTitle] = useState<string>("");
-  const [amount, setAmount] = useState<number>(0);
-  const [category, setCategory] = useState<CategoryType | Record | null>(null);
-  const [description, setDescription] = useState<string>("");
-  const [showCategoryOptions, setShowCategoryOptions] =
-    useState<boolean>(false);
+  const [inputValues, setInputValues] = useState<{
+    title: string;
+    amount: number;
+    category: CategoryType | Record | null;
+    description: string;
+  }>({
+    title: "",
+    amount: 0,
+    category: null,
+    description: "",
+  });
 
   const [formErrors, setFormErrors] = useState<{
     title: string | null;
     amount: string | null;
   }>({ title: null, amount: null });
 
+  const [showCategoryOptions, setShowCategoryOptions] =
+    useState<boolean>(false);
+
+  const [showCreateCategoryModal, setShowCreateCategoryModal] = useState(false);
+
   const modalInflowFormRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(modalInflowFormRef, setShowMainModal);
+  const categoryOptionsRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(categoryOptionsRef, setShowCategoryOptions);
 
+  //queries
   const { data: categoryData } = useInflowCategoriesQuery();
+
+  //mutations
+  const createCategoryMutation = CreateInflowCategory();
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    if (title.length < 1 || amount <= 0) {
+    if (inputValues.title.length < 1 || inputValues.amount <= 0) {
       setFormErrors({
-        title: title.length < 1 ? "required" : null,
-        amount: amount <= 0 ? "must be greater than 0" : null,
+        title: inputValues.title.length < 1 ? "required" : null,
+        amount: inputValues.amount <= 0 ? "must be greater than 0" : null,
       });
       return;
     }
 
     mutation.mutate({
-      title: title.trim(),
-      amount,
-      category: category?.id,
-      description: description.trim(),
+      title: inputValues.title.trim(),
+      amount: inputValues.amount,
+      category: inputValues.category?.id,
+      description: inputValues.description.trim(),
     });
     setShowMainModal(false);
   };
 
   const onCategoryChange = (category: CategoryType | Record | null) => {
-    setCategory(category);
+    setInputValues({ ...inputValues, category });
     setShowCategoryOptions(!showCategoryOptions);
   };
 
@@ -58,87 +77,123 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
     if (isNaN(Number(e.target.value))) {
       return;
     }
-    setAmount(Number(e.target.value));
+    setInputValues({ ...inputValues, amount: Number(e.target.value) });
   };
 
   return (
-    <div id="modal-inflow-form" ref={modalInflowFormRef}>
-      <h2>Inflow</h2>
+    <>
+      <div id="modal-inflow-form" ref={modalInflowFormRef}>
+        {showCreateCategoryModal ? null : (
+          <>
+            <h2>Inflow</h2>
 
-      <form>
-        <div className="form-body">
-          {/* title  */}
-          <div className="title">
-            <label htmlFor="title">Title</label>
-            <input
-              type="text"
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
-            />
-            <p className="validation-message">{formErrors.title}</p>
-          </div>
+            <form>
+              <div className="form-body">
+                {/* title  */}
+                <div className="title">
+                  <label htmlFor="title">Title</label>
+                  <input
+                    type="text"
+                    onChange={(e) =>
+                      setInputValues({ ...inputValues, title: e.target.value })
+                    }
+                    value={inputValues.title}
+                  />
+                  <p className="validation-message">{formErrors.title}</p>
+                </div>
 
-          {/* amount  */}
-          <div className="amount">
-            <label htmlFor="amount">amount</label>
-            <input
-              type="text"
-              onChange={(e) => onAmountChange(e)}
-              value={amount}
-            />
-            <p className="validation-message">{formErrors.amount}</p>
-          </div>
+                {/* amount  */}
+                <div className="amount">
+                  <label htmlFor="amount">amount</label>
+                  <input
+                    type="text"
+                    onChange={(e) => onAmountChange(e)}
+                    value={inputValues.amount}
+                  />
+                  <p className="validation-message">{formErrors.amount}</p>
+                </div>
 
-          {/* category  */}
-          <div className="category">
-            <label htmlFor="category-options-container">Category</label>
-            <div
-              className="category-selected"
-              onClick={() => setShowCategoryOptions(!showCategoryOptions)}
-            >
-              {category ? category.title.trim() : "Others"}
-            </div>
-            <div
-              className={`category-options-container show-${showCategoryOptions}`}
-            >
-              <div
-                className="category-options"
-                onClick={() => onCategoryChange(category)}
-              >
-                {category ? "Others" : null}
-              </div>
-
-              {categoryData?.map((ele) => {
-                return (
+                {/* category  */}
+                <div className="category" ref={categoryOptionsRef}>
+                  <label htmlFor="category-options-container">Category</label>
                   <div
-                    className="category-options"
-                    onClick={(e) => onCategoryChange(ele)}
-                    key={ele.id}
+                    className="category-selected"
+                    onClick={() => setShowCategoryOptions(!showCategoryOptions)}
                   >
-                    {ele.title.trim()}
+                    {inputValues.category
+                      ? inputValues.category.title.trim()
+                      : "Others"}
                   </div>
-                );
-              })}
-            </div>
-          </div>
+                  <div
+                    className={`category-options-container show-${showCategoryOptions}`}
+                  >
+                    <div
+                      className="category-options"
+                      onClick={() => onCategoryChange(null)}
+                    >
+                      {inputValues.category ? "Others" : null}
+                    </div>
 
-          {/* description  */}
-          <div className="description">
-            <label htmlFor="description">Description</label>
-            <textarea
-              name="description"
-              id="description-text-area"
-              rows={2}
-              onChange={(e) => setDescription(e.target.value)}
-              value={description}
-            ></textarea>
-          </div>
-        </div>
-      </form>
-      <button type="submit" onClick={(e) => onSubmit(e)}>
-        Add Inflow
-      </button>
-    </div>
+                    {categoryData?.map((ele) => {
+                      return ele.id !== inputValues.category?.id ? (
+                        <div
+                          className="category-options"
+                          onClick={(e) => onCategoryChange(ele)}
+                          key={ele.id}
+                        >
+                          {ele.title.trim()}
+                        </div>
+                      ) : null;
+                    })}
+
+                    <div
+                      className="category-options add-category"
+                      onClick={(e) => setShowCreateCategoryModal(true)}
+                    >
+                      add category
+                    </div>
+                  </div>
+                </div>
+
+                {/* description  */}
+                <div className="description">
+                  <label htmlFor="description">Description</label>
+                  <textarea
+                    name="description"
+                    id="description-text-area"
+                    rows={2}
+                    onChange={(e) =>
+                      setInputValues({
+                        ...inputValues,
+                        description: e.target.value,
+                      })
+                    }
+                    value={inputValues.description}
+                  ></textarea>
+                </div>
+              </div>
+            </form>
+            <button type="submit" onClick={(e) => onSubmit(e)}>
+              Add Inflow
+            </button>
+          </>
+        )}
+
+        {showCreateCategoryModal ? (
+          <CreateCategoryForm
+            mutation={createCategoryMutation}
+            categoryType={"inflow"}
+            setShowMainModal={setShowCreateCategoryModal}
+          />
+        ) : null}
+      </div>
+      <Spinner
+        mutation={createCategoryMutation}
+        loadingMessage={"adding category"}
+        successMessage={"added category"}
+        failMessage={"failed to add category"}
+      />
+    </>
   );
 };
 

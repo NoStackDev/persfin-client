@@ -92,8 +92,14 @@
         gap: to-rem(10px);
         flex-direction: column;
       }
+
+      .validation-message {
+        font-size: to-rem(16px);
+        @include theme-aware(color, "outflow-color");
+      }
     }
   }
+
   button {
     color: hsl(0, 0%, 100%);
     background: #14aacf;

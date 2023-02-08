@@ -112,9 +112,22 @@
           @include theme-aware("color", "text-color");
           width: 100%;
           filter: drop-shadow(0px to-rem(2px) hsla(0, 0%, 0%, 0.2));
+          max-height: 25vh;
+          overflow-y: scroll;
 
           &.show-true {
             display: block;
+          }
+
+          .category-options {
+            padding-block: to-rem(10px);
+            border-bottom: solid 2px;
+            @include theme-aware("border-color", "card-bg-color");
+          }
+
+          .category-options.add-category {
+            text-align: center;
+            border-bottom: none;
           }
         }
       }

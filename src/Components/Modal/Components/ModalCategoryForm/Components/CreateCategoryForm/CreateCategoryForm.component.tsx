@@ -22,11 +22,20 @@ const CreateCategoryForm = ({
   const [description, setDescription] = useState<string>(
     prefillData?.description || ""
   );
+  const [formErrors, setFormErrors] = useState<{
+    title: string;
+  }>({ title: "" });
+
   const createCategoryFormRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(createCategoryFormRef, setShowMainModal);
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+
+    if (title.trim().length < 1) {
+      setFormErrors({ title: "required" });
+      return;
+    }
 
     if (prefillData) {
       mutation.mutate({
@@ -55,12 +64,17 @@ const CreateCategoryForm = ({
               onChange={(e) => setTitle(e.target.value)}
               value={title}
             />
+            <p className="validation-message">{formErrors.title}</p>
           </div>
           <div className="category-type">
             <label htmlFor="">Category Type</label>
             <input
               type="text"
-              value={categoryType.includes("inflow") ? "Inflow" : "Outflow"}
+              value={
+                categoryType.toLowerCase().includes("inflow")
+                  ? "Inflow"
+                  : "Outflow"
+              }
               readOnly
             />
           </div>

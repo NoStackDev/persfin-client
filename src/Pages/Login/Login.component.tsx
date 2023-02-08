@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Spinner from "../../Components/Spinner";
 import { AuthUser, CreateUser } from "../../Mutations";
 import { Navigate } from "react-router-dom";
@@ -32,6 +32,10 @@ const Login = (props: Props) => {
 
   const createUserMutation = CreateUser();
   const authUserMutation = AuthUser();
+
+  useEffect(() => {
+    setSignUp(false);
+  }, [createUserMutation.isSuccess]);
 
   const handleInputOnBlur = (inputId: number) => {
     setInputState({
@@ -110,16 +114,12 @@ const Login = (props: Props) => {
     e.preventDefault();
     if (signUp) {
       if (
-        !formErrors.email ||
-        !formErrors.password ||
-        !formErrors.confirmPassword
+        formErrors.email ||
+        formErrors.password ||
+        formErrors.confirmPassword
       ) {
         console.log("invalid");
-        setFormErrors({
-          ...formErrors,
-          email: formErrors.email || "required",
-          password: formErrors.password || "required",
-        });
+        console.log(formErrors);
         return;
       }
 
