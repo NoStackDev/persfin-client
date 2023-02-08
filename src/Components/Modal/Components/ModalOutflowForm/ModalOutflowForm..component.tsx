@@ -257,7 +257,9 @@ const ModalOutflowForm = ({ setShowMainModal, mutation }: Props) => {
                     </div>
                   ) : null}
                   <div className="limit">
-                    <div>{takeFromSavings ? "savings" : "balance"}</div>
+                    <div>
+                      {takeFromSavings ? "savings" : "available balance"}
+                    </div>
                     <div>
                       &#x20A6;
                       {takeFromSavings
