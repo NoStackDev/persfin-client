@@ -10,7 +10,6 @@ const getInflows = async (): Promise<(InflowType | Record)[]> => {
   });
 };
 
-// export default getInflows
 
 const useInflowsQuery = () => useQuery("inflows", getInflows);
 

@@ -1,12 +1,10 @@
-import { Type } from "typescript";
-
 interface PockectBaseType {
   id: string;
   created: string;
   updated: string;
   collectionId: string;
   collectionName: string;
-  expand: Record<any, any>
+  expand: Record<any, any>;
 }
 
 export interface InflowType extends PockectBaseType {
@@ -35,7 +33,7 @@ export interface BudgetType extends PockectBaseType {
   exhausted: boolean;
 }
 
-export type BudgetItemType  = {
+export type BudgetItemType = {
   id: string;
   title: string;
   amount: number;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { UseMutationResult } from "react-query";
 
 import "./BudgetCard.style.scss";

@@ -5,9 +5,6 @@ const filterData = (
   data: (BudgetType | pbRecord)[],
   filterRange: TimeRangeInterface
 ) => {
-  // if (!data) {
-  //   return null;
-  // }
   const range = filterRange.range();
   const filteredData = data.filter((obj) => {
     return (

@@ -29,7 +29,6 @@ ChartJS.register(
   Legend
 );
 
-
 interface datasetType {
   id: number;
   label: string;
@@ -51,16 +50,8 @@ const InflowOutflowChart = (props: Props) => {
     null
   );
 
-  const {
-    isLoading: isLoadingInflowsData,
-    isSuccess: isSuccessInflowsData,
-    data: inflowsData,
-  } = useInflowsQuery();
-  const {
-    isLoading: isLoadingOutflowsData,
-    isSuccess: isSuccessOutflowsData,
-    data: outflowsData,
-  } = useOutlflowsQuery();
+  const { data: inflowsData } = useInflowsQuery();
+  const { data: outflowsData } = useOutlflowsQuery();
 
   const { labels: labelsArr, data: dataArr } = useMemo(() => {
     return getLabelsAndDataset([inflowsData, outflowsData], filterRange);

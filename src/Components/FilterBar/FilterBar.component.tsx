@@ -1,9 +1,7 @@
 import { SetStateAction, useState } from "react";
 import DateFilterDynamic from "../DateFiter/DateFilterDynamic";
 import "./FilterBar.style.scss";
-import {
-  TimeRangeInterface,
-} from "../../TypeDefs";
+import { TimeRangeInterface } from "../../TypeDefs";
 
 type Props = {
   showTags?: boolean;
@@ -27,10 +25,7 @@ const FilterBar = ({
   };
 
   const handleTagClick = (tagId: number) => {
-    // 0 = pending = false
-    // 1 = completed = true
-    // 2 = all = null
-    setTag(tagId)
+    setTag(tagId);
     if (setTagFilter)
       switch (tagId) {
         case 0:

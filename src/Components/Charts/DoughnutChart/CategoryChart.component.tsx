@@ -19,11 +19,8 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const options = {
   responsive: true,
-  // maintainAspectRatio: true,
   plugins: {
     legend: {
-      // position: "top" as const,
-      // align: "center" as const,
       display: false,
     },
     title: {
@@ -45,12 +42,7 @@ type Props = {
   category?: boolean;
 };
 
-const CategoryChart = ({
-  dataset,
-  showFixedDateFilter,
-  heading,
-  category,
-}: Props) => {
+const CategoryChart = ({ dataset, category }: Props) => {
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );

@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import pb from "../../lib/pocketbase";
 
 const LogUserIn = async (email: string, password: string) => {

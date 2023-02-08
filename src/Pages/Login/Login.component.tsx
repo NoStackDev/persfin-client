@@ -55,15 +55,13 @@ const Login = (props: Props) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValues({ ...inputValues, [e.target.name]: e.target.value.trim() });
 
-    // check email match @{domain name}.{domain}
-    const formatPattern =
-      /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+[.][A-za-z0-9.-]+$/gm;
-    // check password length
-    const lengthPattern = /^([a-zA-Z0-9_-~!@$%&]){8,}$/;
-
     switch (e.target.name) {
       case "email":
-        if (!e.target.value.match(formatPattern)?.length) {
+        if (
+          !e.target.value.match(
+            /^[A-Za-z0-9_!#$%&'*+=?`{|}~^.-]+@[A-Za-z0-9.-]+[.][A-za-z0-9.-]+$/gm
+          )?.length
+        ) {
           setFormErrors({
             ...formErrors,
             email: "format should be example@mail.com",
@@ -77,7 +75,7 @@ const Login = (props: Props) => {
         break;
 
       case "password":
-        if (!e.target.value.match(lengthPattern)?.length) {
+        if (!e.target.value.match(/^([a-zA-Z0-9_-~!@$%&]){8,}$/)?.length) {
           setFormErrors({
             ...formErrors,
             password: "minimum length of 8 required",

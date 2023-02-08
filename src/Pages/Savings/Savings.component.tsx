@@ -16,11 +16,7 @@ const Savings = (props: Props) => {
   );
   const [textFilter, setTextFilter] = useState<string>("");
 
-  const {
-    isLoading: isLoadingSavingsData,
-    isSuccess: isSuccessSavingsData,
-    data: savingsData,
-  } = useSavingsQuery();
+  const { data: savingsData } = useSavingsQuery();
 
   const dateFiltered = useMemo(() => {
     return filterDate(savingsData, filterRange);

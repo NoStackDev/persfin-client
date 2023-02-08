@@ -8,7 +8,7 @@ import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.c
 
 import { TimeRangeInterface } from "../../TypeDefs";
 import ActionCard from "../../Components/ActionCard";
-import { countCategories, filterDate, filterText } from "./helpers";
+import { filterDate, filterText } from "./helpers";
 
 type Props = {};
 
@@ -18,17 +18,9 @@ const Inflow = (props: Props) => {
   );
   const [textFilter, setTextFilter] = useState<string>("");
 
-  const {
-    isLoading: isLoadingInflowsData,
-    isSuccess: isSuccessInflowsData,
-    data: inflowsData,
-  } = useInflowsQuery();
+  const { data: inflowsData } = useInflowsQuery();
 
-  const {
-    isLoading: isLoadingCategoriesData,
-    isSuccess: isSuccessCategoriesData,
-    data: categoryData,
-  } = useInflowCategoriesQuery();
+  const { data: categoryData } = useInflowCategoriesQuery();
 
   const inflowCategoryNum = useMemo(() => {
     return categoryData ? categoryData.length + 1 : 1;

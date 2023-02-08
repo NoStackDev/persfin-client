@@ -1,9 +1,7 @@
-import axios from "axios";
 import { Record } from "pocketbase";
 import { useMutation, useQueryClient } from "react-query";
 import pb from "../../lib/pocketbase";
 import { BudgetItemType, BudgetType } from "../../TypeDefs";
-import { UpdateBudget } from "../Budget";
 
 const AddOutflow = async (
   title: string,

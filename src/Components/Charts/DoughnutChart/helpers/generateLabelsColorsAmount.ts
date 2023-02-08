@@ -4,7 +4,6 @@ import {
   OutflowType,
   BudgetType,
   TimeRangeInterface,
-  CategoryType,
 } from "../../../../TypeDefs";
 
 type ResultType = Record<string, SubResultInterface>;

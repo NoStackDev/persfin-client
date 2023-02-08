@@ -18,17 +18,9 @@ const Outflow = (props: Props) => {
   );
   const [textFilter, setTextFilter] = useState<string>("");
 
-  const {
-    isLoading: isLoadingOutflowsData,
-    isSuccess: isSuccessOutflowsData,
-    data: outflowsData,
-  } = useOutlflowsQuery();
+  const { data: outflowsData } = useOutlflowsQuery();
 
-  const {
-    isLoading: isLoadingCategoriesData,
-    isSuccess: isSuccessCategoriesData,
-    data: categoryData,
-  } = useOutflowCategoriesQuery();
+  const { data: categoryData } = useOutflowCategoriesQuery();
 
   const outflowCategoryNum = useMemo(() => {
     return categoryData ? categoryData.length + 1 : 1;

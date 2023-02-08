@@ -1,6 +1,6 @@
 import pb from "../lib/pocketbase";
 import { useQuery } from "react-query";
-import { BudgetItemType, BudgetType } from "../TypeDefs";
+import { BudgetType } from "../TypeDefs";
 import { Record } from "pocketbase";
 
 const getBudgets = async (): Promise<(BudgetType | Record)[]> => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import ActivityCard from "../../Components/ActivityCard";
 import InflowOutflowChart from "../../Components/Charts/LineChart/InflowOutflowChart.component";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
@@ -26,28 +26,12 @@ const Overview = (props: Props) => {
     (BudgetType | Record) | null
   >(null);
 
-  const {
-    isLoading: isLoadingInflowsData,
-    isSuccess: isSuccessInflowsData,
-    data: inflowsData,
-  } = useInflowsQuery();
-  const {
-    isLoading: isLoadingOutflowsData,
-    isSuccess: isSuccessOutflowsData,
-    data: outflowsData,
-  } = useOutlflowsQuery();
+  const { data: inflowsData } = useInflowsQuery();
+  const { data: outflowsData } = useOutlflowsQuery();
 
-  const {
-    isLoading: isLoadingSavingsData,
-    isSuccess: isSuccessSavingsData,
-    data: savingsData,
-  } = useSavingsQuery();
+  const { data: savingsData } = useSavingsQuery();
 
-  const {
-    isLoading: isLoadingBudgetsData,
-    isSuccess: isSuccessBudgetsData,
-    data: budgetsData,
-  } = useBudgetsQuery();
+  const { data: budgetsData } = useBudgetsQuery();
 
   const data = useMemo(() => {
     return collateData([inflowsData, outflowsData, savingsData]);

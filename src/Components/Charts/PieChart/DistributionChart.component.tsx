@@ -30,11 +30,7 @@ const options = {
 type Props = {};
 
 const DistributionChart = (props: Props) => {
-  const {
-    isLoading: isLoadingBudgetData,
-    isSuccess: isSuccessBudgetData,
-    data: budgetsData,
-  } = useBudgetsQuery();
+  const { data: budgetsData } = useBudgetsQuery();
 
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null

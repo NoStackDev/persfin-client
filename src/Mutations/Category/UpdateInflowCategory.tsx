@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import pb from "../../lib/pocketbase";
 

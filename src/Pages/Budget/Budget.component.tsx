@@ -14,8 +14,6 @@ import { Record } from "pocketbase";
 type Props = {};
 
 const Budget = (props: Props) => {
-  const userId = "636ac4a250bbc5afa6004a8c";
-
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
@@ -26,11 +24,7 @@ const Budget = (props: Props) => {
     (BudgetType | Record) | null
   >(null);
 
-  const {
-    isLoading: isLoadingBudgetsData,
-    isSuccess: isSuccessBudgetsData,
-    data: budgetsData,
-  } = useBudgetsQuery();
+  const { data: budgetsData } = useBudgetsQuery();
 
   const tagFiltered = useMemo(() => {
     return filterTag(budgetsData, tagFilter);

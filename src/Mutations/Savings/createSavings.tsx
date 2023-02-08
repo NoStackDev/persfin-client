@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "react-query";
 import pb from "../../lib/pocketbase";
-import { SavingsType } from "../../TypeDefs";
 
 const AddSavings = async (amount: number) => {
   return pb
