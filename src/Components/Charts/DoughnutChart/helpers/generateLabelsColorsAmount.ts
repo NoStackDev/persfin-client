@@ -16,6 +16,56 @@ interface SubResultInterface {
 
 type DataObj = InflowType | OutflowType | BudgetType;
 
+const filterData = (
+  data:
+    | (InflowType | pbRecord)[]
+    | (OutflowType | pbRecord)[]
+    | (BudgetType | pbRecord)[]
+    | undefined,
+  filterRange: TimeRangeInterface
+) => {
+  if (!data) {
+    return null;
+  }
+  const range = filterRange.range();
+  const filteredData = (data as any).filter((obj: DataObj) => {
+    return (
+      range.min <= new Date(obj.created) &&
+      new Date(obj.created) <=
+        new Date(
+          range.max.getTime() +
+            (1000 * 60 * 60 * 22 + 1000 * 60 * 59 + 1000 * 59)
+        )
+    );
+  });
+  return filteredData;
+};
+
+function hslToHex(h: number, s: number, l: number) {
+  l /= 100;
+  const a = (s * Math.min(l, 1 - l)) / 100;
+  const f = (n: number) => {
+    const k = (n + h / 30) % 12;
+    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+    return Math.round(255 * color)
+      .toString(16)
+      .padStart(2, "0"); // convert to Hex and prefix "0" if needed
+  };
+  return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+const generateColor = (colorsArray: string[]): string => {
+  const hue = Math.round(Math.random() * 360);
+  const saturation = Math.round(Math.random() * 100);
+  const lightness = Math.round(Math.random() * 100);
+  const colorHex = hslToHex(hue, saturation, lightness);
+
+  if (colorsArray.includes(colorHex)) {
+    return generateColor(colorsArray);
+  }
+  return colorHex;
+};
+
 const generateLabelsColorsAmount = (
   dataset: Array<
     | (InflowType | pbRecord)[]
@@ -24,6 +74,7 @@ const generateLabelsColorsAmount = (
     | undefined
   >,
   filterRange: TimeRangeInterface | null,
+  prevObj?: Record<string, SubResultInterface>
 ) => {
   const result: ResultType = {};
 
@@ -99,56 +150,6 @@ const generateLabelsColorsAmount = (
     });
   }
   return result;
-};
-
-const filterData = (
-  data:
-    | (InflowType | pbRecord)[]
-    | (OutflowType | pbRecord)[]
-    | (BudgetType | pbRecord)[]
-    | undefined,
-  filterRange: TimeRangeInterface
-) => {
-  if (!data) {
-    return null;
-  }
-  const range = filterRange.range();
-  const filteredData = (data as any).filter((obj: DataObj) => {
-    return (
-      range.min <= new Date(obj.created) &&
-      new Date(obj.created) <=
-        new Date(
-          range.max.getTime() +
-            (1000 * 60 * 60 * 22 + 1000 * 60 * 59 + 1000 * 59)
-        )
-    );
-  });
-  return filteredData;
-};
-
-function hslToHex(h: number, s: number, l: number) {
-  l /= 100;
-  const a = (s * Math.min(l, 1 - l)) / 100;
-  const f = (n: number) => {
-    const k = (n + h / 30) % 12;
-    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-    return Math.round(255 * color)
-      .toString(16)
-      .padStart(2, "0"); // convert to Hex and prefix "0" if needed
-  };
-  return `#${f(0)}${f(8)}${f(4)}`;
-}
-
-const generateColor = (colorsArray: string[]): string => {
-  const hue = Math.round(Math.random() * 360);
-  const saturation = Math.round(Math.random() * 100);
-  const lightness = Math.round(Math.random() * 100);
-  const colorHex = hslToHex(hue, saturation, lightness);
-
-  if (colorsArray.includes(colorHex)) {
-    return generateColor(colorsArray);
-  }
-  return colorHex;
 };
 
 export default generateLabelsColorsAmount;

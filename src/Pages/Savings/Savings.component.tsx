@@ -1,7 +1,6 @@
 import "./Savings.style.scss";
 import FilterBar from "../../Components/FilterBar";
 import ActivityCard from "../../Components/ActivityCard";
-import DistributionChart from "../../Components/Charts/PieChart";
 import { useMemo, useState } from "react";
 import filterDate from "./helpers/filterDate";
 import {
