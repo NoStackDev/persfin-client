@@ -5,6 +5,7 @@ import "./DateFilterFixed.style.scss";
 
 import { TimeRangeInterface } from "../../../TypeDefs";
 import { useOnClickOutside } from "../../../Hooks";
+import Icons from "../../Icons";
 
 type SetFilterRange = {
   setFilterRange: React.Dispatch<SetStateAction<TimeRangeInterface | null>>;
@@ -35,9 +36,10 @@ const DateFilterFixed = ({ setFilterRange }: SetFilterRange) => {
     >
       <div className="selected-option">
         <div>{selectedOption.title}</div>
-        <span className={`material-icons ${showOptions ? "open" : null}`}>
+        <Icons icon={"expand_more"} />
+        {/* <span className={`material-icons ${showOptions ? "open" : null}`}>
           expand_more
-        </span>
+        </span> */}
       </div>
       {showOptions ? (
         <div className="filter-option-container">

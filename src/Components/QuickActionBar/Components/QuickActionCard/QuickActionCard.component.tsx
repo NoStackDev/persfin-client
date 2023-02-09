@@ -10,6 +10,7 @@ import {
   SavingsType,
 } from "../../../../TypeDefs";
 import { Record } from "pocketbase";
+import Icons from "../../../Icons";
 
 type Props = {
   id: number;
@@ -93,7 +94,7 @@ const QuickActionCard = ({
     <div className={"card " + title.toLowerCase()}>
       <div className="card-top">
         <div className={"icon-wrapper " + title.toLowerCase()}>
-          <span className="material-icons ">{icon}</span>
+          <Icons icon={icon} maxWidth={"24px"} />
         </div>
         {hasFixedDateFilter ? (
           <DateFilterFixed setFilterRange={setFilterRange} />

@@ -5,6 +5,7 @@ import pb from "../../lib/pocketbase";
 import navbarItems from "./NavbarConfig";
 
 import "./Navbar.style.scss";
+import Icons from "../Icons";
 
 type Props = {};
 
