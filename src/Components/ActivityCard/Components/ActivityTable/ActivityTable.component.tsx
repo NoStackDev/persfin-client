@@ -6,6 +6,7 @@ import {
   BudgetType,
   SavingsType,
 } from "../../../../TypeDefs";
+import Icons from "../../../Icons";
 
 import "./ActivityTable.style.scss";
 
@@ -21,15 +22,15 @@ const icons = (_type: string): JSX.Element => {
   }
   switch (_type.toLowerCase()) {
     case "balance":
-      return <span className="material-icons"> account_balance_wallet</span>;
+      return <Icons icon="account_balance_wallet" maxWidth="14px" />;
     case "budgets":
-      return <span className="material-icons">pie_chart</span>;
+      return <Icons icon="pie_chart" maxWidth="14px" />;
     case "inflows":
-      return <span className="material-icons">south</span>;
+      return <Icons icon="south" maxWidth="14px" />;
     case "outflows":
-      return <span className="material-icons">north</span>;
+      return <Icons icon="north" maxWidth="14px" />;
     case "savings":
-      return <span className="material-icons">savings</span>;
+      return <Icons icon="savings" maxWidth="14px" />;
     default:
       return <></>;
   }

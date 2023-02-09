@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "../../Hooks";
+import Icons from "../Icons";
 import "./CategorySelector.style.scss";
 
 type Props = {
@@ -37,9 +38,11 @@ const CategorySelector = ({ categories, setSelectedCategory }: Props) => {
     >
       <div className="selected-option">
         <div>{selectedOption}</div>
-        <span className={`material-icons ${showOptions ? "open" : null}`}>
-          expand_more
-        </span>
+        <Icons
+          icon={"expand_more"}
+          maxWidth={"24px"}
+          showOptions={showOptions}
+        />
       </div>
 
       {showOptions ? (

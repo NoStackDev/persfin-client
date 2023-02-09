@@ -104,9 +104,7 @@ const Nav = (props: Props) => {
                   onClick={() => handleNavClick(navItem.id)}
                 >
                   <li className={navItem.id === selectedNav ? "active" : ""}>
-                    <span className="material-icons icon">
-                      {navItem.itemIcon}
-                    </span>
+                    <Icons icon={navItem.itemIcon} maxWidth="32px" />
                     <div className="navItemText">{navItem.itemName}</div>
                   </li>
                 </Link>
@@ -123,7 +121,7 @@ const Nav = (props: Props) => {
           </div>
 
           <div className="logout-wrapper" onClick={handleLogout}>
-            <span className="material-icons">exit_to_app</span>
+            <Icons icon="exit_to_app" maxWidth="32px" />
             <div className="logout">Log out</div>
           </div>
 
