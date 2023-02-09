@@ -1,7 +1,4 @@
-@import "../../Assets/Styles/functions";
-@import "../../Assets/Styles/mixins";
-@import "../../Assets/Styles/themes";
-
 #modal {
-    z-index: 10;
+  z-index: 10;
+  order: 3;
 }
