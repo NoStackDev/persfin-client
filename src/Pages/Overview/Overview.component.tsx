@@ -26,11 +26,10 @@ const Overview = (props: Props) => {
     (BudgetType | Record) | null
   >(null);
 
+  // queries
   const { data: inflowsData } = useInflowsQuery();
   const { data: outflowsData } = useOutlflowsQuery();
-
   const { data: savingsData } = useSavingsQuery();
-
   const { data: budgetsData } = useBudgetsQuery();
 
   const data = useMemo(() => {

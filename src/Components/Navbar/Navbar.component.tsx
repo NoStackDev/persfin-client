@@ -15,13 +15,13 @@ const Nav = (props: Props) => {
   const navbarRef = useRef<HTMLElement>(null);
   const { pathname } = useLocation();
   const [theme, setTheme] = useState<string>(
-    localStorage.getItem("theme") || "theme-light"
+    localStorage.getItem("theme") || "theme-dark"
   );
 
   useEffect(() => {
     document.documentElement.setAttribute(
       "class",
-      localStorage.getItem("theme") || "theme-light"
+      localStorage.getItem("theme") || "theme-dark"
     );
   });
 

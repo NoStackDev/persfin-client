@@ -95,14 +95,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: to-rem(22px);
+    font-size: to-rem(20px);
 
     .amount {
       display: flex;
       align-items: center;
 
       .material-icons {
-        font-size: to-rem(22px);
+        font-size: to-rem(20px);
       }
     }
   }

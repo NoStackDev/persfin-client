@@ -4,9 +4,14 @@ import ActivityCard from "../../Components/ActivityCard";
 import DistributionChart from "../../Components/Charts/PieChart";
 import { useMemo, useState } from "react";
 import filterDate from "./helpers/filterDate";
-import { useSavingsQuery } from "../../Queries";
+import {
+  useInflowsQuery,
+  useOutlflowsQuery,
+  useSavingsQuery,
+} from "../../Queries";
 
 import { TimeRangeInterface } from "../../TypeDefs";
+import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
 type Props = {};
 
@@ -16,6 +21,9 @@ const Savings = (props: Props) => {
   );
   const [textFilter, setTextFilter] = useState<string>("");
 
+  // queries
+  const { data: inflowsData } = useInflowsQuery();
+  const { data: outflowsData } = useOutlflowsQuery();
   const { data: savingsData } = useSavingsQuery();
 
   const dateFiltered = useMemo(() => {
@@ -33,8 +41,11 @@ const Savings = (props: Props) => {
       <section id="savings-activity-section">
         <ActivityCard cardTitle="Savings" activities={dateFiltered} />
       </section>
-      <section id="distribution-chart-section">
-        <DistributionChart />
+      <section id="category-chart-section">
+        <CategoryChart
+          dataset={[outflowsData, inflowsData]}
+          showFixedDateFilter={true}
+        />
       </section>
     </main>
   );
