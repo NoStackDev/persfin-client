@@ -114,11 +114,12 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
                 </div>
 
                 {/* category  */}
-                <div className="category" ref={categoryOptionsRef}>
+                <div className="category">
                   <label htmlFor="category-options-container">Category</label>
                   <div
                     className="category-selected"
                     onClick={() => setShowCategoryOptions(!showCategoryOptions)}
+                    ref={categoryOptionsRef}
                   >
                     <div>
                       {inputValues.category
@@ -135,6 +136,7 @@ const ModalInflowForm = ({ setShowMainModal, mutation }: Props) => {
                   </div>
                   <div
                     className={`category-options-container show-${showCategoryOptions}`}
+                    ref={categoryOptionsRef}
                   >
                     <div
                       className="category-options"

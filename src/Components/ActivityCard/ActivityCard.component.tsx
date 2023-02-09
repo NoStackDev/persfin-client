@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import "./ActivityCard.style.scss";
 
@@ -36,6 +36,7 @@ const ActivityCard = ({ cardTitle, activities }: Props) => {
 
   return (
     <div className="activity-container">
+      {}
       <div className="card">
         <div className="card-top">
           <h2>{cardTitle}</h2>

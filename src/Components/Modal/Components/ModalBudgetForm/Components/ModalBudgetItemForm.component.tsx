@@ -115,11 +115,12 @@ const ModalBudgetItemForm = ({
                 </div>
 
                 {/* category  */}
-                <div className="category" ref={categoryOptionsRef}>
+                <div className="category">
                   <label htmlFor="category-options-container">Category</label>
                   <div
                     className="category-selected"
                     onClick={() => setShowCategoryOptions(!showCategoryOptions)}
+                    ref={categoryOptionsRef}
                   >
                     <div> {category ? category.title : "Others"}</div>
                     <span
@@ -132,6 +133,7 @@ const ModalBudgetItemForm = ({
                   </div>
                   <div
                     className={`category-options-container show-${showCategoryOptions}`}
+                    ref={categoryOptionsRef}
                   >
                     <div
                       className="category-options"

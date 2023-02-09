@@ -185,7 +185,6 @@
   }
 
   button {
-    //   color: hsl(0, 0%, 100%);
     @include theme-aware("color", "btn-text-color");
     @include theme-aware("background", "btn-bg-color");
     @include h3-bold;

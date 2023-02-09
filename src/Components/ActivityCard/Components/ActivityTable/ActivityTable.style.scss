@@ -44,9 +44,9 @@
     .type {
       display: none;
 
-      @include breakpoint("m") {
-        display: table-cell;
-      }
+      // @include breakpoint("m") {
+      //   display: table-cell;
+      // }
     }
 
     .date {
