@@ -1,8 +1,16 @@
-import { SavingsType, TimeRangeInterface } from "../../../TypeDefs";
 import { Record } from "pocketbase";
+import {
+  BudgetType,
+  InflowType,
+  OutflowType,
+  SavingsType,
+  TimeRangeInterface,
+} from "../TypeDefs";
 
-const filterDate = (
-  data: (SavingsType | Record)[] | undefined,
+const filterByDate = (
+  data:
+    | (BudgetType | InflowType | OutflowType | SavingsType | Record)[]
+    | undefined,
   filterRange: TimeRangeInterface | null
 ) => {
   if (!data) {
@@ -34,4 +42,4 @@ const filterDate = (
   return filteredData;
 };
 
-export default filterDate;
+export default filterByDate;

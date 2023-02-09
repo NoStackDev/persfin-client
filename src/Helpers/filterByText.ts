@@ -1,7 +1,10 @@
 import { Record } from "pocketbase";
-import { InflowType } from "../../../TypeDefs";
+import { BudgetType, InflowType, OutflowType } from "../TypeDefs";
 
-const filterText = (data: (InflowType|Record)[] | null, textFilter: string) => {
+const filterByText = (
+  data: (BudgetType | InflowType | OutflowType | Record)[] | null,
+  textFilter: string
+) => {
   if (textFilter.trim() === "" || !data) {
     return data;
   }
@@ -12,4 +15,4 @@ const filterText = (data: (InflowType|Record)[] | null, textFilter: string) => {
   return newData;
 };
 
-export default filterText;
+export default filterByText;

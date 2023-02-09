@@ -10,10 +10,9 @@ import {
 } from "../../Queries";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
-import { TimeRangeInterface } from "../../TypeDefs";
+import { InflowType, TimeRangeInterface } from "../../TypeDefs";
 import ActionCard from "../../Components/ActionCard";
-import { filterDate, filterText } from "./helpers";
-
+import { filterByDate, filterByText } from "../../Helpers";
 type Props = {};
 
 const Inflow = (props: Props) => {
@@ -32,11 +31,11 @@ const Inflow = (props: Props) => {
   }, [categoryData]);
 
   const dateFiltered = useMemo(() => {
-    return filterDate(inflowsData, filterRange);
+    return filterByDate(inflowsData, filterRange) as InflowType[];
   }, [inflowsData, filterRange]);
 
   const textFiltered = useMemo(() => {
-    return filterText(dateFiltered, textFilter);
+    return filterByText(dateFiltered, textFilter) as InflowType[];
   }, [dateFiltered, textFilter]);
 
   return (

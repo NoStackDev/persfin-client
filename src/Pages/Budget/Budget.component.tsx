@@ -8,7 +8,8 @@ import Spinner from "../../Components/Spinner";
 import { DeleteBudget, UpdateBudget } from "../../Mutations";
 import { BudgetType, TimeRangeInterface } from "../../TypeDefs";
 import Modal from "../../Components/Modal";
-import { filterDate, filterText, filterTag } from "./helpers";
+import { filterByDate, filterByText } from "../../Helpers";
+import { filterTag } from "./helpers";
 import { Record } from "pocketbase";
 
 type Props = {};
@@ -31,11 +32,11 @@ const Budget = (props: Props) => {
   }, [budgetsData, tagFilter]);
 
   const dateFiltered = useMemo(() => {
-    return filterDate(tagFiltered, filterRange);
+    return filterByDate(tagFiltered, filterRange) as BudgetType[];
   }, [tagFiltered, filterRange]);
 
   const textFiltered = useMemo(() => {
-    return filterText(dateFiltered, textFilter);
+    return filterByText(dateFiltered, textFilter) as BudgetType[];
   }, [dateFiltered, textFilter]);
 
   // mutations

@@ -22,15 +22,15 @@ const icons = (_type: string): JSX.Element => {
   }
   switch (_type.toLowerCase()) {
     case "balance":
-      return <Icons icon="account_balance_wallet" maxWidth="14px" />;
+      return <Icons icon="account_balance_wallet" maxWidth="24px" />;
     case "budgets":
-      return <Icons icon="pie_chart" maxWidth="14px" />;
+      return <Icons icon="pie_chart" maxWidth="24px" />;
     case "inflows":
-      return <Icons icon="south" maxWidth="14px" />;
+      return <Icons icon="south" maxWidth="24px" />;
     case "outflows":
-      return <Icons icon="north" maxWidth="14px" />;
+      return <Icons icon="north" maxWidth="24px" />;
     case "savings":
-      return <Icons icon="savings" maxWidth="14px" />;
+      return <Icons icon="savings" maxWidth="24px" />;
     default:
       return <></>;
   }

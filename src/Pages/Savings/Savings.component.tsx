@@ -2,14 +2,14 @@ import "./Savings.style.scss";
 import FilterBar from "../../Components/FilterBar";
 import ActivityCard from "../../Components/ActivityCard";
 import { useMemo, useState } from "react";
-import filterDate from "./helpers/filterDate";
+import { filterByDate } from "../../Helpers";
 import {
   useInflowsQuery,
   useOutlflowsQuery,
   useSavingsQuery,
 } from "../../Queries";
 
-import { TimeRangeInterface } from "../../TypeDefs";
+import { SavingsType, TimeRangeInterface } from "../../TypeDefs";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
 type Props = {};
@@ -26,7 +26,7 @@ const Savings = (props: Props) => {
   const { data: savingsData } = useSavingsQuery();
 
   const dateFiltered = useMemo(() => {
-    return filterDate(savingsData, filterRange);
+    return filterByDate(savingsData, filterRange) as SavingsType[];
   }, [savingsData, filterRange]);
 
   return (
