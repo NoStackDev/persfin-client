@@ -42,12 +42,10 @@
         padding-left: 10px;
         padding-top: 5px;
         @include theme-aware("background", "bg-color");
+        @include theme-aware("color", "text-color");
         border: none;
         color: white;
 
-        &:focus {
-          @include theme-aware("outline-color", "header-color");
-        }
       }
 
       .title {

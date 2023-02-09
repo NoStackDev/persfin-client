@@ -49,10 +49,6 @@
         border: none;
         @include theme-aware("color", "text-color");
         width: 100%;
-
-        &:focus {
-          @include theme-aware("outline-color", "header-color");
-        }
       }
 
       textarea {
@@ -65,10 +61,6 @@
         border: none;
         @include theme-aware("color", "text-color");
         @include scrollbar;
-
-        &:focus {
-          @include theme-aware("outline-color", "header-color");
-        }
       }
 
       .title {
