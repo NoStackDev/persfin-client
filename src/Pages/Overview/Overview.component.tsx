@@ -51,7 +51,6 @@ const Overview = (props: Props) => {
           <CategoryChart
             dataset={[inflowsData, outflowsData]}
             showFixedDateFilter={true}
-            category
           />
         </section>
         <section id="recent-activity">

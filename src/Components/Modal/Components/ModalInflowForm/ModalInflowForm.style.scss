@@ -7,7 +7,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: to-rem(20px);
+  padding-block: to-rem(20px);
   @include theme-aware("background", "card-bg-color");
   border-radius: to-rem(12px);
   min-width: to-rem(335px);
@@ -28,16 +28,9 @@
     display: flex;
     flex-direction: column;
     gap: to-rem(20px);
-    overflow-y: scroll;
-
-    &::-webkit-scrollbar {
-      width: 5px;
-      @include theme-aware("background-color", "card-bg-color");
-    }
-
-    &::-webkit-scrollbar-thumb {
-      @include theme-aware("background-color", "text-color");
-    }
+    overflow-y: auto;
+    padding-inline: to-rem(20px);
+    @include scrollbar;
 
     .form-body {
       @include h3-regular;
@@ -127,7 +120,8 @@
           width: 100%;
           filter: drop-shadow(0px to-rem(2px) hsla(0, 0%, 0%, 0.2));
           max-height: 25vh;
-          overflow-y: scroll;
+          overflow-y: auto;
+          @include scrollbar;
 
           &.show-true {
             display: block;

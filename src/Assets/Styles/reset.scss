@@ -1,22 +1,22 @@
-@use './variables' as *;
+@use "./variables" as *;
 @use "./functions" as *;
 
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
-    font-size: to-rem($default-fontsize);
+  font-size: to-rem($default-fontsize);
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 li {
-    list-style: none;
+  list-style: none;
 }

@@ -39,18 +39,17 @@ type Props = {
   >;
   showFixedDateFilter: boolean;
   heading?: string;
-  category?: boolean;
 };
 
-const CategoryChart = ({ dataset, category }: Props) => {
+const CategoryChart = ({ dataset }: Props) => {
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
   );
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const labelsColorsAmount = useMemo(() => {
-    return generateLabelsColorsAmount(dataset, filterRange, category);
-  }, [dataset, filterRange, category]);
+    return generateLabelsColorsAmount(dataset, filterRange);
+  }, [dataset, filterRange]);
 
   const selectedData = selectedCategory
     ? labelsColorsAmount[selectedCategory]

@@ -24,7 +24,6 @@ const generateLabelsColorsAmount = (
     | undefined
   >,
   filterRange: TimeRangeInterface | null,
-  category: boolean | undefined
 ) => {
   const result: ResultType = {};
 

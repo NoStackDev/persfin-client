@@ -3,7 +3,11 @@ import FilterBar from "../../Components/FilterBar";
 
 import "./Outflow.style.scss";
 import { useMemo, useState } from "react";
-import { useOutflowCategoriesQuery, useOutlflowsQuery } from "../../Queries";
+import {
+  useInflowsQuery,
+  useOutflowCategoriesQuery,
+  useOutlflowsQuery,
+} from "../../Queries";
 import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.component";
 
 import { TimeRangeInterface } from "../../TypeDefs";
@@ -18,8 +22,9 @@ const Outflow = (props: Props) => {
   );
   const [textFilter, setTextFilter] = useState<string>("");
 
+  // queries
   const { data: outflowsData } = useOutlflowsQuery();
-
+  const { data: inflowsData } = useInflowsQuery();
   const { data: categoryData } = useOutflowCategoriesQuery();
 
   const outflowCategoryNum = useMemo(() => {
@@ -51,7 +56,10 @@ const Outflow = (props: Props) => {
           categoriesNum={outflowCategoryNum}
           categoryType="outflowCategories"
         />
-        <CategoryChart dataset={[outflowsData]} showFixedDateFilter />
+        <CategoryChart
+          dataset={[outflowsData, inflowsData]}
+          showFixedDateFilter
+        />
       </section>
     </main>
   );
