@@ -111,7 +111,7 @@ nav {
 
       @include breakpoint("m") {
         position: absolute;
-        left: to-rem(15px);
+        left: to-rem(20px);
         top: to-rem(20px);
       }
 
@@ -167,6 +167,8 @@ nav {
   .middleNav {
     overflow: hidden;
     flex-grow: 2;
+    overflow-y: auto;
+    @include scrollbar;
 
     ul {
       display: flex;
@@ -178,6 +180,10 @@ nav {
         grid-template-columns: max-content max-content;
         align-items: center;
         gap: to-rem(20px);
+
+        .icon {
+          font-size: to-rem(32px);
+        }
 
         @include breakpoint("m") {
           padding-block: to-rem(10px);
@@ -206,6 +212,8 @@ nav {
     display: flex;
     flex-direction: column;
     gap: to-rem(40px);
+    overflow-y: auto;
+    @include scrollbar;
 
     .theme-wrapper {
       display: flex;
@@ -304,6 +312,10 @@ nav {
       gap: to-rem(20px);
       padding-inline: to-rem(20px);
 
+      .material-icons {
+        font-size: to-rem(32px);
+      }
+
       .logout {
         visibility: hidden;
       }
@@ -348,6 +360,7 @@ nav {
 
     li {
       padding-inline: to-rem(20px);
+
       div {
         visibility: visible;
       }
