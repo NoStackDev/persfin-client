@@ -11,6 +11,7 @@
 
 html {
   font-size: to-rem($default-fontsize);
+  overflow: hidden;
 }
 
 a {
