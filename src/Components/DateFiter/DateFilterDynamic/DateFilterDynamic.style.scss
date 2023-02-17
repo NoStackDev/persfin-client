@@ -2,28 +2,17 @@
 @import "../../../Assets/Styles/functions";
 @import "../../../Assets/Styles/themes";
 
-.date-selector {
-  grid-column: 1 / -1;
+
+.custom-date-container {
   display: flex;
-  justify-content: flex-start;
+  gap: to-rem(10px);
 
-  @include breakpoint("m") {
-    grid-column: 4/ -1;
-  }
-
-  input {
-    font-size: to-rem(18px);
-    @include theme-aware("background", "bg-color");
+  .custom-date-input {
     border: none;
+    border-radius: 0;
+    padding: to-rem(5px);
+    // @include theme-aware("background-color", "bg-color");
     @include theme-aware("color", "text-color");
-    padding: to-rem(2px);
-    border-radius: to-rem(12px);
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  span {
-    font-size: to-rem(18px);
+    font-size: to-rem(12px);
   }
 }

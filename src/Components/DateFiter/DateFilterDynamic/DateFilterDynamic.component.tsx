@@ -1,49 +1,65 @@
-import React, { SetStateAction, useRef, useState } from "react";
+import React, {
+  forwardRef,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import DatePicker from "react-datepicker";
 
+import "react-datepicker/dist/react-datepicker.css";
 import "./DateFilterDynamic.style.scss";
 
+
 import { TimeRangeInterface } from "../../../TypeDefs";
+import pb from "../../../lib/pocketbase";
 
 type Props = {
   setFilterRange: React.Dispatch<SetStateAction<TimeRangeInterface | null>>;
 };
 
+type childProps = {
+  value: React.ReactNode;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+
+const CustomInput = forwardRef<HTMLButtonElement, childProps>(
+  ({ value, onClick }, ref) => (
+    <button className="custom-date-input"  ref={ref} onClick={onClick}>
+      {value}
+    </button>
+  )
+);
+
 const DateFilterDynamic = ({ setFilterRange }: Props) => {
-  const [start, setStart] = useState<string | null>(null);
-  const [end, setEnd] = useState<string | null>(null);
-  const startRef = useRef<HTMLInputElement | null>(null);
-  const endRef = useRef<HTMLInputElement | null>(null);
+  const [startDate, setStartDate] = useState<Date | null>(
+    new Date(pb.authStore.model?.created || Date.now())
+  );
+  const [endDate, setEndDate] = useState<Date | null>(new Date());
 
-  const handleOnChange = () => {
-    if (startRef.current?.value && endRef.current?.value) {
-      const startValue = startRef.current.value;
-      const endValue = endRef.current.value;
-      setStart(startValue);
-      setEnd(endValue);
-      setFilterRange({
-        id: startValue + endValue,
-        title: startValue + " to " + endValue,
-        range: () => {
-          return {
-            min: new Date(startValue),
-            max: new Date(endValue),
-          };
-        },
-      });
-    }
-  };
-
+  console.log(startDate);
   return (
-    <div className="date-selector">
-      <input
-        type="date"
-        name=""
-        id=""
-        ref={startRef}
-        onChange={handleOnChange}
+    <div className="custom-date-container">
+      <DatePicker
+        selected={startDate}
+        onChange={(date) => setStartDate(date)}
+        customInput={
+          <CustomInput
+            value={startDate?.toDateString()}
+            onClick={(e) => console.log(e)}
+          />
+        }
       />
-      <span> - </span>
-      <input type="date" name="" id="" ref={endRef} onChange={handleOnChange} />
+      <DatePicker
+        selected={startDate}
+        onChange={(date) => setStartDate(date)}
+        customInput={
+          <CustomInput
+            value={startDate?.toDateString()}
+            onClick={(e) => console.log(e)}
+          />
+        }
+      />
     </div>
   );
 };

@@ -51,6 +51,12 @@ const DateFilterFixed = ({ setFilterRange }: SetFilterRange) => {
               </div>
             );
           })}
+          <div
+              
+                className="filter-option"
+              >
+                custom date
+              </div>
         </div>
       ) : null}
     </div>
