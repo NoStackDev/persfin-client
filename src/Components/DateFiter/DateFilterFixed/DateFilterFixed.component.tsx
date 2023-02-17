@@ -37,9 +37,6 @@ const DateFilterFixed = ({ setFilterRange }: SetFilterRange) => {
       <div className="selected-option">
         <div>{selectedOption.title}</div>
         <Icons icon={"expand_more"} showOptions={showOptions} />
-        {/* <span className={`material-icons ${showOptions ? "open" : null}`}>
-          expand_more
-        </span> */}
       </div>
       {showOptions ? (
         <div className="filter-option-container">

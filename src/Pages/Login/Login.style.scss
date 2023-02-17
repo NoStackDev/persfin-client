@@ -25,12 +25,8 @@
     form {
       display: flex;
       flex-direction: column;
-      gap: to-rem(50px);
+      gap: to-rem(70px);
       min-width: to-rem(250px);
-
-      &.sign-up {
-        gap: to-rem(70px);
-      }
 
       .form-set {
         position: relative;
