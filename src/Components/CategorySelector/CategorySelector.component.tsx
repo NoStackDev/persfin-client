@@ -37,7 +37,10 @@ const CategorySelector = ({ categories, setSelectedCategory }: Props) => {
       ref={categorySelectorRef}
     >
       <div className="selected-option">
-        <div>{selectedOption}</div>
+        <div>
+          {(selectedOption?.split("")[0].toLocaleUpperCase() || "") +
+            selectedOption?.slice(1)}
+        </div>
         <Icons
           icon={"expand_more"}
           maxWidth={"24px"}

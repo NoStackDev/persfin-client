@@ -7,7 +7,6 @@ import CategoryChart from "../../Components/Charts/DoughnutChart/CategoryChart.c
 import Spinner from "../../Components/Spinner";
 import { DeleteBudget, UpdateBudget } from "../../Mutations";
 import { BudgetType, TimeRangeInterface } from "../../TypeDefs";
-import Modal from "../../Components/Modal";
 import { filterByDate, filterByText } from "../../Helpers";
 import { filterTag } from "./helpers";
 import { Record } from "pocketbase";
@@ -73,14 +72,6 @@ const Budget = (props: Props) => {
           <CategoryChart dataset={[budgetsData]} showFixedDateFilter />
         </section>
       </main>
-      {showMainModal ? (
-        <Modal
-          quickActionId={4}
-          setShowMainModal={setShowMainModal}
-          mutation={updateBudgetMutation}
-          prefillData={selecedBudget}
-        />
-      ) : null}
       <Spinner
         mutation={updateBudgetMutation}
         loadingMessage={"updating budget"}

@@ -13,13 +13,14 @@ import {
   UpdateOutflowCategory,
 } from "../../../../../../Mutations";
 import Spinner from "../../../../../Spinner";
-import Modal from "../../../../Modal.component";
 import { Record as pbRecord } from "pocketbase";
 import { useOnClickOutside } from "../../../../../../Hooks";
+import ModalContainer from "../../../ModalContainer";
+import { ModalCreateCategoryForm } from "../..";
 
 type Props = {
   categoryType: string;
-  setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const renderCategoryItem = (
@@ -50,13 +51,13 @@ const renderCategoryItem = (
   );
 };
 
-const ManageCategoryForm = ({ categoryType, setShowMainModal }: Props) => {
+const ManageCategoryForm = ({ categoryType, setShowModal }: Props) => {
   const [selectedCategory, setSelectedCategory] = useState<
     CategoryType | pbRecord | null
   >(null);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const manageCategoryFormRef = useRef<HTMLDivElement>(null);
-  useOnClickOutside(manageCategoryFormRef, setShowMainModal);
+  useOnClickOutside(manageCategoryFormRef, setShowModal);
 
   // queries
   const CategoryQuery: Record<
@@ -94,43 +95,52 @@ const ManageCategoryForm = ({ categoryType, setShowMainModal }: Props) => {
 
   return (
     <>
-      <div id="modal-manage-category" ref={manageCategoryFormRef}>
-        <h2>Manage Category</h2>
+      <ModalContainer>
+        <div id="modal-manage-category" ref={manageCategoryFormRef}>
+          {!showEditModal ? (
+            <>
+              <h2>Manage Category</h2>
 
-        <form action="">
-          <div className="form-body">
-            <div className="category-type">
-              <input
-                type="text"
-                value={categoryType.includes("inflow") ? "Inflow" : "Outflow"}
-                readOnly
-              />
-            </div>
-            <div className="categories-container">
-              {CategoryQuery[categoryType].data?.map((category) => {
-                return renderCategoryItem(
-                  category,
-                  handleEditClick,
-                  handleDeleteClick
-                );
-              })}
-              <div key={"others"} className="category">
-                <div>
-                  <span>others</span>
+              <form action="">
+                <div className="form-body">
+                  <div className="category-type">
+                    <input
+                      type="text"
+                      value={
+                        categoryType.includes("inflow") ? "Inflow" : "Outflow"
+                      }
+                      readOnly
+                    />
+                  </div>
+                  <div className="categories-container">
+                    {CategoryQuery[categoryType].data?.map((category) => {
+                      return renderCategoryItem(
+                        category,
+                        handleEditClick,
+                        handleDeleteClick
+                      );
+                    })}
+                    <div key={"others"} className="category">
+                      <div>
+                        <span>others</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </form>
-        {showEditModal ? (
-          <Modal
-            quickActionId={6}
-            setShowMainModal={setShowEditModal}
-            mutation={updateMutation[categoryType]}
-            prefillData={selectedCategory}
-          />
-        ) : null}
-      </div>
+              </form>
+            </>
+          ) : null}
+
+          {showEditModal ? (
+            <ModalCreateCategoryForm
+              categoryType={categoryType}
+              setShowModal={setShowEditModal}
+              mutation={updateMutation[categoryType]}
+              prefillData={selectedCategory}
+            />
+          ) : null}
+        </div>
+      </ModalContainer>
 
       <Spinner
         mutation={updateMutation[categoryType]}

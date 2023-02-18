@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { UseMutationResult } from "react-query";
-import Modal from "../../Components/Modal";
 import Spinner from "../../Components/Spinner";
 import { CreateInflowCategory, CreateOutflowCategory } from "../../Mutations";
+import { ModalCreateCategoryForm, ModalManageCategoryForm } from "../Modal";
 
 import "./ActionCard.style.scss";
 
@@ -14,7 +14,7 @@ type Props = {
 
 const ActionCard = ({ title, categoriesNum, categoryType }: Props) => {
   const [selectedFormId, setSelectedFormId] = useState<number | null>(null);
-  const [showMainModal, setShowMainModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const mutations: Record<
     string,
@@ -26,7 +26,22 @@ const ActionCard = ({ title, categoriesNum, categoryType }: Props) => {
 
   const handleClick = (formId: number) => {
     setSelectedFormId(formId);
-    setShowMainModal(true);
+    setShowModal(true);
+  };
+
+  const renderModal = () => {
+    if (showModal) {
+      switch (selectedFormId) {
+        case 7:
+          return (
+            <ModalManageCategoryForm
+              categoryType={categoryType}
+              setShowModal={setShowModal}
+            />
+          );
+      }
+    }
+    return null;
   };
 
   return (
@@ -38,17 +53,10 @@ const ActionCard = ({ title, categoriesNum, categoryType }: Props) => {
           Manage Categories
         </button>
         <button className="create-Category" onClick={() => handleClick(6)}>
-          Create Cagtegory
+          Create Category
         </button>
       </div>
-      {showMainModal ? (
-        <Modal
-          quickActionId={selectedFormId}
-          setShowMainModal={setShowMainModal}
-          mutation={selectedFormId ? mutations[categoryType] : null}
-          categoryType={categoryType}
-        />
-      ) : null}
+      {renderModal()}
       <Spinner
         mutation={selectedFormId ? mutations[categoryType] : null}
         loadingMessage={"adding category"}

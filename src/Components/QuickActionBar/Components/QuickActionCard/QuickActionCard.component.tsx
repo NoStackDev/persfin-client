@@ -22,7 +22,7 @@ type Props = {
   btnText: string | null;
   setSelectedFormId: React.Dispatch<React.SetStateAction<number | null>>;
   hasFixedDateFilter: boolean;
-  setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type DataObj = InflowType | BudgetType | SavingsType | OutflowType | Record;
@@ -48,7 +48,7 @@ const QuickActionCard = ({
   btnText,
   setSelectedFormId,
   hasFixedDateFilter,
-  setShowMainModal,
+  setShowModal,
 }: Props) => {
   const [filterRange, setFilterRange] = useState<TimeRangeInterface | null>(
     null
@@ -87,7 +87,7 @@ const QuickActionCard = ({
     id: number
   ) => {
     setSelectedFormId(id);
-    setShowMainModal(true);
+    setShowModal(true);
   };
 
   return (

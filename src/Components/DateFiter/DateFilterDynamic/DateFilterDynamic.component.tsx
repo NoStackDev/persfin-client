@@ -37,7 +37,6 @@ const DateFilterDynamic = ({ setFilterRange }: Props) => {
   );
   const [endDate, setEndDate] = useState<Date | null>(new Date());
 
-  console.log(startDate);
   return (
     <div className="custom-date-container">
       <DatePicker

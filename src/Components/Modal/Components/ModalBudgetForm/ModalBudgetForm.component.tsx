@@ -9,16 +9,12 @@ import { Record } from "pocketbase";
 import { useOnClickOutside } from "../../../../Hooks";
 
 type Props = {
-  setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
   mutation: UseMutationResult<any, unknown, any, unknown>;
   prefillData?: BudgetType | CategoryType | Record | null;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ModalBudgetForm = ({
-  setShowMainModal,
-  mutation,
-  prefillData,
-}: Props) => {
+const ModalBudgetForm = ({ mutation, prefillData, setShowModal }: Props) => {
   const [title, setTitle] = useState<string>(prefillData?.title || "");
   const [description, setDescription] = useState<string>(
     prefillData?.description || ""
@@ -35,7 +31,7 @@ const ModalBudgetForm = ({
   }>({ title: null, items: null });
 
   const modalBudgetFormRef = useRef<HTMLDivElement>(null);
-  useOnClickOutside(modalBudgetFormRef, setShowMainModal);
+  useOnClickOutside(modalBudgetFormRef, setShowModal);
 
   const handleItemAddition = (item: BudgetItemType) => {
     if (editItem) {
@@ -109,7 +105,7 @@ const ModalBudgetForm = ({
           };
         }),
       });
-      setShowMainModal(false);
+      setShowModal(false);
       return;
     }
 
@@ -119,88 +115,90 @@ const ModalBudgetForm = ({
       items,
       description: description.trim(),
     });
-    setShowMainModal(false);
+    setShowModal(false);
   };
 
   return (
-    <div id="modal-budget-form" ref={modalBudgetFormRef}>
-      <h2>Budget</h2>
+    <ModalContainer>
+      <div id="modal-budget-form" ref={modalBudgetFormRef}>
+        <h2>Budget</h2>
 
-      <form>
-        <div className="form-body">
-          {/* title  */}
-          <div className="title">
-            <label htmlFor="title-input">Title</label>
-            <input
-              type="text"
-              id="title-input"
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
-            />
-            <p className="validation-message">{formErrors.title}</p>
-          </div>
-
-          {/* budget  */}
-          <div className="budget-items">
-            <label htmlFor="">Item(s)</label>
-            <div className="budget-items-container">
-              {items.map((item) => {
-                return (
-                  <div className="item" key={item.id}>
-                    <span
-                      className="material-icons"
-                      onClick={() => handleItemDelete(item.id)}
-                    >
-                      remove
-                    </span>
-                    <div
-                      className="title-amount"
-                      onClick={() => handleItemEdit({ ...item })}
-                    >
-                      <div className="item-title">{item.title.trim()}</div>
-                      <div className="amount">{item.amount}</div>
-                    </div>
-                  </div>
-                );
-              })}
-
-              <div
-                className="add-item"
-                onClick={() => setShowBudgetItemModal(!showBudgetItemModal)}
-              >
-                + add item
-              </div>
+        <form>
+          <div className="form-body">
+            {/* title  */}
+            <div className="title">
+              <label htmlFor="title-input">Title</label>
+              <input
+                type="text"
+                id="title-input"
+                onChange={(e) => setTitle(e.target.value)}
+                value={title}
+              />
+              <p className="validation-message">{formErrors.title}</p>
             </div>
-            <p className="validation-message">{formErrors.items}</p>
-          </div>
 
-          {/* description  */}
-          <div className="description">
-            <label htmlFor="description">Description</label>
-            <textarea
-              name="description"
-              id="description-text-area"
-              rows={2}
-              onChange={(e) => setDescription(e.target.value)}
-              value={description}
-            ></textarea>
+            {/* budget  */}
+            <div className="budget-items">
+              <label htmlFor="">Item(s)</label>
+              <div className="budget-items-container">
+                {items.map((item) => {
+                  return (
+                    <div className="item" key={item.id}>
+                      <span
+                        className="material-icons"
+                        onClick={() => handleItemDelete(item.id)}
+                      >
+                        remove
+                      </span>
+                      <div
+                        className="title-amount"
+                        onClick={() => handleItemEdit({ ...item })}
+                      >
+                        <div className="item-title">{item.title.trim()}</div>
+                        <div className="amount">{item.amount}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                <div
+                  className="add-item"
+                  onClick={() => setShowBudgetItemModal(!showBudgetItemModal)}
+                >
+                  + add item
+                </div>
+              </div>
+              <p className="validation-message">{formErrors.items}</p>
+            </div>
+
+            {/* description  */}
+            <div className="description">
+              <label htmlFor="description">Description</label>
+              <textarea
+                name="description"
+                id="description-text-area"
+                rows={2}
+                onChange={(e) => setDescription(e.target.value)}
+                value={description}
+              ></textarea>
+            </div>
           </div>
-        </div>
-      </form>
-      <button type="submit" onClick={(e) => onSubmit(e)}>
-        {prefillData ? "Update" : "Add Budget"}
-      </button>
-      {showBudgetItemModal ? (
-        <div className="budget-item-modal">
-          <ModalContainer />
-          <ModalBudgetItemForm
-            setShowBudgetItemModal={setShowBudgetItemModal}
-            handleItemAddition={handleItemAddition}
-            prefillItemData={editItem}
-          />
-        </div>
-      ) : null}
-    </div>
+        </form>
+        <button type="submit" onClick={(e) => onSubmit(e)}>
+          {prefillData ? "Update" : "Add Budget"}
+        </button>
+        {showBudgetItemModal ? (
+          <div className="budget-item-modal">
+            <ModalContainer />
+            <ModalBudgetItemForm
+              setShowBudgetItemModal={setShowBudgetItemModal}
+              handleItemAddition={handleItemAddition}
+              prefillItemData={editItem}
+            />
+          </div>
+        ) : null}
+      </div>
+    </ModalContainer>
   );
 };
 

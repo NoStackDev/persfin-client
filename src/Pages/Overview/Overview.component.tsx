@@ -15,7 +15,6 @@ import collateData from "./helpers";
 import BudgetCard from "../Budget/Components/BudgetCard";
 import { DeleteBudget, UpdateBudget } from "../../Mutations";
 import { BudgetType } from "../../TypeDefs";
-import Modal from "../../Components/Modal";
 import { Record } from "pocketbase";
 
 type Props = {};
@@ -74,14 +73,7 @@ const Overview = (props: Props) => {
           })}
         </section>
       </main>
-      {showMainModal ? (
-        <Modal
-          quickActionId={4}
-          setShowMainModal={setShowMainModal}
-          mutation={updateBudgetMutation}
-          prefillData={selecedBudget}
-        />
-      ) : null}
+
       <Spinner
         mutation={updateBudgetMutation}
         loadingMessage={"updating budget"}

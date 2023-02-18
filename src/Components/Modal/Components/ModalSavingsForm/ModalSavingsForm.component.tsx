@@ -1,21 +1,22 @@
 import { useRef, useState } from "react";
 import { UseMutationResult } from "react-query";
 import { useOnClickOutside } from "../../../../Hooks";
+import ModalContainer from "../ModalContainer";
 import "./ModalSavingsForm.style.scss";
 
 type Props = {
-  setShowMainModal: React.Dispatch<React.SetStateAction<boolean>>;
   mutation: UseMutationResult<any, unknown, any, unknown>;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ModalSavingsForm = ({ setShowMainModal, mutation }: Props) => {
+const ModalSavingsForm = ({ mutation, setShowModal }: Props) => {
   const [amount, setAmount] = useState<number>(0);
   const modalSavingsFormRef = useRef<HTMLDivElement>(null);
   const [formErrors, setFormErrors] = useState<{
     amount: string | null;
   }>({ amount: null });
 
-  useOnClickOutside(modalSavingsFormRef, setShowMainModal);
+  useOnClickOutside(modalSavingsFormRef, setShowModal);
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -28,7 +29,7 @@ const ModalSavingsForm = ({ setShowMainModal, mutation }: Props) => {
     }
 
     mutation.mutate({ amount });
-    setShowMainModal(false);
+    setShowModal(false);
   };
 
   const onAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,30 +51,34 @@ const ModalSavingsForm = ({ setShowMainModal, mutation }: Props) => {
   };
 
   return (
-    <div id="modal-savings-form" ref={modalSavingsFormRef}>
-      <h2>Savings</h2>
+    <>
+      <ModalContainer>
+        <div id="modal-savings-form" ref={modalSavingsFormRef}>
+          <h2>Savings</h2>
 
-      <form>
-        <div className="form-body">
-          <div className="title">
-            <label htmlFor="title">Amount</label>
-            <input
-              type="text"
-              onChange={(e) => onAmountChange(e)}
-              value={amount}
-            />
-          </div>
-          <p className="validation-message">{formErrors.amount}</p>
-          <div className="limit">
-            <div>available</div>
-            <div>&#x20A6; {localStorage.getItem("balance") || 0}</div>
-          </div>
+          <form>
+            <div className="form-body">
+              <div className="title">
+                <label htmlFor="title">Amount</label>
+                <input
+                  type="text"
+                  onChange={(e) => onAmountChange(e)}
+                  value={amount}
+                />
+              </div>
+              <p className="validation-message">{formErrors.amount}</p>
+              <div className="limit">
+                <div>available</div>
+                <div>&#x20A6; {localStorage.getItem("balance") || 0}</div>
+              </div>
+            </div>
+          </form>
+          <button type="submit" onClick={(e) => onSubmit(e)}>
+            Add Savings
+          </button>
         </div>
-      </form>
-      <button type="submit" onClick={(e) => onSubmit(e)}>
-        Add Savings
-      </button>
-    </div>
+      </ModalContainer>
+    </>
   );
 };
 
