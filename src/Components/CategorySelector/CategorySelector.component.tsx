@@ -38,8 +38,10 @@ const CategorySelector = ({ categories, setSelectedCategory }: Props) => {
     >
       <div className="selected-option">
         <div>
-          {(selectedOption?.split("")[0].toLocaleUpperCase() || "") +
-            selectedOption?.slice(1)}
+          {selectedOption
+            ? (selectedOption?.split("")[0].toLocaleUpperCase() || "") +
+              selectedOption?.slice(1)
+            : null}
         </div>
         <Icons
           icon={"expand_more"}

@@ -205,280 +205,277 @@ const ModalOutflowForm = ({ setShowModal, mutation }: Props) => {
 
   return (
     <>
-      <ModalContainer>
-        <div id="modal-outflow-form" ref={modalOutflowFormRef}>
-          {showCreateCategoryModal ? null : (
-            <>
-              <h2>Outflow</h2>
+      {showCreateCategoryModal ? null : (
+        <ModalContainer>
+          <div id="modal-outflow-form" ref={modalOutflowFormRef}>
+            <h2>Outflow</h2>
 
-              <form>
-                <div className="form-body">
-                  <div className="title">
-                    <label htmlFor="title">Title</label>
+            <form>
+              <div className="form-body">
+                <div className="title">
+                  <label htmlFor="title">Title</label>
+                  <input
+                    type="text"
+                    onChange={(e) =>
+                      setInputStates({
+                        ...inputStates,
+                        title: e.target.value,
+                      })
+                    }
+                    value={inputStates.title}
+                  />
+                  <p className="validation-message">{formErrors.title}</p>
+                </div>
+
+                {/* take from saving */}
+                <div className="savings" onClick={(e) => onSavingsChange(e)}>
+                  <input
+                    type="checkbox"
+                    name="take_from_savings"
+                    id="take-from-savings"
+                  />
+                  <label htmlFor="">take from savings</label>
+                </div>
+
+                {/* amount */}
+                <div className="amount-container">
+                  <div className="amount">
+                    <label htmlFor="amount">amount</label>
                     <input
                       type="text"
-                      onChange={(e) =>
-                        setInputStates({
-                          ...inputStates,
-                          title: e.target.value,
-                        })
-                      }
-                      value={inputStates.title}
+                      onChange={(e) => onAmountChange(e)}
+                      id="amount"
+                      value={inputStates.amount}
                     />
-                    <p className="validation-message">{formErrors.title}</p>
+                    <p className="validation-message">{formErrors.amount}</p>
                   </div>
-
-                  {/* take from saving */}
-                  <div className="savings" onClick={(e) => onSavingsChange(e)}>
-                    <input
-                      type="checkbox"
-                      name="take_from_savings"
-                      id="take-from-savings"
-                    />
-                    <label htmlFor="">take from savings</label>
-                  </div>
-
-                  {/* amount */}
-                  <div className="amount-container">
-                    <div className="amount">
-                      <label htmlFor="amount">amount</label>
-                      <input
-                        type="text"
-                        onChange={(e) => onAmountChange(e)}
-                        id="amount"
-                        value={inputStates.amount}
-                      />
-                      <p className="validation-message">{formErrors.amount}</p>
-                    </div>
-                    {inputStates.item ? (
-                      <div className="limit">
-                        <div>item budget</div>
-                        <div>
-                          &#x20A6;
-                          {inputStates.item
-                            ? inputStates.item.balance.toLocaleString()
-                            : null}
-                        </div>
-                      </div>
-                    ) : null}
+                  {inputStates.item ? (
                     <div className="limit">
-                      <div>
-                        {takeFromSavings ? "savings" : "available balance"}
-                      </div>
+                      <div>item budget</div>
                       <div>
                         &#x20A6;
-                        {takeFromSavings
-                          ? Number(
-                              localStorage.getItem("savings")
-                            ).toLocaleString()
-                          : Number(
-                              localStorage.getItem("balance")
-                            ).toLocaleString()}
+                        {inputStates.item
+                          ? inputStates.item.balance.toLocaleString()
+                          : null}
                       </div>
                     </div>
+                  ) : null}
+                  <div className="limit">
+                    <div>
+                      {takeFromSavings ? "savings" : "available balance"}
+                    </div>
+                    <div>
+                      &#x20A6;
+                      {takeFromSavings
+                        ? Number(
+                            localStorage.getItem("savings")
+                          ).toLocaleString()
+                        : Number(
+                            localStorage.getItem("balance")
+                          ).toLocaleString()}
+                    </div>
                   </div>
+                </div>
 
-                  {/* budgets  */}
-                  <div className="budget">
-                    <label htmlFor="budget-options-container">Budget</label>
+                {/* budgets  */}
+                <div className="budget">
+                  <label htmlFor="budget-options-container">Budget</label>
+                  <div
+                    className="budget-selected"
+                    onClick={() => setShowBudgetOptions(!showBudgetOptions)}
+                    ref={budgetRef}
+                  >
+                    <div>
+                      {inputStates.budget
+                        ? inputStates.budget.title.trim()
+                        : "Unbudgeted"}
+                    </div>
+                    <span
+                      className={`material-icons ${
+                        showBudgetOptions ? "open" : null
+                      }`}
+                    >
+                      expand_more
+                    </span>
+                  </div>
+                  <div
+                    className={`budget-options-container show-${showBudgetOptions}`}
+                    ref={budgetRef}
+                  >
                     <div
-                      className="budget-selected"
-                      onClick={() => setShowBudgetOptions(!showBudgetOptions)}
-                      ref={budgetRef}
+                      className="budget-options inputdiv"
+                      onClick={() => onBudgetChange(null)}
+                    >
+                      {inputStates.budget ? "Unbudgeted" : null}
+                    </div>
+
+                    {budgetData?.map((ele) => {
+                      if (
+                        ele.exhausted === false &&
+                        ele.id !== inputStates.budget?.id
+                      )
+                        return (
+                          <div
+                            className="budget-options inputdiv"
+                            onClick={() => onBudgetChange(ele)}
+                            key={ele.id}
+                          >
+                            {ele.title.trim()}
+                          </div>
+                        );
+                      return null;
+                    })}
+                  </div>
+                  {inputStates.budget ? (
+                    <div className="limit">
+                      <div>available</div>
+                      <div> &#x20A6; {inputStates.budget.balance}</div>
+                    </div>
+                  ) : null}
+                </div>
+
+                {/* budget items  */}
+                {inputStates.budget ? (
+                  <div className="budget-item">
+                    <label htmlFor="budget-item-options-container">Items</label>
+                    <div
+                      className="budget-item-selected"
+                      onClick={() =>
+                        setShowBudgetItemsOptions(!showBudgetItemsOptions)
+                      }
+                      ref={budgetItemsRef}
                     >
                       <div>
-                        {inputStates.budget
-                          ? inputStates.budget.title.trim()
-                          : "Unbudgeted"}
+                        {inputStates.item
+                          ? inputStates.item.title.trim()
+                          : null}
                       </div>
                       <span
                         className={`material-icons ${
-                          showBudgetOptions ? "open" : null
+                          showBudgetItemsOptions ? "open" : null
                         }`}
                       >
                         expand_more
                       </span>
                     </div>
                     <div
-                      className={`budget-options-container show-${showBudgetOptions}`}
-                      ref={budgetRef}
+                      className={`budget-item-options-container show-${showBudgetItemsOptions}`}
+                      ref={budgetItemsRef}
                     >
-                      <div
-                        className="budget-options inputdiv"
-                        onClick={() => onBudgetChange(null)}
-                      >
-                        {inputStates.budget ? "Unbudgeted" : null}
-                      </div>
-
-                      {budgetData?.map((ele) => {
-                        if (
-                          ele.exhausted === false &&
-                          ele.id !== inputStates.budget?.id
-                        )
+                      {inputStates.budgetItems?.map((ele: BudgetItemType) => {
+                        if (ele.id !== inputStates.item?.id)
                           return (
                             <div
-                              className="budget-options inputdiv"
-                              onClick={() => onBudgetChange(ele)}
+                              className="budget-item-options"
+                              onClick={() => onBudgetItemChange(ele)}
                               key={ele.id}
                             >
-                              {ele.title.trim()}
+                              {ele.title}
                             </div>
                           );
                         return null;
                       })}
                     </div>
-                    {inputStates.budget ? (
+                    {inputStates.item ? (
                       <div className="limit">
                         <div>available</div>
-                        <div> &#x20A6; {inputStates.budget.balance}</div>
+                        <div> &#x20A6; {inputStates.item.balance}</div>
                       </div>
                     ) : null}
                   </div>
+                ) : null}
 
-                  {/* budget items  */}
-                  {inputStates.budget ? (
-                    <div className="budget-item">
-                      <label htmlFor="budget-item-options-container">
-                        Items
-                      </label>
-                      <div
-                        className="budget-item-selected"
-                        onClick={() =>
-                          setShowBudgetItemsOptions(!showBudgetItemsOptions)
-                        }
-                        ref={budgetItemsRef}
-                      >
-                        <div>
-                          {inputStates.item
-                            ? inputStates.item.title.trim()
-                            : null}
-                        </div>
-                        <span
-                          className={`material-icons ${
-                            showBudgetItemsOptions ? "open" : null
-                          }`}
-                        >
-                          expand_more
-                        </span>
-                      </div>
-                      <div
-                        className={`budget-item-options-container show-${showBudgetItemsOptions}`}
-                        ref={budgetItemsRef}
-                      >
-                        {inputStates.budgetItems?.map((ele: BudgetItemType) => {
-                          if (ele.id !== inputStates.item?.id)
-                            return (
-                              <div
-                                className="budget-item-options"
-                                onClick={() => onBudgetItemChange(ele)}
-                                key={ele.id}
-                              >
-                                {ele.title}
-                              </div>
-                            );
-                          return null;
-                        })}
-                      </div>
-                      {inputStates.item ? (
-                        <div className="limit">
-                          <div>available</div>
-                          <div> &#x20A6; {inputStates.item.balance}</div>
-                        </div>
-                      ) : null}
-                    </div>
-                  ) : null}
-
-                  {/* category  */}
-                  {inputStates.budget ? null : (
-                    <div className="category">
-                      <label htmlFor="category-options-container">
-                        Category
-                      </label>
-                      <div
-                        className="category-selected"
-                        onClick={() =>
-                          setShowCategoryOptions(!showCategoryOptions)
-                        }
-                        ref={categoryRef}
-                      >
-                        <div>
-                          {inputStates.category
-                            ? inputStates.category.title.trim()
-                            : "Others"}
-                        </div>
-                        <span
-                          className={`material-icons ${
-                            showCategoryOptions ? "open" : null
-                          }`}
-                        >
-                          expand_more
-                        </span>
-                      </div>
-                      <div
-                        className={`category-options-container show-${showCategoryOptions}`}
-                        ref={categoryRef}
-                      >
-                        <div
-                          className="category-options"
-                          onClick={() => onCategoryChange(null)}
-                        >
-                          {inputStates.category ? "Others" : null}
-                        </div>
-
-                        {categoryData?.map((ele) => {
-                          return ele.id !== inputStates.category?.id ? (
-                            <div
-                              className="category-options"
-                              onClick={() => onCategoryChange(ele)}
-                              key={ele.id}
-                            >
-                              {ele.title.trim()}
-                            </div>
-                          ) : null;
-                        })}
-
-                        <div
-                          className="category-options add-category"
-                          onClick={(e) => setShowCreateCategoryModal(true)}
-                        >
-                          add category
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* description  */}
-                  <div className="description">
-                    <label htmlFor="description">Description</label>
-                    <textarea
-                      name="description"
-                      id="description-text-area"
-                      rows={2}
-                      onChange={(e) =>
-                        setInputStates({
-                          ...inputStates,
-                          description: e.target.value,
-                        })
+                {/* category  */}
+                {inputStates.budget ? null : (
+                  <div className="category">
+                    <label htmlFor="category-options-container">Category</label>
+                    <div
+                      className="category-selected"
+                      onClick={() =>
+                        setShowCategoryOptions(!showCategoryOptions)
                       }
-                      value={inputStates.description}
-                    ></textarea>
+                      ref={categoryRef}
+                    >
+                      <div>
+                        {inputStates.category
+                          ? inputStates.category.title.trim()
+                          : "Others"}
+                      </div>
+                      <span
+                        className={`material-icons ${
+                          showCategoryOptions ? "open" : null
+                        }`}
+                      >
+                        expand_more
+                      </span>
+                    </div>
+                    <div
+                      className={`category-options-container show-${showCategoryOptions}`}
+                      ref={categoryRef}
+                    >
+                      <div
+                        className="category-options"
+                        onClick={() => onCategoryChange(null)}
+                      >
+                        {inputStates.category ? "Others" : null}
+                      </div>
+
+                      {categoryData?.map((ele) => {
+                        return ele.id !== inputStates.category?.id ? (
+                          <div
+                            className="category-options"
+                            onClick={() => onCategoryChange(ele)}
+                            key={ele.id}
+                          >
+                            {ele.title.trim()}
+                          </div>
+                        ) : null;
+                      })}
+
+                      <div
+                        className="category-options add-category"
+                        onClick={(e) => setShowCreateCategoryModal(true)}
+                      >
+                        add category
+                      </div>
+                    </div>
                   </div>
+                )}
+
+                {/* description  */}
+                <div className="description">
+                  <label htmlFor="description">Description</label>
+                  <textarea
+                    name="description"
+                    id="description-text-area"
+                    rows={2}
+                    onChange={(e) =>
+                      setInputStates({
+                        ...inputStates,
+                        description: e.target.value,
+                      })
+                    }
+                    value={inputStates.description}
+                  ></textarea>
                 </div>
-              </form>
-              <button type="submit" onClick={(e) => onSubmit(e)}>
-                Add Outflow
-              </button>
-            </>
-          )}
-          {showCreateCategoryModal ? (
-            <ModalCreateCategoryForm
-              mutation={createCategoryMutation}
-              categoryType={"outflow"}
-              setShowModal={setShowCreateCategoryModal}
-            />
-          ) : null}
+              </div>
+            </form>
+            <button type="submit" onClick={(e) => onSubmit(e)}>
+              Add Outflow
+            </button>
+          </div>
+        </ModalContainer>
+      )}
+
+      {showCreateCategoryModal ? (
+        <div ref={modalOutflowFormRef}>
+          <ModalCreateCategoryForm
+            mutation={createCategoryMutation}
+            categoryType={"outflow"}
+            setShowModal={setShowCreateCategoryModal}
+          />
         </div>
-      </ModalContainer>
+      ) : null}
 
       <Spinner
         mutation={createCategoryMutation}

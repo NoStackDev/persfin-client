@@ -83,129 +83,127 @@ const ModalInflowForm = ({ setShowModal, mutation }: Props) => {
 
   return (
     <>
-      <ModalContainer>
-        <div id="modal-inflow-form" ref={modalInflowFormRef}>
-          {showCreateCategoryModal ? null : (
-            <>
-              <h2>Inflow</h2>
+      {showCreateCategoryModal ? null : (
+        <ModalContainer>
+          <div id="modal-inflow-form" ref={modalInflowFormRef}>
+            <h2>Inflow</h2>
 
-              <form>
-                <div className="form-body">
-                  {/* title  */}
-                  <div className="title">
-                    <label htmlFor="title">Title</label>
-                    <input
-                      type="text"
-                      onChange={(e) =>
-                        setInputValues({
-                          ...inputValues,
-                          title: e.target.value,
-                        })
-                      }
-                      value={inputValues.title}
-                    />
-                    <p className="validation-message">{formErrors.title}</p>
-                  </div>
+            <form>
+              <div className="form-body">
+                {/* title  */}
+                <div className="title">
+                  <label htmlFor="title">Title</label>
+                  <input
+                    type="text"
+                    onChange={(e) =>
+                      setInputValues({
+                        ...inputValues,
+                        title: e.target.value,
+                      })
+                    }
+                    value={inputValues.title}
+                  />
+                  <p className="validation-message">{formErrors.title}</p>
+                </div>
 
-                  {/* amount  */}
-                  <div className="amount">
-                    <label htmlFor="amount">amount</label>
-                    <input
-                      type="text"
-                      onChange={(e) => onAmountChange(e)}
-                      value={inputValues.amount}
-                    />
-                    <p className="validation-message">{formErrors.amount}</p>
-                  </div>
+                {/* amount  */}
+                <div className="amount">
+                  <label htmlFor="amount">amount</label>
+                  <input
+                    type="text"
+                    onChange={(e) => onAmountChange(e)}
+                    value={inputValues.amount}
+                  />
+                  <p className="validation-message">{formErrors.amount}</p>
+                </div>
 
-                  {/* category  */}
-                  <div className="category">
-                    <label htmlFor="category-options-container">Category</label>
-                    <div
-                      className="category-selected"
-                      onClick={() =>
-                        setShowCategoryOptions(!showCategoryOptions)
-                      }
-                      ref={categoryOptionsRef}
-                    >
-                      <div>
-                        {inputValues.category
-                          ? inputValues.category.title.trim()
-                          : "Others"}
-                      </div>
-                      <span
-                        className={`material-icons ${
-                          showCategoryOptions ? "open" : null
-                        }`}
-                      >
-                        expand_more
-                      </span>
+                {/* category  */}
+                <div className="category">
+                  <label htmlFor="category-options-container">Category</label>
+                  <div
+                    className="category-selected"
+                    onClick={() => setShowCategoryOptions(!showCategoryOptions)}
+                    ref={categoryOptionsRef}
+                  >
+                    <div>
+                      {inputValues.category
+                        ? inputValues.category.title.trim()
+                        : "Others"}
                     </div>
-                    <div
-                      className={`category-options-container show-${showCategoryOptions}`}
-                      ref={categoryOptionsRef}
+                    <span
+                      className={`material-icons ${
+                        showCategoryOptions ? "open" : null
+                      }`}
                     >
-                      <div
-                        className="category-options"
-                        onClick={() => onCategoryChange(null)}
-                      >
-                        {inputValues.category ? "Others" : null}
-                      </div>
-
-                      {categoryData?.map((ele) => {
-                        return ele.id !== inputValues.category?.id ? (
-                          <div
-                            className="category-options"
-                            onClick={(e) => onCategoryChange(ele)}
-                            key={ele.id}
-                          >
-                            {ele.title.trim()}
-                          </div>
-                        ) : null;
-                      })}
-
-                      <div
-                        className="category-options add-category"
-                        onClick={(e) => setShowCreateCategoryModal(true)}
-                      >
-                        add category
-                      </div>
-                    </div>
+                      expand_more
+                    </span>
                   </div>
+                  <div
+                    className={`category-options-container show-${showCategoryOptions}`}
+                    ref={categoryOptionsRef}
+                  >
+                    <div
+                      className="category-options"
+                      onClick={() => onCategoryChange(null)}
+                    >
+                      {inputValues.category ? "Others" : null}
+                    </div>
 
-                  {/* description  */}
-                  <div className="description">
-                    <label htmlFor="description">Description</label>
-                    <textarea
-                      name="description"
-                      id="description-text-area"
-                      rows={2}
-                      onChange={(e) =>
-                        setInputValues({
-                          ...inputValues,
-                          description: e.target.value,
-                        })
-                      }
-                      value={inputValues.description}
-                    ></textarea>
+                    {categoryData?.map((ele) => {
+                      return ele.id !== inputValues.category?.id ? (
+                        <div
+                          className="category-options"
+                          onClick={(e) => onCategoryChange(ele)}
+                          key={ele.id}
+                        >
+                          {ele.title.trim()}
+                        </div>
+                      ) : null;
+                    })}
+
+                    <div
+                      className="category-options add-category"
+                      onClick={(e) => setShowCreateCategoryModal(true)}
+                    >
+                      add category
+                    </div>
                   </div>
                 </div>
-              </form>
-              <button type="submit" onClick={(e) => onSubmit(e)}>
-                Add Inflow
-              </button>
-            </>
-          )}
 
-          {showCreateCategoryModal ? (
-            <ModalCreateCategoryForm
-              mutation={createCategoryMutation}
-              categoryType={"inflow"}
-              setShowMainModal={setShowCreateCategoryModal}
-            />
-          ) : null}
+                {/* description  */}
+                <div className="description">
+                  <label htmlFor="description">Description</label>
+                  <textarea
+                    name="description"
+                    id="description-text-area"
+                    rows={2}
+                    onChange={(e) =>
+                      setInputValues({
+                        ...inputValues,
+                        description: e.target.value,
+                      })
+                    }
+                    value={inputValues.description}
+                  ></textarea>
+                </div>
+              </div>
+            </form>
+            <button type="submit" onClick={(e) => onSubmit(e)}>
+              Add Inflow
+            </button>
+          </div>
+        </ModalContainer>
+      )}
+
+      {showCreateCategoryModal ? (
+        <div ref={modalInflowFormRef}>
+          <ModalCreateCategoryForm
+            mutation={createCategoryMutation}
+            categoryType={"inflow"}
+            setShowModal={setShowCreateCategoryModal}
+          />
         </div>
-      </ModalContainer>
+      ) : null}
 
       <Spinner
         mutation={createCategoryMutation}

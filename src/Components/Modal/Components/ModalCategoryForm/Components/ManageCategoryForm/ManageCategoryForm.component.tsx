@@ -6,13 +6,6 @@ import {
 import { CategoryType } from "../../../../../../TypeDefs";
 import { UseMutationResult, UseQueryResult } from "react-query";
 import "./ManageCategoryForm.style.scss";
-import {
-  DeleteInflowCategory,
-  DeleteOutflowCategory,
-  UpdateInflowCategory,
-  UpdateOutflowCategory,
-} from "../../../../../../Mutations";
-import Spinner from "../../../../../Spinner";
 import { Record as pbRecord } from "pocketbase";
 import { useOnClickOutside } from "../../../../../../Hooks";
 import ModalContainer from "../../../ModalContainer";
@@ -21,6 +14,8 @@ import { ModalCreateCategoryForm } from "../..";
 type Props = {
   categoryType: string;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  updateMutation: UseMutationResult<any, unknown, any, unknown>;
+  deleteMutation: UseMutationResult<any, unknown, any, unknown>;
 };
 
 const renderCategoryItem = (
@@ -51,7 +46,12 @@ const renderCategoryItem = (
   );
 };
 
-const ManageCategoryForm = ({ categoryType, setShowModal }: Props) => {
+const ManageCategoryForm = ({
+  categoryType,
+  setShowModal,
+  updateMutation,
+  deleteMutation,
+}: Props) => {
   const [selectedCategory, setSelectedCategory] = useState<
     CategoryType | pbRecord | null
   >(null);
@@ -68,92 +68,63 @@ const ManageCategoryForm = ({ categoryType, setShowModal }: Props) => {
     outflowCategories: useOutflowCategoriesQuery(),
   };
 
-  // mutation
-  const deleteMutation: Record<
-    string,
-    UseMutationResult<any, unknown, any, unknown>
-  > = {
-    inflowCategories: DeleteInflowCategory(),
-    outflowCategories: DeleteOutflowCategory(),
-  };
-  const updateMutation: Record<
-    string,
-    UseMutationResult<any, unknown, any, unknown>
-  > = {
-    inflowCategories: UpdateInflowCategory(),
-    outflowCategories: UpdateOutflowCategory(),
-  };
-
   const handleEditClick = (category: CategoryType | pbRecord) => {
     setSelectedCategory(category);
     setShowEditModal(true);
   };
 
   const handleDeleteClick = (category: CategoryType | pbRecord) => {
-    deleteMutation[categoryType].mutate({ categoryId: category.id });
+    deleteMutation.mutate({ categoryId: category.id });
   };
 
   return (
     <>
-      <ModalContainer>
-        <div id="modal-manage-category" ref={manageCategoryFormRef}>
-          {!showEditModal ? (
-            <>
-              <h2>Manage Category</h2>
+      {showEditModal ? null : (
+        <ModalContainer>
+          <div id="modal-manage-category" ref={manageCategoryFormRef}>
+            <h2>Manage Category</h2>
 
-              <form action="">
-                <div className="form-body">
-                  <div className="category-type">
-                    <input
-                      type="text"
-                      value={
-                        categoryType.includes("inflow") ? "Inflow" : "Outflow"
-                      }
-                      readOnly
-                    />
-                  </div>
-                  <div className="categories-container">
-                    {CategoryQuery[categoryType].data?.map((category) => {
-                      return renderCategoryItem(
-                        category,
-                        handleEditClick,
-                        handleDeleteClick
-                      );
-                    })}
-                    <div key={"others"} className="category">
-                      <div>
-                        <span>others</span>
-                      </div>
+            <form action="">
+              <div className="form-body">
+                <div className="category-type">
+                  <input
+                    type="text"
+                    value={
+                      categoryType.includes("inflow") ? "Inflow" : "Outflow"
+                    }
+                    readOnly
+                  />
+                </div>
+                <div className="categories-container">
+                  {CategoryQuery[categoryType].data?.map((category) => {
+                    return renderCategoryItem(
+                      category,
+                      handleEditClick,
+                      handleDeleteClick
+                    );
+                  })}
+                  <div key={"others"} className="category">
+                    <div>
+                      <span>others</span>
                     </div>
                   </div>
                 </div>
-              </form>
-            </>
-          ) : null}
+              </div>
+            </form>
+          </div>
+        </ModalContainer>
+      )}
 
-          {showEditModal ? (
-            <ModalCreateCategoryForm
-              categoryType={categoryType}
-              setShowModal={setShowEditModal}
-              mutation={updateMutation[categoryType]}
-              prefillData={selectedCategory}
-            />
-          ) : null}
+      {showEditModal ? (
+        <div ref={manageCategoryFormRef}>
+          <ModalCreateCategoryForm
+            categoryType={categoryType}
+            setShowModal={setShowEditModal}
+            mutation={updateMutation}
+            prefillData={selectedCategory}
+          />
         </div>
-      </ModalContainer>
-
-      <Spinner
-        mutation={updateMutation[categoryType]}
-        loadingMessage={"updating category"}
-        successMessage={"updated category"}
-        failMessage={"failed to update category"}
-      />
-      <Spinner
-        mutation={deleteMutation[categoryType]}
-        loadingMessage={"deleting category"}
-        successMessage={"deleted category"}
-        failMessage={"failed to delete category"}
-      />
+      ) : null}
     </>
   );
 };

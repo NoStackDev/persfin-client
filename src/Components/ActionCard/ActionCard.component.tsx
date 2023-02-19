@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { UseMutationResult } from "react-query";
 import Spinner from "../../Components/Spinner";
-import { CreateInflowCategory, CreateOutflowCategory } from "../../Mutations";
+import {
+  CreateInflowCategory,
+  CreateOutflowCategory,
+  DeleteInflowCategory,
+  DeleteOutflowCategory,
+  UpdateInflowCategory,
+  UpdateOutflowCategory,
+} from "../../Mutations";
 import { ModalCreateCategoryForm, ModalManageCategoryForm } from "../Modal";
 
 import "./ActionCard.style.scss";
@@ -16,12 +23,28 @@ const ActionCard = ({ title, categoriesNum, categoryType }: Props) => {
   const [selectedFormId, setSelectedFormId] = useState<number | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const mutations: Record<
+  const createMutations: Record<
     string,
     UseMutationResult<any, unknown, any, unknown>
   > = {
     inflowCategories: CreateInflowCategory(),
     outflowCategories: CreateOutflowCategory(),
+  };
+
+  const deleteMutations: Record<
+    string,
+    UseMutationResult<any, unknown, any, unknown>
+  > = {
+    inflowCategories: DeleteInflowCategory(),
+    outflowCategories: DeleteOutflowCategory(),
+  };
+
+  const updateMutations: Record<
+    string,
+    UseMutationResult<any, unknown, any, unknown>
+  > = {
+    inflowCategories: UpdateInflowCategory(),
+    outflowCategories: UpdateOutflowCategory(),
   };
 
   const handleClick = (formId: number) => {
@@ -32,11 +55,22 @@ const ActionCard = ({ title, categoriesNum, categoryType }: Props) => {
   const renderModal = () => {
     if (showModal) {
       switch (selectedFormId) {
+        case 6:
+          return (
+            <ModalCreateCategoryForm
+              categoryType={categoryType}
+              setShowModal={setShowModal}
+              mutation={createMutations[categoryType]}
+            />
+          );
+
         case 7:
           return (
             <ModalManageCategoryForm
               categoryType={categoryType}
               setShowModal={setShowModal}
+              updateMutation={updateMutations[categoryType]}
+              deleteMutation={deleteMutations[categoryType]}
             />
           );
       }
@@ -58,7 +92,19 @@ const ActionCard = ({ title, categoriesNum, categoryType }: Props) => {
       </div>
       {renderModal()}
       <Spinner
-        mutation={selectedFormId ? mutations[categoryType] : null}
+        mutation={updateMutations[categoryType]}
+        loadingMessage={"updating category"}
+        successMessage={"updated category"}
+        failMessage={"failed to update category"}
+      />
+      <Spinner
+        mutation={deleteMutations[categoryType]}
+        loadingMessage={"deleting category"}
+        successMessage={"deleted category"}
+        failMessage={"failed to delete category"}
+      />
+      <Spinner
+        mutation={selectedFormId ? createMutations[categoryType] : null}
         loadingMessage={"adding category"}
         successMessage={"added category"}
         failMessage={"failed to add category"}
