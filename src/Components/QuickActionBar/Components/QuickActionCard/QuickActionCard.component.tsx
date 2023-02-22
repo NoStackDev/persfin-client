@@ -110,7 +110,7 @@ const QuickActionCard = ({
       </div>
       {hasBtn ? (
         <button
-          className={title.toLowerCase()}
+          className={`${title.toLowerCase()} quickaction-button` }
           onClick={(e) => onButtonClick(e, id)}
         >
           {btnText}

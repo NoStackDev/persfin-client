@@ -83,7 +83,7 @@
       }
     }
 
-    button {
+    .quickaction-button {
       font-weight: 600;
       @include theme-aware("background", "primary-color");
       color: #fff;

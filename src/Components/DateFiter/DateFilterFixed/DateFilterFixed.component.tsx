@@ -6,6 +6,7 @@ import "./DateFilterFixed.style.scss";
 import { TimeRangeInterface } from "../../../TypeDefs";
 import { useOnClickOutside } from "../../../Hooks";
 import Icons from "../../Icons";
+import DateFilterDynamic from "../DateFilterDynamic";
 
 type SetFilterRange = {
   setFilterRange: React.Dispatch<SetStateAction<TimeRangeInterface | null>>;
@@ -54,8 +55,10 @@ const DateFilterFixed = ({ setFilterRange }: SetFilterRange) => {
           <div
               
                 className="filter-option"
+                // ref={dateFilterFixedRef}
               >
                 custom date
+                <DateFilterDynamic setFilterRange={setFilterRange}/>
               </div>
         </div>
       ) : null}

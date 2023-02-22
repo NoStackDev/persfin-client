@@ -2,17 +2,58 @@
 @import "../../../Assets/Styles/functions";
 @import "../../../Assets/Styles/themes";
 
-
 .custom-date-container {
   display: flex;
   gap: to-rem(10px);
+  font-size: to-rem(14px);
+  align-items: center;
+
+
+  .react-datepicker__triangle::before,
+  .react-datepicker__triangle::after {
+    @include theme-aware("border-bottom-color", "text-color");
+  }
+
+  .react-datepicker__month-container {
+    @include theme-aware("background-color", "bg-color");
+
+    .react-datepicker__header {
+      @include theme-aware("background-color", "bg-color");
+
+      .react-datepicker__current-month {
+        @include theme-aware("color", "text-color");
+      }
+
+      .react-datepicker__month-select {
+        @include theme-aware("background-color", "bg-color");
+        @include theme-aware("color", "text-2-color");
+      }
+
+      .react-datepicker__year-select {
+        @include theme-aware("background-color", "bg-color");
+        @include theme-aware("color", "text-2-color");
+      }
+
+      .react-datepicker__day-name {
+        @include theme-aware("color", "text-color");
+      }
+    }
+
+    .react-datepicker__day {
+      @include theme-aware("color", "text-color");
+    }
+
+    .react-datepicker__day--selected {
+      @include theme-aware("color", "text-2-color");
+    }
+  }
 
   .custom-date-input {
     border: none;
-    border-radius: 0;
+    border-radius: 0; 
     padding: to-rem(5px);
-    // @include theme-aware("background-color", "bg-color");
+    @include theme-aware("background-color", "bg-color");
     @include theme-aware("color", "text-color");
-    font-size: to-rem(12px);
+    font-size: to-rem(14px);
   }
 }

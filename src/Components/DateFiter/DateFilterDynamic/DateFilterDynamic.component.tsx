@@ -1,15 +1,8 @@
-import React, {
-  forwardRef,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { forwardRef, SetStateAction, useState } from "react";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./DateFilterDynamic.style.scss";
-
 
 import { TimeRangeInterface } from "../../../TypeDefs";
 import pb from "../../../lib/pocketbase";
@@ -25,7 +18,7 @@ type childProps = {
 
 const CustomInput = forwardRef<HTMLButtonElement, childProps>(
   ({ value, onClick }, ref) => (
-    <button className="custom-date-input"  ref={ref} onClick={onClick}>
+    <button className="custom-date-input" ref={ref} onClick={onClick}>
       {value}
     </button>
   )
@@ -39,25 +32,29 @@ const DateFilterDynamic = ({ setFilterRange }: Props) => {
 
   return (
     <div className="custom-date-container">
+      <span>from</span>
       <DatePicker
         selected={startDate}
         onChange={(date) => setStartDate(date)}
         customInput={
-          <CustomInput
-            value={startDate?.toDateString()}
-            onClick={(e) => console.log(e)}
-          />
+          <CustomInput value={startDate?.toDateString()} onClick={(e) => {}} />
         }
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
       />
+      <span>to</span>
       <DatePicker
-        selected={startDate}
-        onChange={(date) => setStartDate(date)}
+        selected={endDate}
+        onChange={(date) => setEndDate(date)}
         customInput={
-          <CustomInput
-            value={startDate?.toDateString()}
-            onClick={(e) => console.log(e)}
-          />
+          <CustomInput value={endDate?.toDateString()} onClick={(e) => {}} />
         }
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
       />
     </div>
   );
