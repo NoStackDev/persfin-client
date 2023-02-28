@@ -1,10 +1,11 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Spinner from "../../Components/Spinner";
 import { AuthUser, CreateUser } from "../../Mutations";
-import { Navigate } from "react-router-dom";
+import { Navigate, redirect } from "react-router-dom";
 
 import "./Login.style.scss";
 import pb from "../../lib/pocketbase";
+import Overview from "../Overview";
 
 type Props = {};
 
@@ -89,8 +90,6 @@ const Login = (props: Props) => {
         break;
 
       case "confirmPassword":
-        // console.log("password: ", inputValues.password)
-        // console.log("confirm password: ", inputState.)
         if (inputValues.password !== e.target.value) {
           setFormErrors({
             ...formErrors,
@@ -135,8 +134,8 @@ const Login = (props: Props) => {
     });
   };
 
-  if (pb.authStore.model) {
-    return <Navigate replace to="/" />;
+  if (pb.authStore.isValid) {
+    return <Navigate to={"/"} />;
   }
 
   return (
