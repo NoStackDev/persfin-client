@@ -38,8 +38,9 @@ const DateFilterFixed = ({ setFilterRange }: SetFilterRange) => {
       setShowModal(true);
       setSelectedOption(createdRangeObj);
       setFilterRange(createdRangeObj);
-      return
+      return;
     }
+
     setSelectedOption(createdRangeObj);
     setFilterRange(createdRangeObj);
   };
@@ -70,13 +71,16 @@ const DateFilterFixed = ({ setFilterRange }: SetFilterRange) => {
             })}
             <div
               onClick={() =>
-                handleClick({
-                  id: "custom",
-                  title: "Custom Date",
-                  range: () => {
-                    return { min: customStartDate, max: customEndDate };
+                handleClick(
+                  {
+                    id: "custom",
+                    title: "Custom",
+                    range: () => {
+                      return { min: customStartDate, max: customEndDate };
+                    },
                   },
-                }, 'custom')
+                  "custom"
+                )
               }
               className="filter-option"
             >
@@ -85,7 +89,12 @@ const DateFilterFixed = ({ setFilterRange }: SetFilterRange) => {
           </div>
         ) : null}
       </div>
-      {showModal ? <ModalDateFilter setFilterRange={setFilterRange} /> : null}
+      {showModal ? (
+        <ModalDateFilter
+          setFilterRange={setFilterRange}
+          setShowModal={setShowModal}
+        />
+      ) : null}
     </>
   );
 };

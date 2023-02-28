@@ -25,17 +25,36 @@ const CustomInput = forwardRef<HTMLButtonElement, childProps>(
 );
 
 const DateFilterDynamic = ({ setFilterRange }: Props) => {
-  const [startDate, setStartDate] = useState<Date | null>(
+  const [startDate, setStartDate] = useState<Date>(
     new Date(pb.authStore.model?.created || Date.now())
   );
-  const [endDate, setEndDate] = useState<Date | null>(new Date());
+  const [endDate, setEndDate] = useState<Date>(new Date());
+
+  const handleChange = (
+    startDateObj?: Date | null,
+    endDateObj?: Date | null
+  ) => {
+    setStartDate(startDateObj || startDate);
+    setEndDate(endDateObj || endDate);
+
+    setFilterRange({
+      id: "custom",
+      title: "Custom",
+      range: () => {
+        return {
+          min: startDateObj || startDate,
+          max: endDateObj || endDate,
+        };
+      },
+    });
+  };
 
   return (
     <div className="custom-date-container">
       <span>from</span>
       <DatePicker
         selected={startDate}
-        onChange={(date) => setStartDate(date)}
+        onChange={(date) => handleChange(date)}
         customInput={
           <CustomInput value={startDate?.toDateString()} onClick={(e) => {}} />
         }
@@ -47,7 +66,7 @@ const DateFilterDynamic = ({ setFilterRange }: Props) => {
       <span>to</span>
       <DatePicker
         selected={endDate}
-        onChange={(date) => setEndDate(date)}
+        onChange={(date) => handleChange(date)}
         customInput={
           <CustomInput value={endDate?.toDateString()} onClick={(e) => {}} />
         }
