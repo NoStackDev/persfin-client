@@ -1,6 +1,6 @@
 # Persfin 
 
-live site: https://meek-wisp-1789a8.netlify.app/login
+live site: https://meek-wisp-1789a8.netlify.app
 
 A little personal finance tracker app
 
