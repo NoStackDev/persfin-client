@@ -13,4 +13,4 @@ Built with react and pocketbase
 -Make Budgets\
 -Inflow, Outflow histories\
 -Date and text filters\
--Theme
+-Dark and Light Themes
